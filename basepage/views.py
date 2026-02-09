@@ -141,11 +141,8 @@ def basepage(request):
 
 
 
-    if nicnierob == 1:
 
-        context['kursy_mod'] = ''
-    else:
-        context['kursy_mod'] = kursy_mod
+    context['kursy_mod'] = kursy_mod
     context['klienci'] = klienci
     context['klienciNiedorosli'] = klienciNiedorosli
     context['zapisy'] = zapisy

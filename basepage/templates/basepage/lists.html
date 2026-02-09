@@ -112,7 +112,8 @@
         {% endif %}
     </div>
 
-
+    {% if flage4 %}
+    {% else %}
     <div class="container">
         {% for elem in kursy_mod %}
             <div class="row mt-2 pb-2">
@@ -156,8 +157,7 @@
             </div>
         {% endfor %}
     </div>
-
-
+    {% endif %}
 </div>
 
 {% endblock %}
