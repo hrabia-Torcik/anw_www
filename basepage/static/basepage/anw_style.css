@@ -1,0 +1,56 @@
+body {
+background-color: #0C0055;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+#naglowek_obrazek {
+
+  padding-bottom: 9px; /* Przestrzeń na obrazek */
+  padding-top: 9px; /* Przestrzeń na obrazek */
+  background-image: url("/static/basepage/img/lina_prosta.png"), url("/static/basepage/img/lina_prosta.png");
+  background-repeat: repeat-x;
+  background-position: top, bottom;
+}
+
+#stopka_obrazek {
+  padding-bottom: 9px; /* Przestrzeń na obrazek */
+  background-image: url("/static/basepage/img/lina_prosta.png");
+  background-repeat: repeat-x;
+  background-position: bottom;
+
+}
+
+#backToTop {
+
+    display: none; bottom: 20px; right: 20px; z-index: 99; border-radius: 8px; padding: 10px 20px 15px 10px;
+    background-image: url("/static/basepage/img/arrow_back_W.svg");
+    background-position: right 6px bottom 0px; /* Wyśrodkowanie */
+    background-repeat: no-repeat;
+    background-size: contain;
+}
+
+
+#caly_content{
+  padding-left: 9px; /* Przestrzeń na obrazek */
+  padding-right: 9px; /* Przestrzeń na obrazek */
+  background-image: url("/static/basepage/img/lina_prosta_pion.png"), url("/static/basepage/img/lina_prosta_pion.png");
+  background-repeat: repeat-y;
+  background-position: left, right;
+}
+
+
+
+.moj_custom-checkbox {
+    background-color: orange;
+    border-color: rgba(255, 0, 255, 0.7);
+}
+
+.dla_el_karuzeli {
+    min-height: 240px;
+}
+
+
+

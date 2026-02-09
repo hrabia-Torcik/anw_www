@@ -1,0 +1,13 @@
+{% extends 'admin/base.html' %}
+
+{% block content %}
+<div>
+        <form action="." method="POST" enctype="multipart/form-data" method="post" action="/foo/">
+            {% csrf_token %}
+            <input type="file" name="excel_file">
+            <button type="submit">załaduj plik z danymi</button>
+        </form>
+    </div>
+{{ lista_zmian }}
+{{ efekt }}
+{% endblock %}}
