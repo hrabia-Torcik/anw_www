@@ -79,7 +79,7 @@ def basepage(request):
             kursy = KursyWszystkie.objects.filter(kursu_data_start__contains=teraz_rok)
     else:
         if nicnierob == 1:
-            kursy = {}
+            kursy = KursyWszystkie.objects.all()
             flage4 = 1
         else:
             kursy = KursyWszystkie.objects.filter(kursu_data_start__contains=teraz_rok).filter(kursu_data_end__range=(teraz_data, koniec_roku))
@@ -87,7 +87,6 @@ def basepage(request):
     # kursy = KursyWszystkie.objects.all()
     klienciNiedorosli = UczestUnder18.objects.all()
     zapisy = ZapisyNaKursy.objects.all()
-
 
     kursy_mod = []
     for elem in kursy:
@@ -142,8 +141,11 @@ def basepage(request):
 
 
 
+    if nicnierob == 1:
 
-    context['kursy_mod'] = kursy_mod
+        context['kursy_mod'] = ''
+    else:
+        context['kursy_mod'] = kursy_mod
     context['klienci'] = klienci
     context['klienciNiedorosli'] = klienciNiedorosli
     context['zapisy'] = zapisy
