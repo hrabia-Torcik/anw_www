@@ -123,8 +123,10 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.2/howto/static-files/
 
 # Nie ładuj z django, tylko bierz bezpośrednio z serwera, trzeba tu zmienić wg instrukcji z powyższego linku
-STATIC_URL = '/static/'
+STATIC_URL = '/static_root/'
 STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]
+
+STATIC_ROOT = BASE_DIR / 'static_root'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
