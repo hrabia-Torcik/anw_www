@@ -123,7 +123,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.2/howto/static-files/
 
 # Nie ładuj z django, tylko bierz bezpośrednio z serwera, trzeba tu zmienić wg instrukcji z powyższego linku
-STATIC_URL = '/static_root/'
+STATIC_URL = '/static/'
 STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]
 
 STATIC_ROOT = BASE_DIR / 'static_root'
