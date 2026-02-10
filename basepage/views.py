@@ -34,6 +34,26 @@ def basepage(request):
     context = {}
     flage3 = ''
 
+    kursy = KursyWszystkie.objects.all()
+    kursy_mod = []
+    for elem in kursy:
+        if elem.kursu_data_start == elem.kursu_data_end:
+            kursy_mod.append({'nazwa': elem.kursu_name,
+                              'skrot': elem.kursu_kod,
+                              'tryb': elem.kursu_schedule,
+                              'data1': elem.kursu_data_start,
+                              'data2': '',
+                              'cena': elem.kursu_prise,
+                              'id': elem.kursu_lp})
+        else:
+            kursy_mod.append({'nazwa': elem.kursu_name,
+                              'skrot': elem.kursu_kod,
+                              'tryb': elem.kursu_schedule,
+                              'data1': elem.kursu_data_start,
+                              'data2': elem.kursu_data_end,
+                              'cena': elem.kursu_prise,
+                              'id': elem.kursu_lp})
+
     # PPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP
     #
     #
@@ -159,6 +179,7 @@ def basepage(request):
     #
     # PPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP
 
+    context['kursy_mod'] = kursy_mod
     context['efekt'] = efekt
 
     takalista = [elemen for elemen in context]
