@@ -105,7 +105,7 @@
                 {% else %}
                     <form action="{% url 'main' %}" method="post" style="padding-bottom: 10px;">
                         {% csrf_token %}
-                        <div class="form-check custom-check-row d-inline-block mt-3 px-2 rounded">
+                        <div class="form-check custom-check-row d-inline-flex mt-3 px-2 rounded">
                         {% if flage3 %}
                             <input class="form-check-input m-0 mt-1" type="checkbox" id="check1" {% if kalarepka0 %}
                                    checked {% endif %} name="bez" onchange="this.form.submit()">
