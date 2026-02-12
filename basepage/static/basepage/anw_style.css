@@ -41,12 +41,6 @@ html {
   background-position: left, right;
 }
 
-#tlo_listy {
-    background-color: white;
-    margin: 30px 20px 0 20px;
-    padding: 40px 100px 20px 100px
-}
-
 
 .moj_custom-checkbox {
     background-color: orange;

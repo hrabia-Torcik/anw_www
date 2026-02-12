@@ -2,8 +2,8 @@
 {% load static %}
 {% block title %}AN-strona główna{% endblock %}
 {% block content %}
-
-    <div id="tlo_listy" class="text-black rounded p-1">
+    <div class="container px-3 px-md-5">
+    <div class=" text-black bg-white rounded p-1 mt-3 clearfix">
 
         <div class="ms-1 ms-md-3 pb-3">
             <div class="form-check">
@@ -152,7 +152,7 @@
                                           <!-- display: block tutaj zadziała jak kontener, ale jako span jest legalny w <p> -->
                                           <span class="d-inline-block">
                                             <span class="h5 text-nowrap me-1">{{ elem.data2|date:"d E Y" }}</span>
-                                            <span class="text-nowrap">({{ elem.data2|date:"l" }})</span>
+                                            <span class="text-nowrap">{{ elem.data2|date:"(l)" }}</span>
                                           </span>
                                         </p>
 
@@ -166,7 +166,7 @@
                                           <!-- display: block tutaj zadziała jak kontener, ale jako span jest legalny w <p> -->
                                           <span class="d-inline-block">
                                             <span class="h5 text-nowrap me-1">{{ elem.data1|date:"d E Y" }}</span>
-                                            <span class="text-nowrap">{{ elem.data1|date:"l" }}</span>
+                                            <span class="text-nowrap">{{ elem.data1|date:"(l)" }}</span>
                                           </span>
                                         </p>
                                         </div>
@@ -192,6 +192,7 @@
             </div>
         {% endif %}
 
+    </div>
     </div>
 
 {% endblock %}
