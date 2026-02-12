@@ -110,18 +110,17 @@
                             <input class="form-check-input m-0 mt-1" type="checkbox" id="check1" {% if kalarepka0 %}
                                    checked {% endif %} name="bez" onchange="this.form.submit()">
                         {% else %}
-                            <input class="form-check-input m-0 mt-1" type="checkbox" id="check1" checked name="bez"
+                            <input class="form-check-input m-0 mt-1" type="checkbox" id="check1" name="bez"
                                    onchange="this.form.submit()">
                         {% endif %}
                         <input type="hidden" id="check2" name="dod_dane" {% if sign2 %}
                                value="{{ sub1 }},{{ sub2 }},{{ sub3 }},{{ sub4 }},{{ sub5 }},{{ sub6 }}" {% else %}
                                value="" {% endif %}>
-                        <label class="form-check-label ps-2" for="check1">NIE WYŚWIETLAJ zakończonych kursów</label>
+                        <label class="form-check-label ps-2" for="check1">WYŚWIETL zakończone kursy</label>
                         <br>
                         </div>
                     </form>
                 {% endif %}
-
 
         </div>
         <div class="mb-3 ps-3">

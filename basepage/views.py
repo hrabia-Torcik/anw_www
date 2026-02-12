@@ -34,9 +34,7 @@ def basepage(request):
     context = {}
     flage3 = ''
     napis = ''
-
-
-    # PPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP
+    z_czekboksa = ''
 
 
     if request.method == 'POST':
@@ -75,19 +73,29 @@ def basepage(request):
         nicnierob = 1
 
     flage4 = ''
-    efekt = nicnierob
+    # efekt = nicnierob
     klienci = Klientela.objects.all()
+
     if flage3 == 1:
         if z_czekboksa:
-            kursy = KursyWszystkie.objects.filter(kursu_data_start__contains=teraz_rok).filter(kursu_data_end__range=(teraz_data,koniec_roku))
-        else:
             kursy = KursyWszystkie.objects.filter(kursu_data_start__contains=teraz_rok)
+        else:
+            kursy = KursyWszystkie.objects.filter(kursu_data_start__contains=teraz_rok).filter(
+                kursu_data_end__range=(teraz_data, koniec_roku))
+
     else:
         if nicnierob == 1:
-            kursy = KursyWszystkie.objects.all()
+            kursy = {}
             flage4 = 1
         else:
-            kursy = KursyWszystkie.objects.filter(kursu_data_start__contains=teraz_rok).filter(kursu_data_end__range=(teraz_data, koniec_roku))
+            kursy = KursyWszystkie.objects.filter(kursu_data_start__contains=teraz_rok).filter(
+                kursu_data_end__range=(teraz_data, koniec_roku))
+
+
+
+
+
+
 
     # kursy = KursyWszystkie.objects.all()
     klienciNiedorosli = UczestUnder18.objects.all()
