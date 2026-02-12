@@ -3,152 +3,175 @@
 {% block title %}AN-strona główna{% endblock %}
 {% block content %}
 
-    <div class="text-black rounded"
-         style="background-color: white; margin: 30px 20px 0 20px; padding: 40px 100px 20px 100px">
+    <div id="tlo_listy" class="text-black rounded p-1">
 
-        <div class="pb-3 form-check">
+        <div class="ms-1 ms-md-3 pb-3">
+            <div class="form-check">
 
-            <form action="{% url 'main' %}" method="get" id="sort_kursow">
+                <form action="{% url 'main' %}" method="get" id="sort_kursow">
 
-                <ul class="list-inline">
-                    <li class="list-inline-item px-2 pt-1 me-5">
-                        {% if flage %}
-                            <input class="moj_custom-checkbox" type="checkbox" id="opcja1" name="sub1" {% if sub1 %}
-                                   checked {% endif %} >
-                        {% elif flage4 %}
-                            <input class="moj_custom-checkbox" type="checkbox" id="opcja1" name="sub1">
-                        {% else %}
-                            <input class="moj_custom-checkbox" type="checkbox" id="opcja1" name="sub1" checked>
-                        {% endif %}
-                        <label class="form-check-label" for="opcja1">kursy na patent żeglarza</label>
-                    </li>
-                    <li class="list-inline-item px-2 pt-1 me-5">
-                        {% if flage %}
-                            <input class="moj_custom-checkbox" type="checkbox" id="opcja2" name="sub2" {% if sub2 %}
-                                   checked {% endif %}>
-                        {% elif flage4 %}
-                            <input class="moj_custom-checkbox" type="checkbox" id="opcja2" name="sub2">
-                        {% else %}
-                            <input class="moj_custom-checkbox" type="checkbox" id="opcja2" name="sub2" checked>
-                        {% endif %}
-                        <label class="form-check-label" for="opcja2">kursy na patent sternika motorowodnego</label>
-                    </li>
-                    <li class="list-inline-item px-2 pt-1 me-5">
-                        {% if flage %}
-                            <input class="moj_custom-checkbox" type="checkbox" id="opcja3" name="sub3" {% if sub3 %}
-                                   checked {% endif %}>
-                        {% elif flage4 %}
-                            <input class="moj_custom-checkbox" type="checkbox" id="opcja3" name="sub3">
-                        {% else %}
-                            <input class="moj_custom-checkbox" type="checkbox" id="opcja3" name="sub3" checked>
-                        {% endif %}
-                        <label class="form-check-label" for="opcja3">egzaminy</label>
-                    </li>
-                    <li class="list-inline-item px-2 pt-1 me-5">
-                        {% if flage %}
-                            <input class="moj_custom-checkbox" type="checkbox" id="opcja4" name="sub4" {% if sub4 %}
-                                   checked {% endif %}>
-                        {% elif flage4 %}
-                            <input class="moj_custom-checkbox" type="checkbox" id="opcja4" name="sub4">
-                        {% else %}
-                            <input class="moj_custom-checkbox" type="checkbox" id="opcja4" name="sub4" checked>
-                        {% endif %}
-                        <label class="form-check-label" for="opcja4">manewrówki</label>
-                    </li>
-                    <li class="list-inline-item px-2 pt-1 me-5">
-                        {% if flage %}
-                            <input class="moj_custom-checkbox" type="checkbox" id="opcja5" name="sub5" {% if sub5 %}
-                                   checked {% endif %}>
-                        {% elif flage4 %}
-                            <input class="moj_custom-checkbox" type="checkbox" id="opcja5" name="sub5">
-                        {% else %}
-                            <input class="moj_custom-checkbox" type="checkbox" id="opcja5" name="sub5" checked>
-                        {% endif %}
-                        <label class="form-check-label" for="opcja5">kursy na patent JSM</label>
-                    </li>
-                    <li class="list-inline-item px-2 pt-1 me-5">
-                        {% if flage %}
-                            <input class="moj_custom-checkbox" type="checkbox" id="opcja6" name="sub6" {% if sub6 %}
-                                   checked {% endif %}>
-                        {% elif flage4 %}
-                            <input class="moj_custom-checkbox" type="checkbox" id="opcja6" name="sub6">
-                        {% else %}
-                            <input class="moj_custom-checkbox" type="checkbox" id="opcja6" name="sub6" checked>
-                        {% endif %}
-                        <label class="form-check-label" for="opcja6">kursy łączności (SRC oraz LRC)</label>
-                    </li>
-                </ul>
-                <input type="hidden" name="znak_form1" value="on">
-                <button type="button" class="btn btn-outline-dark btn-sm" onclick="clearCheckboxes()">wyczyść wszystko
-                </button>
-                <button type="button" class="btn btn-outline-dark btn-sm" onclick="setCheckboxes()">zaznacz wszystko
-                </button>
+                    <ul class="list-inline">
+                        <li class="list-inline-item px-2 pt-1 me-5">
+                            {% if flage %}
+                                <input class="moj_custom-checkbox" type="checkbox" id="opcja1" name="sub1" {% if sub1 %}
+                                       checked {% endif %} >
+                            {% elif flage4 %}
+                                <input class="moj_custom-checkbox" type="checkbox" id="opcja1" name="sub1">
+                            {% else %}
+                                <input class="moj_custom-checkbox" type="checkbox" id="opcja1" name="sub1" checked>
+                            {% endif %}
+                            <label class="form-check-label" for="opcja1">kursy na patent żeglarza</label>
+                        </li>
+                        <li class="list-inline-item px-2 pt-1 me-5">
+                            {% if flage %}
+                                <input class="moj_custom-checkbox" type="checkbox" id="opcja2" name="sub2" {% if sub2 %}
+                                       checked {% endif %}>
+                            {% elif flage4 %}
+                                <input class="moj_custom-checkbox" type="checkbox" id="opcja2" name="sub2">
+                            {% else %}
+                                <input class="moj_custom-checkbox" type="checkbox" id="opcja2" name="sub2" checked>
+                            {% endif %}
+                            <label class="form-check-label" for="opcja2">kursy na patent sternika motorowodnego</label>
+                        </li>
+                        <li class="list-inline-item px-2 pt-1 me-5">
+                            {% if flage %}
+                                <input class="moj_custom-checkbox" type="checkbox" id="opcja3" name="sub3" {% if sub3 %}
+                                       checked {% endif %}>
+                            {% elif flage4 %}
+                                <input class="moj_custom-checkbox" type="checkbox" id="opcja3" name="sub3">
+                            {% else %}
+                                <input class="moj_custom-checkbox" type="checkbox" id="opcja3" name="sub3" checked>
+                            {% endif %}
+                            <label class="form-check-label" for="opcja3">egzaminy</label>
+                        </li>
+                        <li class="list-inline-item px-2 pt-1 me-5">
+                            {% if flage %}
+                                <input class="moj_custom-checkbox" type="checkbox" id="opcja4" name="sub4" {% if sub4 %}
+                                       checked {% endif %}>
+                            {% elif flage4 %}
+                                <input class="moj_custom-checkbox" type="checkbox" id="opcja4" name="sub4">
+                            {% else %}
+                                <input class="moj_custom-checkbox" type="checkbox" id="opcja4" name="sub4" checked>
+                            {% endif %}
+                            <label class="form-check-label" for="opcja4">manewrówki</label>
+                        </li>
+                        <li class="list-inline-item px-2 pt-1 me-5">
+                            {% if flage %}
+                                <input class="moj_custom-checkbox" type="checkbox" id="opcja5" name="sub5" {% if sub5 %}
+                                       checked {% endif %}>
+                            {% elif flage4 %}
+                                <input class="moj_custom-checkbox" type="checkbox" id="opcja5" name="sub5">
+                            {% else %}
+                                <input class="moj_custom-checkbox" type="checkbox" id="opcja5" name="sub5" checked>
+                            {% endif %}
+                            <label class="form-check-label" for="opcja5">kursy na patent JSM</label>
+                        </li>
+                        <li class="list-inline-item px-2 pt-1 me-5">
+                            {% if flage %}
+                                <input class="moj_custom-checkbox" type="checkbox" id="opcja6" name="sub6" {% if sub6 %}
+                                       checked {% endif %}>
+                            {% elif flage4 %}
+                                <input class="moj_custom-checkbox" type="checkbox" id="opcja6" name="sub6">
+                            {% else %}
+                                <input class="moj_custom-checkbox" type="checkbox" id="opcja6" name="sub6" checked>
+                            {% endif %}
+                            <label class="form-check-label" for="opcja6">kursy łączności (SRC oraz LRC)</label>
+                        </li>
+                    </ul>
+                    <input type="hidden" name="znak_form1" value="on">
+                    <button type="button" class="btn btn-outline-dark btn-sm" onclick="clearCheckboxes()">wyczyść wszystko
+                    </button>
+                    <button type="button" class="btn btn-outline-dark btn-sm" onclick="setCheckboxes()">zaznacz wszystko
+                    </button>
 
-                <input type="submit" class="btn btn-outline-dark ms-3" value="Przefiltruj">
-            </form>
-
-        </div>
-        <div>
-
-            {% if flage4 %}
-            {% else %}
-                <form action="{% url 'main' %}" method="post" id="bez_przesz" style="padding-bottom: 10px;">
-                    {% csrf_token %}
-                    {% if flage3 %}
-                        <input class="moj_custom-checkbox" type="checkbox" id="check1" {% if kalarepka0 %}
-                               checked {% endif %} name="bez" onchange="this.form.submit()">
-                    {% else %}
-                        <input class="moj_custom-checkbox" type="checkbox" id="check1" checked name="bez"
-                               onchange="this.form.submit()">
-                    {% endif %}
-                    <input type="hidden" id="check2" name="dod_dane" {% if sign2 %}
-                           value="{{ sub1 }},{{ sub2 }},{{ sub3 }},{{ sub4 }},{{ sub5 }},{{ sub6 }}" {% else %}
-                           value="" {% endif %}>
-                    <label for="check1">NIE WYŚWIETLAJ zakończonych kursów</label>
-                    <br>
+                    <input type="submit" class="btn btn-outline-dark ms-3" value="Przefiltruj">
                 </form>
-            {% endif %}
 
+            </div>
+            <div class="mt-3 form-check">
 
-        </div>
-        <div class="mb-5">
-            {% if flage4 %}
-                <p>Niczego nie pokazuję. A może by tak coś zaznaczyć?</p>
-            {% else %}
-                {% if sign %}
-                    <p>Pokazuję listę wszystkich organizowanych przez nas w tym roku kursów i egzaminów:</p>
+                {% if flage4 %}
                 {% else %}
-                    {% if flage %}
-                        <p>Pokazuję przefiltrowaną listę tegorocznych wydarzeń:</p>
-                    {% else %}
-                        <p>Pokazuję listę wszystkich organizowanych przez nas w tym roku kursów i egzaminów:</p>
-                    {% endif %}
+                    <form action="{% url 'main' %}" method="post" id="bez_przesz" style="padding-bottom: 10px;">
+                        {% csrf_token %}
+                        {% if flage3 %}
+                            <input class="moj_custom-checkbox" type="checkbox" id="check1" {% if kalarepka0 %}
+                                   checked {% endif %} name="bez" onchange="this.form.submit()">
+                        {% else %}
+                            <input class="moj_custom-checkbox" type="checkbox" id="check1" checked name="bez"
+                                   onchange="this.form.submit()">
+                        {% endif %}
+                        <input type="hidden" id="check2" name="dod_dane" {% if sign2 %}
+                               value="{{ sub1 }},{{ sub2 }},{{ sub3 }},{{ sub4 }},{{ sub5 }},{{ sub6 }}" {% else %}
+                               value="" {% endif %}>
+                        <label for="check1">NIE WYŚWIETLAJ zakończonych kursów</label>
+                        <br>
+                    </form>
                 {% endif %}
-            {% endif %}
+
+
+            </div>
+        </div>
+        <div class="mb-3 ps-3">
+
+            <p>{{ napis }}</p>
+
         </div>
 
         {% if flage4 %}
         {% else %}
             <div class="container">
                 {% for elem in kursy_mod %}
-                    <div class="row mt-2 pb-1">
+                    <div class="row m-0 mt-2 pb-1">
 
-                        <div class="col-12 col-md-10 offset-md-1 text-center">
+                        <div class="col-12 col-md-10 offset-md-1 col-lg-8 offset-lg-2 text-center">
 
-
-                            <div class="d-flex flex-wrap shadow p-3 mb-3 bg-white rounded text-start ps-1 ps-md-5" >
+                            <div class="d-flex flex-wrap shadow p-3 mb-3 bg-white rounded text-start ps-1 ps-md-3" >
 
                                 <div class="w-75 p-3">
 
-                                    <p class="h3">  {{ elem.nazwa }} {{ elem.skrot }}</p>
+                                    <p class="h3">  {{ elem.nazwa }} <wbr><span class="text-nowrap">{{ elem.skrot }}</span></p>
                                     {% if elem.data2 %}
                                         <p>zajęcia prowadzone w trybie {{ elem.tryb }}m</p>
-                                        <p>rozpoczęcie: <span class="h5">{{ elem.data1|date:"d E Y (l)" }}</span>
-                                            <br>zakończenie: <span class="h5">{{ elem.data2|date:"d E Y (l)" }}</span>
+
+                                        <p class="clearfix mb-1">
+                                          <!-- Float-start tworzy wcięcie, które data będzie respektować -->
+                                          <span class="float-start me-1">rozpoczęcie:</span>
+
+                                          <!-- Kontener z datą i dniem -->
+                                          <span class="d-inline-block">
+                                            <span class="h5 text-nowrap me-1">{{ elem.data1|date:"d E Y" }}</span>
+                                            <span class="text-nowrap">{{ elem.data1|date:"(l)" }}</span>
+                                          </span>
                                         </p>
+
+                                        <p class="clearfix">
+                                          <!-- Float-start tworzy wcięcie, które data będzie respektować -->
+                                          <span class="float-start me-1">zakończenie:</span>
+
+                                          <!-- display: block tutaj zadziała jak kontener, ale jako span jest legalny w <p> -->
+                                          <span class="d-inline-block">
+                                            <span class="h5 text-nowrap me-1">{{ elem.data2|date:"d E Y" }}</span>
+                                            <span class="text-nowrap">({{ elem.data2|date:"l" }})</span>
+                                          </span>
+                                        </p>
+
+
                                     {% else %}
-                                        <p class="pt-3">data wydarzenia: <span
-                                                class="h5">{{ elem.data1|date:"d E Y (l)" }}</span></p>
+                                        <div class="pt-3">
+                                        <p class="clearfix">
+                                          <!-- Float-start tworzy wcięcie, które data będzie respektować -->
+                                          <span class="float-start me-2">data wydarzenia:</span>
+
+                                          <!-- display: block tutaj zadziała jak kontener, ale jako span jest legalny w <p> -->
+                                          <span class="d-inline-block">
+                                            <span class="h5 text-nowrap me-1">{{ elem.data1|date:"d E Y" }}</span>
+                                            <span class="text-nowrap">{{ elem.data1|date:"l" }}</span>
+                                          </span>
+                                        </p>
+                                        </div>
+
+
                                     {% endif %}
                                 </div>
 

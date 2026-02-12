@@ -33,6 +33,7 @@ def basepage(request):
     lista = ['','','','','','']
     context = {}
     flage3 = ''
+    napis = ''
 
 
     # PPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP
@@ -142,7 +143,16 @@ def basepage(request):
     if znakL == 6:
         sign = 1
 
-
+    if flage4:
+        napis = "Niczego nie pokazuję. A może by tak coś zaznaczyć?"
+    else:
+        if sign:
+            napis = "Pokazuję listę wszystkich organizowanych przez nas w tym roku kursów i egzaminów:"
+        else:
+            if flage:
+                napis = "Pokazuję przefiltrowaną listę tegorocznych wydarzeń:"
+            else:
+                napis = "Pokazuję listę wszystkich organizowanych przez nas w tym roku kursów i egzaminów:"
 
 
 
@@ -153,6 +163,7 @@ def basepage(request):
     context['test'] = efekt
     context['flage'] = flage
     context['flage4'] = flage4
+    context['napis'] = napis
     context['sign'] = sign
     context['sign2'] = sign2
     context['liczba_lat'] = liczba_lat
