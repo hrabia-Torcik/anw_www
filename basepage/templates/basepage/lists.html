@@ -2,115 +2,127 @@
 {% load static %}
 {% block title %}AN-strona główna{% endblock %}
 {% block content %}
-    <div class="container px-3 px-md-5">
-    <div class=" text-black bg-white rounded p-1 mt-3 clearfix">
+    <div class="container px-3 px-md-5 pt-2">
+    <div class=" text-black bg-white rounded p-1 pt-2 mt-3 clearfix">
 
         <div class="ms-1 ms-md-3 pb-3">
-            <div class="form-check">
+
 
                 <form action="{% url 'main' %}" method="get" id="sort_kursow">
 
                     <ul class="list-inline">
-                        <li class="list-inline-item px-2 pt-1 me-5">
+                        <li class="list-inline-item custom-check-row rounded ps-2">
+                            <div class="form-check d-flex align-items-start pe-3 m-0">
                             {% if flage %}
-                                <input class="moj_custom-checkbox" type="checkbox" id="opcja1" name="sub1" {% if sub1 %}
+                                <input class="form-check-input mt-1" type="checkbox" id="opcja1" name="sub1" {% if sub1 %}
                                        checked {% endif %} >
                             {% elif flage4 %}
-                                <input class="moj_custom-checkbox" type="checkbox" id="opcja1" name="sub1">
+                                <input class="form-check-input mt-1" type="checkbox" id="opcja1" name="sub1">
                             {% else %}
-                                <input class="moj_custom-checkbox" type="checkbox" id="opcja1" name="sub1" checked>
+                                <input class="form-check-input mt-1" type="checkbox" id="opcja1" name="sub1" checked>
                             {% endif %}
-                            <label class="form-check-label" for="opcja1">kursy na patent żeglarza</label>
+                            <label class="form-check-label ps-2" for="opcja1">kursy na patent żeglarza</label>
+                            </div>
                         </li>
-                        <li class="list-inline-item px-2 pt-1 me-5">
+                        <li class="list-inline-item custom-check-row rounded ps-2">
+                            <div class="form-check d-flex align-items-start pe-3 m-0">
                             {% if flage %}
-                                <input class="moj_custom-checkbox" type="checkbox" id="opcja2" name="sub2" {% if sub2 %}
+                                <input class="form-check-input mt-1" type="checkbox" id="opcja2" name="sub2" {% if sub2 %}
                                        checked {% endif %}>
                             {% elif flage4 %}
-                                <input class="moj_custom-checkbox" type="checkbox" id="opcja2" name="sub2">
+                                <input class="form-check-input mt-1" type="checkbox" id="opcja2" name="sub2">
                             {% else %}
-                                <input class="moj_custom-checkbox" type="checkbox" id="opcja2" name="sub2" checked>
+                                <input class="form-check-input mt-1" type="checkbox" id="opcja2" name="sub2" checked>
                             {% endif %}
-                            <label class="form-check-label" for="opcja2">kursy na patent sternika motorowodnego</label>
+                            <label class="form-check-label ps-2" for="opcja2">kursy na patent sternika motorowodnego</label>
+                            </div>
                         </li>
-                        <li class="list-inline-item px-2 pt-1 me-5">
+                        <li class="list-inline-item custom-check-row rounded ps-2">
+                            <div class="form-check d-flex align-items-start pe-3 m-0">
                             {% if flage %}
-                                <input class="moj_custom-checkbox" type="checkbox" id="opcja3" name="sub3" {% if sub3 %}
+                                <input class="form-check-input mt-1" type="checkbox" id="opcja3" name="sub3" {% if sub3 %}
                                        checked {% endif %}>
                             {% elif flage4 %}
-                                <input class="moj_custom-checkbox" type="checkbox" id="opcja3" name="sub3">
+                                <input class="form-check-input mt-1" type="checkbox" id="opcja3" name="sub3">
                             {% else %}
-                                <input class="moj_custom-checkbox" type="checkbox" id="opcja3" name="sub3" checked>
+                                <input class="form-check-input mt-1" type="checkbox" id="opcja3" name="sub3" checked>
                             {% endif %}
-                            <label class="form-check-label" for="opcja3">egzaminy</label>
+                            <label class="form-check-label ps-2" for="opcja3">egzaminy</label>
+                            </div>
                         </li>
-                        <li class="list-inline-item px-2 pt-1 me-5">
+                        <li class="list-inline-item custom-check-row rounded ps-2">
+                            <div class="form-check d-flex align-items-start pe-3 m-0">
                             {% if flage %}
-                                <input class="moj_custom-checkbox" type="checkbox" id="opcja4" name="sub4" {% if sub4 %}
+                                <input class="form-check-input mt-1" type="checkbox" id="opcja4" name="sub4" {% if sub4 %}
                                        checked {% endif %}>
                             {% elif flage4 %}
-                                <input class="moj_custom-checkbox" type="checkbox" id="opcja4" name="sub4">
+                                <input class="form-check-input mt-1" type="checkbox" id="opcja4" name="sub4">
                             {% else %}
-                                <input class="moj_custom-checkbox" type="checkbox" id="opcja4" name="sub4" checked>
+                                <input class="form-check-input mt-1" type="checkbox" id="opcja4" name="sub4" checked>
                             {% endif %}
-                            <label class="form-check-label" for="opcja4">manewrówki</label>
+                            <label class="form-check-label ps-2" for="opcja4">manewrówki</label>
+                            </div>
                         </li>
-                        <li class="list-inline-item px-2 pt-1 me-5">
+                        <li class="list-inline-item custom-check-row rounded ps-2">
+                            <div class="form-check d-flex align-items-start pe-3 m-0">
                             {% if flage %}
-                                <input class="moj_custom-checkbox" type="checkbox" id="opcja5" name="sub5" {% if sub5 %}
+                                <input class="form-check-input mt-1" type="checkbox" id="opcja5" name="sub5" {% if sub5 %}
                                        checked {% endif %}>
                             {% elif flage4 %}
-                                <input class="moj_custom-checkbox" type="checkbox" id="opcja5" name="sub5">
+                                <input class="form-check-input mt-1" type="checkbox" id="opcja5" name="sub5">
                             {% else %}
-                                <input class="moj_custom-checkbox" type="checkbox" id="opcja5" name="sub5" checked>
+                                <input class="form-check-input mt-1" type="checkbox" id="opcja5" name="sub5" checked>
                             {% endif %}
-                            <label class="form-check-label" for="opcja5">kursy na patent JSM</label>
+                            <label class="form-check-label ps-2" for="opcja5">kursy na patent JSM</label>
+                            </div>
                         </li>
-                        <li class="list-inline-item px-2 pt-1 me-5">
+                        <li class="list-inline-item custom-check-row rounded ps-2">
+                            <div class="form-check d-flex align-items-start pe-3 m-0">
                             {% if flage %}
-                                <input class="moj_custom-checkbox" type="checkbox" id="opcja6" name="sub6" {% if sub6 %}
+                                <input class="form-check-input mt-1" type="checkbox" id="opcja6" name="sub6" {% if sub6 %}
                                        checked {% endif %}>
                             {% elif flage4 %}
-                                <input class="moj_custom-checkbox" type="checkbox" id="opcja6" name="sub6">
+                                <input class="form-check-input mt-1" type="checkbox" id="opcja6" name="sub6">
                             {% else %}
-                                <input class="moj_custom-checkbox" type="checkbox" id="opcja6" name="sub6" checked>
+                                <input class="form-check-input mt-1" type="checkbox" id="opcja6" name="sub6" checked>
                             {% endif %}
-                            <label class="form-check-label" for="opcja6">kursy łączności (SRC oraz LRC)</label>
+                            <label class="form-check-label ps-2" for="opcja6">kursy łączności (SRC oraz LRC)</label>
+                            </div>
                         </li>
                     </ul>
+
                     <input type="hidden" name="znak_form1" value="on">
-                    <button type="button" class="btn btn-outline-dark btn-sm" onclick="clearCheckboxes()">wyczyść wszystko
+                    <button type="button" class="btn btn-outline-dark mt-2 btn-sm" onclick="clearCheckboxes()">wyczyść wszystko
                     </button>
-                    <button type="button" class="btn btn-outline-dark btn-sm" onclick="setCheckboxes()">zaznacz wszystko
+                    <button type="button" class="btn btn-outline-dark mt-2 btn-sm" onclick="setCheckboxes()">zaznacz wszystko
                     </button>
 
-                    <input type="submit" class="btn btn-outline-dark ms-3" value="Przefiltruj">
+                    <input type="submit" class="btn btn-outline-dark mt-2 ms-3" value="Przefiltruj">
                 </form>
 
-            </div>
-            <div class="mt-3 form-check">
 
                 {% if flage4 %}
                 {% else %}
-                    <form action="{% url 'main' %}" method="post" id="bez_przesz" style="padding-bottom: 10px;">
+                    <form action="{% url 'main' %}" method="post" style="padding-bottom: 10px;">
                         {% csrf_token %}
+                        <div class="form-check custom-check-row d-inline-block mt-3 px-2 rounded">
                         {% if flage3 %}
-                            <input class="moj_custom-checkbox" type="checkbox" id="check1" {% if kalarepka0 %}
+                            <input class="form-check-input m-0 mt-1" type="checkbox" id="check1" {% if kalarepka0 %}
                                    checked {% endif %} name="bez" onchange="this.form.submit()">
                         {% else %}
-                            <input class="moj_custom-checkbox" type="checkbox" id="check1" checked name="bez"
+                            <input class="form-check-input m-0 mt-1" type="checkbox" id="check1" checked name="bez"
                                    onchange="this.form.submit()">
                         {% endif %}
                         <input type="hidden" id="check2" name="dod_dane" {% if sign2 %}
                                value="{{ sub1 }},{{ sub2 }},{{ sub3 }},{{ sub4 }},{{ sub5 }},{{ sub6 }}" {% else %}
                                value="" {% endif %}>
-                        <label for="check1">NIE WYŚWIETLAJ zakończonych kursów</label>
+                        <label class="form-check-label ps-2" for="check1">NIE WYŚWIETLAJ zakończonych kursów</label>
                         <br>
+                        </div>
                     </form>
                 {% endif %}
 
 
-            </div>
         </div>
         <div class="mb-3 ps-3">
 

@@ -42,14 +42,38 @@ html {
 }
 
 
-.moj_custom-checkbox {
-    background-color: orange;
-    border-color: rgba(255, 0, 255, 0.7);
-}
 
 .dla_el_karuzeli {
     min-height: 240px;
 }
 
+.form-check-input {
+    border-color: #000;
+}
 
+/* Styl dla całego wiersza listy po najechaniu */
+.custom-check-row {
+    transition: background 0.2s ease; /* Płynne przejście */
+}
+
+.custom-check-row:hover {
+    background-color: #f0f0f0; /* Kolor tła po najechaniu */
+    cursor: pointer;
+}
+
+/* Żeby checkbox też czuł, że najeżdżasz na wiersz */
+.custom-check-row:hover .form-check-input {
+    border-color: #000;
+}
+
+/* Ważne: żeby kliknięcie w "puste" miejsce wiersza też działało */
+.cursor-pointer {
+    cursor: pointer;
+}
+
+.custom-check-row,
+.custom-check-row .form-check-input,
+.custom-check-row .form-check-label {
+    cursor: default !important;
+}
 
