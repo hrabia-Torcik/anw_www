@@ -6,14 +6,7 @@ html {
   scroll-behavior: smooth;
 }
 
-#naglowek_obrazek {
 
-  padding-bottom: 9px; /* Przestrzeń na obrazek */
-  padding-top: 9px; /* Przestrzeń na obrazek */
-  background-image: url("/static/basepage/img/lina_prosta.png"), url("/static/basepage/img/lina_prosta.png");
-  background-repeat: repeat-x;
-  background-position: top, bottom;
-}
 
 #stopka_obrazek {
   padding-bottom: 9px; /* Przestrzeń na obrazek */
@@ -41,7 +34,14 @@ html {
   background-position: left, right;
 }
 
+.naglowek_obrazek {
 
+  padding-bottom: 9px; /* Przestrzeń na obrazek */
+  padding-top: 9px; /* Przestrzeń na obrazek */
+  background-image: url("/static/basepage/img/lina_prosta.png"), url("/static/basepage/img/lina_prosta.png");
+  background-repeat: repeat-x;
+  background-position: top, bottom;
+}
 
 .dla_el_karuzeli {
     min-height: 240px;
@@ -77,3 +77,60 @@ html {
     cursor: default !important;
 }
 
+.containerT {
+  position: relative;
+  width: 100%;
+  height: 240px; /* Twoja wysokość */
+  overflow: hidden;
+}
+
+  /* Klasa containerT jest zrobiona na potrzeby slajdu ze zdjęciem w karuzeli nagłówka dla mobilnych urządzeń */
+.containerT img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Nasza blenda */
+.containerT::after {
+  content: "";
+  position: absolute;
+  inset: 0; /* Rozciąga blendę na cały kontener */
+  background: linear-gradient(
+    to top,
+    rgba(0, 0, 0, 0.6) 0%,    /* Najciemniej na samym dole (pod tekstem) */
+    rgba(0, 0, 0, 0.6) 20%,   /* Lekkie przyciemnienie na wysokości tekstu */
+    rgba(0, 0, 0, 0) 50%      /* Całkowite zaniknięcie w połowie zdjęcia */
+  );
+  pointer-events: none;       /* Żeby blenda nie blokowała kliknięć w obrazek */
+}
+
+.textT {
+  position: absolute;
+  bottom: 0px;
+  left: 50%;
+  transform: translateX(-50%);
+
+  width: auto;      /* Kontener tekstu na całą szerokość... */
+  white-space: nowrap; /* Pilnuje, żeby napis nie uciekł pod logo */
+  padding-bottom: 10px;    /* ...ale z bezpiecznym marginesem od brzegów */
+  z-index: 2;       /* Nad blendę! */
+
+  display: flex;
+  flex-direction: row;
+  align-items: center; /* Do lewej (lub center, jeśli wolisz) */
+  justify-content: center;  /* To trzyma grupę na środku */
+  gap: 10px;
+}
+
+.textT img {
+  width: 40px;     /* Wpisz konkretną szerokość swojego loga! */
+  height: auto;     /* To uratuje proporcje, żeby logo nie było spłaszczone */
+}
+
+.text .h3 {
+  margin: 0 !important;   /* Zabija marginesy, jeśli jakieś zostały */
+  line-height: 1;         /* Kasuje "puste miejsce" nad i pod tekstem */
+  display: flex;          /* Pomaga w idealnym wyrównaniu */
+  align-items: center;
+}

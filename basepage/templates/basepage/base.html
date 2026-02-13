@@ -16,7 +16,9 @@
 
 
 <div id="caly_content" class="container mt-4 mb-5">
-    <!-- Content here -->
+
+
+    <!-- To jest kontener definiujące guzik powrotu na górę strony -->
 
     <div class="bg-primary">
     <div>
@@ -26,10 +28,13 @@
     </div>
     </div>
 
+    <!-- To jest kontener definiujące nagłówek strony
+    Zrobiłem tu dwie wersje, inną dla smarkfonów i pionowego wyświetlania na tablecie w odróżnieniu od większych.
+    Pierwsza jest dla większych wyświetlaczy-->
     <div class="container">
-        <div id="naglowek_obrazek" class="row text-center pt-4 pe-2 pb-4 ps-2">
+        <div class="naglowek_obrazek row text-center pt-4 pe-2 pb-4 ps-2">
 
-            <div class="col-4 d-flex justify-content-center align-items-center" style="min-height: 240px;">
+            <div class="col-4 d-flex justify-content-center align-items-center d-none d-md-block" style="min-height: 240px;">
                 <div>
                     <a class="text-decoration-none text-reset" href="{% url 'main' %}" >
                         <img class="img-fluid" src="{% static 'basepage/img/anw_logo.png' %}" />
@@ -37,15 +42,14 @@
                     </a>
                 </div>
             </div>
-            <div class="col-7" >
-
+            <div class="col-7 d-none d-md-block" >
 
                 <div id="carouselExampleFade" class="carousel slide carousel-fade" data-bs-ride="carousel">
                   <div class="carousel-inner rounded-3 overflow-hidden">
                     <div class="carousel-item active d-flex align-items-center justify-content-center" style="min-height: 240px;">
                         <figure class="text-center">
                             <blockquote class="blockquote">
-                              <p class="fs-1">Szkolimy bez stresu</p>
+                              <p class="fs-1">Szkolimy bez&nbsp;stresu</p>
                             </blockquote>
                             <figcaption class="blockquote-footer fs-5">
                               widzimy Twoje <cite title="Source Title">indywidualne potrzeby</cite>
@@ -59,8 +63,8 @@
                     <div class="carousel-item d-flex align-items-center justify-content-center" style="min-height: 240px;">
                         <figure class="text-center">
                             <blockquote class="blockquote">
-                              <p class="fs-2">Szkoła żeglarska i motorowodna</p>
-                              <p class="fs-2">Polski Ośrodek Egzaminacyjny nr 1</p>
+                              <p class="fs-2">Szkoła żeglarska i&nbsp;motorowodna</p>
+                              <p class="fs-2">Polski Ośrodek Egzaminacyjny nr&nbsp;1</p>
                             </blockquote>
                             <figcaption class="blockquote-footer fs-5">
                               szkolimy już <cite title="Source Title">{{ liczba_lat }}</cite> {{ foremnik }}
@@ -74,13 +78,67 @@
 
                 </div>
             </div>
-            <div class="col">
 
+            <!-- tutaj jest alternatywna wersja dla karuzeli. Teraz zajmie całą szerokość i będzie mieć w slajdach logo-->
+
+            <div class="col-12 d-md-none" >
+
+                <div id="carouselExampleFade" class="carousel slide carousel-fade" data-bs-ride="carousel">
+                  <div class="carousel-inner rounded-3 overflow-hidden">
+
+                      <div class="carousel-item d-flex align-items-center justify-content-center" style="min-height: 240px;">
+                        <div>
+                            <a class="text-decoration-none text-reset" href="{% url 'main' %}" >
+                                <img class="img-fluid" src="{% static 'basepage/img/anw_logo.png' %}" />
+                                <h3>ACADEMIA NAUTICA</h3>
+                            </a>
+                        </div>
+                      </div>
+
+                      <div class="carousel-item d-flex align-items-center justify-content-center" style="min-height: 240px;">
+                          <div class="container">
+                                  <figure class="text-center">
+                                      <blockquote class="blockquote">
+                                        <p class="fs-1">Szkolimy bez&nbsp;stresu</p>
+                                      </blockquote>
+                                      <figcaption class="blockquote-footer fs-5">
+                                        widzimy Twoje <cite title="Source Title">indywidualne potrzeby</cite>
+                                      </figcaption>
+                                  </figure>
+
+
+                          </div>
+
+                      </div>
+                      <div class="carousel-item active containerT" style="min-height: 240px; background-image: url({% static 'basepage/img/do_naglowka.jpg' %});">
+                          <div class="textT">
+                                <img class="me-2" src="{% static 'basepage/img/anw_logo.png' %}" alt="logo Akademii Nautica"/>
+                                <span class="h3 mb-0">ACADEMIA NAUTICA</span>
+                          </div>
+                      </div>
+
+                      <div class="carousel-item d-flex align-items-center justify-content-center" style="min-height: 240px;">
+                          <figure class="text-center">
+                              <blockquote class="blockquote">
+                                <p class="fs-2">Szkoła żeglarska i&nbsp;motorowodna</p>
+                                <p class="fs-2">Polski Ośrodek Egzaminacyjny nr&nbsp;1</p>
+                              </blockquote>
+                              <figcaption class="blockquote-footer fs-5">
+                                szkolimy już <cite title="Source Title">{{ liczba_lat }}</cite> {{ foremnik }}
+                              </figcaption>
+                          </figure>
+                      </div>
+
+
+                  </div>
+
+
+                </div>
             </div>
-
 
         </div>
     </div>
+
     {% block content %}
     {% endblock %}
 

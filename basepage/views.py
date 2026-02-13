@@ -93,10 +93,6 @@ def basepage(request):
 
 
 
-
-
-
-
     # kursy = KursyWszystkie.objects.all()
     klienciNiedorosli = UczestUnder18.objects.all()
     zapisy = ZapisyNaKursy.objects.all()
@@ -152,15 +148,15 @@ def basepage(request):
         sign = 1
 
     if flage4:
-        napis = "Niczego nie pokazuję. A może by tak coś zaznaczyć?"
+        napis = "Niczego nie&nbsp;pokazuję. A&nbsp;może by tak coś zaznaczyć?"
     else:
         if sign:
-            napis = "Pokazuję listę wszystkich organizowanych przez nas w tym roku kursów i egzaminów:"
+            napis = "Pokazuję listę wszystkich organizowanych przez nas w&nbsp;tym roku kursów i&nbsp;egzaminów:"
         else:
             if flage:
                 napis = "Pokazuję przefiltrowaną listę tegorocznych wydarzeń:"
             else:
-                napis = "Pokazuję listę wszystkich organizowanych przez nas w tym roku kursów i egzaminów:"
+                napis = "Pokazuję listę wszystkich organizowanych przez nas w&nbsp;tym roku kursów i&nbsp;egzaminów:"
 
 
 
