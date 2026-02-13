@@ -31,22 +31,21 @@
     <!-- To jest kontener definiujące nagłówek strony
     Zrobiłem tu dwie wersje, inną dla smarkfonów i pionowego wyświetlania na tablecie w odróżnieniu od większych.
     Pierwsza jest dla większych wyświetlaczy-->
-    <div class="container">
-        <div class="naglowek_obrazek row text-center pt-4 pe-2 pb-4 ps-2">
+    <header class="container" style="min-height: 240px;">
+        <div class="naglowek_obrazek row align-items-center py-4 px-2 dla_el_karuzeli">
 
-            <div class="col-4 d-flex justify-content-center align-items-center d-none d-md-block" style="min-height: 240px;">
-                <div>
-                    <a class="text-decoration-none text-reset" href="{% url 'main' %}" >
-                        <img class="img-fluid" src="{% static 'basepage/img/anw_logo.png' %}" />
-                        <h3>ACADEMIA NAUTICA</h3>
+            <div class="col-4 d-flex justify-content-center align-items-center d-none d-md-flex">
+                    <a class="d-flex flex-column align-items-center text-center text-decoration-none text-reset"
+                       href="{% url 'main' %}" >
+                        <img class="img mx-auto" src="{% static 'basepage/img/anw_logo.png' %}" />
+                        <h3 class="mx-auto text-center w-100">ACADEMIA NAUTICA</h3>
                     </a>
-                </div>
             </div>
-            <div class="col-7 d-none d-md-block" >
+            <div class="col-7 d-none d-md-flex" >
 
                 <div id="carouselExampleFade" class="carousel slide carousel-fade" data-bs-ride="carousel">
                   <div class="carousel-inner rounded-3 overflow-hidden">
-                    <div class="carousel-item active d-flex align-items-center justify-content-center" style="min-height: 240px;">
+                    <div class="carousel-item active d-flex align-items-center justify-content-center dla_el_karuzeli">
                         <figure class="text-center">
                             <blockquote class="blockquote">
                               <p class="fs-1">Szkolimy bez&nbsp;stresu</p>
@@ -56,11 +55,15 @@
                             </figcaption>
                         </figure>
                     </div>
-                    <div class="carousel-item" style="min-height: 240px;">
-                        <img src="{% static 'basepage/img/do_naglowka.jpg' %}" class="img-responsive" alt="wschód słońca nad jeziorem Zegrzyńskim widziany z pokładu statku Dunajec" style="height: 240px;">
+                    <div class="carousel-item dla_el_karuzeli">
+                        <div class="carousel-img-container shadow-sm">
+                            <img src="{% static 'basepage/img/do_naglowka.jpg' %}" class="img-fluid"
+                             alt="wschód słońca nad jeziorem Zegrzyńskim widziany z pokładu statku Dunajec">
+                        </div>
+
                     </div>
 
-                    <div class="carousel-item d-flex align-items-center justify-content-center" style="min-height: 240px;">
+                    <div class="carousel-item d-flex align-items-center justify-content-center dla_el_karuzeli">
                         <figure class="text-center">
                             <blockquote class="blockquote">
                               <p class="fs-2">Szkoła żeglarska i&nbsp;motorowodna</p>
@@ -85,17 +88,14 @@
 
                 <div id="carouselExampleFade" class="carousel slide carousel-fade" data-bs-ride="carousel">
                   <div class="carousel-inner rounded-3 overflow-hidden">
-
-                      <div class="carousel-item d-flex align-items-center justify-content-center" style="min-height: 240px;">
-                        <div>
-                            <a class="text-decoration-none text-reset" href="{% url 'main' %}" >
-                                <img class="img-fluid" src="{% static 'basepage/img/anw_logo.png' %}" />
-                                <h3>ACADEMIA NAUTICA</h3>
+                      <div class="carousel-item active d-flex align-items-center justify-content-center dla_el_karuzeli">
+                            <a class="d-flex flex-column align-items-center text-center text-decoration-none text-reset" href="{% url 'main' %}" >
+                                <img class="img mx-auto" src="{% static 'basepage/img/anw_logo.png' %}" />
+                                <h3 class="mx-auto text-center w-100" >ACADEMIA NAUTICA</h3>
                             </a>
-                        </div>
                       </div>
 
-                      <div class="carousel-item d-flex align-items-center justify-content-center" style="min-height: 240px;">
+                      <div class="carousel-item d-flex align-items-center justify-content-center dla_el_karuzeli">
                           <div class="container">
                                   <figure class="text-center">
                                       <blockquote class="blockquote">
@@ -110,14 +110,14 @@
                           </div>
 
                       </div>
-                      <div class="carousel-item active containerT" style="min-height: 240px; background-image: url({% static 'basepage/img/do_naglowka.jpg' %});">
+                      <div class="carousel-item containerT dla_el_karuzeli" style="background-image: url({% static 'basepage/img/do_naglowka.jpg' %});">
                           <div class="textT">
                                 <img class="me-2" src="{% static 'basepage/img/anw_logo.png' %}" alt="logo Akademii Nautica"/>
                                 <span class="h3 mb-0">ACADEMIA NAUTICA</span>
                           </div>
                       </div>
 
-                      <div class="carousel-item d-flex align-items-center justify-content-center" style="min-height: 240px;">
+                      <div class="carousel-item d-flex align-items-center justify-content-center dla_el_karuzeli">
                           <figure class="text-center">
                               <blockquote class="blockquote">
                                 <p class="fs-2">Szkoła żeglarska i&nbsp;motorowodna</p>
@@ -137,7 +137,7 @@
             </div>
 
         </div>
-    </div>
+    </header>
 
     {% block content %}
     {% endblock %}

@@ -3,7 +3,7 @@
 {% block title %}AN-strona główna{% endblock %}
 {% block content %}
     <div class="container px-3 px-md-5 pt-2">
-    <div class=" text-black bg-white rounded p-1 pt-2 mt-3 clearfix">
+    <div class=" text-black bg-white rounded p-1 pt-3 mt-3 clearfix">
 
         <div class="ms-1 ms-md-3 pb-3">
 
@@ -91,13 +91,16 @@
                         </li>
                     </ul>
 
+                    <div class="d-flex flex-wrap align-items-center gap-2 mt-3">
+
                     <input type="hidden" name="znak_form1" value="on">
-                    <button type="button" class="btn btn-outline-dark mt-2 btn-sm" onclick="clearCheckboxes()">wyczyść wszystko
+                    <button type="button" class="btn btn-outline-dark btn-sm" onclick="clearCheckboxes()">wyczyść wszystko
                     </button>
-                    <button type="button" class="btn btn-outline-dark mt-2 btn-sm" onclick="setCheckboxes()">zaznacz wszystko
+                    <button type="button" class="btn btn-outline-dark btn-sm" onclick="setCheckboxes()">zaznacz wszystko
                     </button>
 
-                    <input type="submit" class="btn btn-outline-dark mt-2 ms-3" value="Przefiltruj">
+                    <input type="submit" class="btn btn-outline-dark" value="Przefiltruj">
+                    </div>
                 </form>
 
 
@@ -125,7 +128,7 @@
         </div>
         <div class="mb-3 ps-3">
 
-            <p>{{ napis }}</p>
+            <p>{{ napis|safe  }}</p>
 
         </div>
 
