@@ -10,7 +10,7 @@ from basepage.forms.forms import UploadFileForm
 # from somewhere import handle_uploaded_file
 import pandas as pd
 
-from fty import lista_trwaj
+
 
 teraz = datetime.now()
 teraz_rok = teraz.strftime("%Y")
