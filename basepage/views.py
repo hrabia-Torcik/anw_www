@@ -4,11 +4,13 @@ from django.template import loader
 
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
-from datetime import datetime
+from datetime import datetime, timedelta
 from datetime import date
 from basepage.forms.forms import UploadFileForm
 # from somewhere import handle_uploaded_file
 import pandas as pd
+
+from fty import lista_trwaj
 
 teraz = datetime.now()
 teraz_rok = teraz.strftime("%Y")
@@ -158,9 +160,42 @@ def basepage(request):
             else:
                 napis = "Pokazuję listę wszystkich organizowanych przez nas w&nbsp;tym roku kursów i&nbsp;egzaminów:"
 
+    kursy_mod.sort(key=lambda x: x['data1'])
+    lista_trwaj = []
+    lista_zakoncz = []
 
+    for elem in kursy_mod:
+        deltat1 = elem['data1'] - teraz_data
+        if elem['data2']:
+            deltat2 = elem['data2'] - teraz_data
+        else:
+            deltat2 = False
 
-    context['kursy_mod'] = kursy_mod
+        if deltat2:
+            if deltat1 < timedelta(0) and deltat2 >= timedelta(0):
+                # print('trwa')
+                lista_trwaj.append(True)
+            else:
+                lista_trwaj.append(False)
+            if deltat2 < timedelta(0):
+                # print('zakończony')
+                lista_zakoncz.append(True)
+            else:
+                lista_zakoncz.append(False)
+        else:
+            if deltat1 == timedelta(0):
+                # print('trwa')
+                lista_trwaj.append(True)
+            else:
+                lista_trwaj.append(False)
+            if deltat1 < timedelta(0):
+                lista_zakoncz.append(True)
+            else:
+                lista_zakoncz.append(False)
+
+    dane_powiazane = zip(kursy_mod, lista_trwaj, lista_zakoncz)
+
+    context['kursy_mod'] = dane_powiazane
     context['klienci'] = klienci
     context['klienciNiedorosli'] = klienciNiedorosli
     context['zapisy'] = zapisy
@@ -175,7 +210,8 @@ def basepage(request):
 
     # PPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP
 
-    context['efekt'] = efekt
+    context['efekt'] = [lista_trwaj,len(lista_trwaj),lista_zakoncz,len(lista_zakoncz)]
+    # context['efekt'] = kursy_mod
 
     takalista = [elemen for elemen in context]
 

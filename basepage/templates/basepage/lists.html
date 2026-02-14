@@ -108,7 +108,7 @@
                 {% else %}
                     <form action="{% url 'main' %}" method="post" style="padding-bottom: 10px;">
                         {% csrf_token %}
-                        <div class="form-check custom-check-row d-inline-flex mt-3 px-2 rounded">
+                        <div class="form-check custom-check-row d-inline-flex align-items-center mt-3 px-2 rounded">
                         {% if flage3 %}
                             <input class="form-check-input m-0 mt-1" type="checkbox" id="check1" {% if kalarepka0 %}
                                    checked {% endif %} name="bez" onchange="this.form.submit()">
@@ -119,7 +119,7 @@
                         <input type="hidden" id="check2" name="dod_dane" {% if sign2 %}
                                value="{{ sub1 }},{{ sub2 }},{{ sub3 }},{{ sub4 }},{{ sub5 }},{{ sub6 }}" {% else %}
                                value="" {% endif %}>
-                        <label class="form-check-label ps-2" for="check1">WYŚWIETL zakończone kursy</label>
+                            <label class="form-check-label ps-2" for="check1">wyświetl również <span class="fs-5" >zakończone</span> kursy</label>
                         <br>
                         </div>
                     </form>
@@ -135,7 +135,7 @@
         {% if flage4 %}
         {% else %}
             <div class="container">
-                {% for elem in kursy_mod %}
+                {% for elem, trwa, zak in kursy_mod %}
                     <div class="row m-0 mt-2 pb-1">
 
                         <div class="col-12 col-md-10 offset-md-1 col-lg-8 offset-lg-2 text-center">
@@ -188,8 +188,12 @@
 
                                     {% endif %}
                                 </div>
-
                                 <div class="mt-auto ms-auto text-end text-md-center pb-2">
+                                {% if zak %}
+                                    <p>To już się skończyło.<br>Było epicko.</p>
+                                {% elif trwa %}
+                                    <p>Konkret działamy.<br>Szkoda, że Cię nie ma!</p>
+                                {% else %}
 
 
                                     <p>cena {{ elem.cena }} zł</p>
@@ -198,6 +202,7 @@
                                        href="{% url 'basepage:form_zapis' elem.id %}" role="button"
                                        aria-disabled="true">Wskakuj na pokład</a>
 
+                                {% endif %}
                                 </div>
                             </div>
                         </div>
@@ -208,5 +213,5 @@
 
     </div>
     </div>
-
+    {{ efekt }}
 {% endblock %}
