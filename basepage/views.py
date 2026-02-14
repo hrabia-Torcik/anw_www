@@ -173,18 +173,15 @@ def basepage(request):
 
         if deltat2:
             if deltat1 <= timedelta(0) and deltat2 >= timedelta(0):
-                # print('trwa')
                 lista_trwaj.append(True)
             else:
                 lista_trwaj.append(False)
             if deltat2 < timedelta(0):
-                # print('zakończony')
                 lista_zakoncz.append(True)
             else:
                 lista_zakoncz.append(False)
         else:
             if deltat1 == timedelta(0):
-                # print('trwa')
                 lista_trwaj.append(True)
             else:
                 lista_trwaj.append(False)
