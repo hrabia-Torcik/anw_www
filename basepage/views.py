@@ -172,7 +172,7 @@ def basepage(request):
             deltat2 = False
 
         if deltat2:
-            if deltat1 < timedelta(0) and deltat2 >= timedelta(0):
+            if deltat1 <= timedelta(0) and deltat2 >= timedelta(0):
                 # print('trwa')
                 lista_trwaj.append(True)
             else:
