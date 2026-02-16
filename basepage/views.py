@@ -49,7 +49,7 @@ def basepage(request):
         context['kalarepka1'] = lista
 
         flage3 = 1
-        messages.success(request, "Formularz wysłany!")
+        messages.success(request, "Formularz wysłany!", extra_tags='zakonczone')
 
     context['flage3'] = flage3
 
@@ -75,6 +75,9 @@ def basepage(request):
         context['sub6'] = 'cokolwiek'
     if request.GET.get('znak_form1') and any(list_pom) is False:
         nicnierob = 1
+
+    if any(request.GET.get(p) for p in ['param1', 'param2', 'param3']):  # Sprawdzasz czy filtry działają
+        messages.info(request, "Filtry zastosowane", extra_tags='wybrane')
 
     flage4 = ''
     # efekt = nicnierob

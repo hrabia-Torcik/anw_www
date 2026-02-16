@@ -106,11 +106,7 @@
 
                 {% if flage4 %}
                 {% else %}
-                    {% if messages %}
-                        {% for message in messages %}
-                            <div class="alert alert-success">{{ message }}</div>
-                        {% endfor %}
-                    {% endif %}
+
                         <form action="{% url 'main' %}" method="post" style="padding-bottom: 10px;">
                         {% csrf_token %}
                         <div class="form-check custom-check-row d-inline-flex align-items-center mt-3 px-2 rounded">
@@ -137,10 +133,10 @@
             <p>{{ napis|safe  }}</p>
 
         </div>
-
+        <div id="punkt-docelowy1"></div>
         {% if flage4 %}
         {% else %}
-                    <div id="punkt-docelowy">
+
 
             <div class="container">
                 {% for elem, trwa, zak in kursy_mod %}
@@ -221,6 +217,6 @@
 
     </div>
     </div>
-
+<div id="punkt-docelowy2"></div>
 
 {% endblock %}

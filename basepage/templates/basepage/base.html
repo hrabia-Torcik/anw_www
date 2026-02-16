@@ -22,7 +22,7 @@
 
     <div class="bg-primary">
     <div>
-        <a href="{% url 'basepage:dojazd' %}" id="backToTop" class="btn btn-primary position-fixed shadow">
+        <a href="#" id="backToTop" class="btn btn-primary position-fixed shadow">
     do dryfu
     </a>
     </div>
@@ -184,18 +184,23 @@
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
 <script>
+
 function clearCheckboxes() {
     // Metoda JS
-    document.querySelectorAll('{% url 'basepage:dojazd' %}sort_kursow input[type="checkbox"]').forEach(checkbox => {
+    document.querySelectorAll('#sort_kursow input[type="checkbox"]').forEach(checkbox => {
         checkbox.checked = false;
     });
 }
 function setCheckboxes() {
     // Metoda JS
-    document.querySelectorAll('{% url 'basepage:dojazd' %}sort_kursow input[type="checkbox"]').forEach(checkbox => {
+    document.querySelectorAll('#sort_kursow input[type="checkbox"]').forEach(checkbox => {
         checkbox.checked = true;
     });
 }
+
+    document.addEventListener("DOMContentLoaded", function() {
+
+
 
 function jakas() {
 document.getElementById('hiddenField').value = document.getElementById('someDiv').innerText;
@@ -220,19 +225,29 @@ if (window.history.replaceState && window.performance.navigation.type === 1) {
     // Jeśli chcesz, żeby działo się to zawsze po odświeżeniu
 }
 
-// Skrypt uruchomi się tylko, gdy Django prześle jakieś komunikaty (np. po wysłaniu form)
 {% if messages %}
-    document.addEventListener("DOMContentLoaded", function() {
-        // Szukamy naszej nowej kotwicy
-        const anchor = document.getElementById("punkt-docelowy");
-        if (anchor) {
-            anchor.scrollIntoView({
-                behavior: "smooth",
-                block: "start" // Ustawia element na górze okna
-            });
-        }
-    });
-{% endif %}
+       {% for message in messages %}
+            let targetId = "";
+
+            // Mapujemy tagi z Django na ID Twoich kotwic w HTML
+            {% if 'zakonczone' in message.tags %}
+                targetId = "punkt-docelowy2";
+            {% elif 'wybrane' in message.tags %}
+                targetId = "punkt-docelowy1";
+            {% endif %}
+
+            if (targetId) {
+                const elementario = document.getElementById(targetId);
+                if (elementario) {
+                    elementario.scrollIntoView({ behavior: "smooth", block: "start" });
+                }
+            }
+        {% endfor %}
+    {% endif %}
+
+
+
+});
 
 </script>
 </body>
