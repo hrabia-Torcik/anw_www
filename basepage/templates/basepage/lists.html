@@ -106,7 +106,12 @@
 
                 {% if flage4 %}
                 {% else %}
-                    <form action="{% url 'main' %}" method="post" style="padding-bottom: 10px;">
+                    {% if messages %}
+                        {% for message in messages %}
+                            <div class="alert alert-success">{{ message }}</div>
+                        {% endfor %}
+                    {% endif %}
+                        <form action="{% url 'main' %}" method="post" style="padding-bottom: 10px;">
                         {% csrf_token %}
                         <div class="form-check custom-check-row d-inline-flex align-items-center mt-3 px-2 rounded">
                         {% if flage3 %}
@@ -123,6 +128,7 @@
                         <br>
                         </div>
                     </form>
+
                 {% endif %}
 
         </div>
@@ -134,6 +140,8 @@
 
         {% if flage4 %}
         {% else %}
+                    <div id="punkt-docelowy">
+
             <div class="container">
                 {% for elem, trwa, zak in kursy_mod %}
                     <div class="row m-0 mt-2 pb-1">
@@ -213,5 +221,6 @@
 
     </div>
     </div>
+
 
 {% endblock %}

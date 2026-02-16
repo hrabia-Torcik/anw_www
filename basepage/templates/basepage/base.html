@@ -22,7 +22,7 @@
 
     <div class="bg-primary">
     <div>
-        <a href="#" id="backToTop" class="btn btn-primary position-fixed shadow">
+        <a href="{% url 'basepage:dojazd' %}" id="backToTop" class="btn btn-primary position-fixed shadow">
     do dryfu
     </a>
     </div>
@@ -138,6 +138,26 @@
             </div>
 
         </div>
+          <!-- NOWY WIERSZ NA MENU -->
+  <div class="row mt-2">
+    <div class="col-12">
+      <!-- Przycisk hamburgera (widoczny tylko na mobile) -->
+      <button class="navbar-toggler d-lg-none w-100 py-2 border mb-2" type="button" data-bs-toggle="collapse" data-bs-target="#menuGlowne">
+        <span class="navbar-toggler-icon"></span> Menu
+      </button>
+
+      <!-- Kontener menu -->
+      <div class="collapse d-md-block" id="menuGlowne">
+        <ul class="nav justify-content-center pt-2 ">
+            <li class="nav-item"><a class="nav-link text-light fw-bold text-uppercase" href="{% url 'basepage:dojazd' %}">dojazd do naszych baz</a></li>
+            <li class="nav-item"><a class="nav-link text-light fw-bold text-uppercase" href="{% url 'basepage:o_kursach' %}">o kursach</a></li>
+          <li class="nav-item"><a class="nav-link text-light fw-bold text-uppercase" href="{% url 'basepage:strefa_wiedzy' %}">strefa wiedzy</a></li>
+          <li class="nav-item"><a class="nav-link text-light fw-bold text-uppercase" href="{% url 'basepage:ciekawostki' %}">inne ciekawostki</a></li>
+          <li class="nav-item"><a class="nav-link text-light fw-bold text-uppercase" href="{% url 'basepage:kontakt' %}">kontakt</a></li>
+        </ul>
+      </div>
+    </div>
+  </div>
     </header>
 
     {% block content %}
@@ -166,13 +186,13 @@
 <script>
 function clearCheckboxes() {
     // Metoda JS
-    document.querySelectorAll('#sort_kursow input[type="checkbox"]').forEach(checkbox => {
+    document.querySelectorAll('{% url 'basepage:dojazd' %}sort_kursow input[type="checkbox"]').forEach(checkbox => {
         checkbox.checked = false;
     });
 }
 function setCheckboxes() {
     // Metoda JS
-    document.querySelectorAll('#sort_kursow input[type="checkbox"]').forEach(checkbox => {
+    document.querySelectorAll('{% url 'basepage:dojazd' %}sort_kursow input[type="checkbox"]').forEach(checkbox => {
         checkbox.checked = true;
     });
 }
@@ -195,6 +215,24 @@ document.getElementById('hiddenField').value = document.getElementById('someDiv'
         }
     }
 
+    // Sprawdzamy, czy formularz został wysłany (przeładowanie typu POST)
+if (window.history.replaceState && window.performance.navigation.type === 1) {
+    // Jeśli chcesz, żeby działo się to zawsze po odświeżeniu
+}
+
+// Skrypt uruchomi się tylko, gdy Django prześle jakieś komunikaty (np. po wysłaniu form)
+{% if messages %}
+    document.addEventListener("DOMContentLoaded", function() {
+        // Szukamy naszej nowej kotwicy
+        const anchor = document.getElementById("punkt-docelowy");
+        if (anchor) {
+            anchor.scrollIntoView({
+                behavior: "smooth",
+                block: "start" // Ustawia element na górze okna
+            });
+        }
+    });
+{% endif %}
 
 </script>
 </body>

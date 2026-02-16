@@ -10,7 +10,7 @@ from basepage.forms.forms import UploadFileForm
 # from somewhere import handle_uploaded_file
 import pandas as pd
 
-
+from django.contrib import messages
 
 teraz = datetime.now()
 teraz_rok = teraz.strftime("%Y")
@@ -49,6 +49,8 @@ def basepage(request):
         context['kalarepka1'] = lista
 
         flage3 = 1
+        messages.success(request, "Formularz wysłany!")
+
     context['flage3'] = flage3
 
 
@@ -235,4 +237,59 @@ def kursu_zapis(request, elem_id):
 
 # Imaginary function to handle an uploaded file.
 
+def instr_dojazdu(request):
 
+    napis = 'Tu będzie coś o dojeździe.'
+
+    context = {
+        'text': napis,
+
+        'liczba_lat': liczba_lat,
+        'foremnik': foremnik,
+    }
+    return render(request, 'basepage/dojazd.html', context)
+
+
+def kursy_opisuj(request):
+    napis = 'Tu będzie coś o kursach.'
+
+    context = {
+        'text': napis,
+
+        'liczba_lat': liczba_lat,
+        'foremnik': foremnik,
+    }
+    return render(request, 'basepage/kursy.html', context)
+
+def pokaz_baze_wiedzy(request):
+    napis = 'Tu będzie coś do pouczenia.'
+
+    context = {
+        'text': napis,
+
+        'liczba_lat': liczba_lat,
+        'foremnik': foremnik,
+    }
+    return render(request, 'basepage/wiedza.html', context)
+
+def pokaz_ciekawostki(request):
+    napis = 'Tu będą jakieś teksty.'
+
+    context = {
+        'text': napis,
+
+        'liczba_lat': liczba_lat,
+        'foremnik': foremnik,
+    }
+    return render(request, 'basepage/ciekaw.html', context)
+
+def kontaktuj(request):
+    napis = 'Tu będą nasze mejle i telefony.'
+
+    context = {
+        'text': napis,
+
+        'liczba_lat': liczba_lat,
+        'foremnik': foremnik,
+    }
+    return render(request, 'basepage/kontakt.html', context)
