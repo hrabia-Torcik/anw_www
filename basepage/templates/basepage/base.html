@@ -140,23 +140,25 @@
         </div>
           <!-- NOWY WIERSZ NA MENU -->
   <div class="row mt-2">
-    <div class="col-12">
-      <!-- Przycisk hamburgera (widoczny tylko na mobile) -->
-      <button class="navbar-toggler d-lg-none w-100 py-2 border mb-2" type="button" data-bs-toggle="collapse" data-bs-target="#menuGlowne">
-        <span class="navbar-toggler-icon"></span> Menu
-      </button>
+      <div class="col-12 px-3 px-md-5">
+          <nav>
+                <!-- Przycisk hamburgera (widoczny tylko na mobile) -->
+                <button class="btn w-100 py-3 text-uppercase border shadow-sm mt-2 d-lg-none text-light" type="button" data-bs-toggle="collapse" data-bs-target="#menuGlowne">
+                   menu
+                </button>
 
-      <!-- Kontener menu -->
-      <div class="collapse d-md-block" id="menuGlowne">
-        <ul class="nav justify-content-center pt-2 ">
-            <li class="nav-item"><a class="nav-link text-light fw-bold text-uppercase" href="{% url 'basepage:dojazd' %}">dojazd do naszych baz</a></li>
-            <li class="nav-item"><a class="nav-link text-light fw-bold text-uppercase" href="{% url 'basepage:o_kursach' %}">o kursach</a></li>
-          <li class="nav-item"><a class="nav-link text-light fw-bold text-uppercase" href="{% url 'basepage:strefa_wiedzy' %}">strefa wiedzy</a></li>
-          <li class="nav-item"><a class="nav-link text-light fw-bold text-uppercase" href="{% url 'basepage:ciekawostki' %}">inne ciekawostki</a></li>
-          <li class="nav-item"><a class="nav-link text-light fw-bold text-uppercase" href="{% url 'basepage:kontakt' %}">kontakt</a></li>
-        </ul>
+                <!-- Kontener menu -->
+                <div class="collapse d-lg-block" id="menuGlowne">
+                  <ul class="nav justify-content-center pt-2">
+                      <li class="nav-item"><a class="nav-link text-light fw-bold text-uppercase" href="{% url 'basepage:dojazd' %}">dojazd do naszych baz</a></li>
+                      <li class="nav-item"><a class="nav-link text-light fw-bold text-uppercase" href="{% url 'basepage:o_kursach' %}">o kursach</a></li>
+                    <li class="nav-item"><a class="nav-link text-light fw-bold text-uppercase" href="{% url 'basepage:strefa_wiedzy' %}">strefa wiedzy</a></li>
+                    <li class="nav-item"><a class="nav-link text-light fw-bold text-uppercase" href="{% url 'basepage:ciekawostki' %}">inne ciekawostki</a></li>
+                    <li class="nav-item"><a class="nav-link text-light fw-bold text-uppercase" href="{% url 'basepage:kontakt' %}">kontakt</a></li>
+                  </ul>
+                </div>
+          </nav>
       </div>
-    </div>
   </div>
     </header>
 
