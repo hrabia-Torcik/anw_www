@@ -202,7 +202,7 @@ html {
     background: linear-gradient(135deg, #b59049 0%, #e0c57a 45%, #d1a13e 55%, #8c6a2d 100%);
 
     /* Mechanika i wymiary (zastępuje w-100 i py-3) */
-    padding: 10px 50px !important;
+    padding: 13px 50px 10px 50px !important;
     /* Wyłączamy sztywną wysokość linii, która często blokuje padding */
     line-height: 1.2 !important;
     margin-top: 0.5rem; /* Zastępuje mt-2 */
