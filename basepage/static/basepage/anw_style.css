@@ -200,8 +200,6 @@ html {
     background: linear-gradient(135deg, #b59049 0%, #e0c57a 45%, #d1a13e 55%, #8c6a2d 100%);
 
     /* Mechanika i wymiary (zastępuje w-100 i py-3) */
-    display: flex; /* Zamiast d-flex w HTML */
-    width: 100%;
     padding: 10px 50px !important;
     /* Wyłączamy sztywną wysokość linii, która często blokuje padding */
     line-height: 1.2 !important;
@@ -210,7 +208,6 @@ html {
     overflow: visible; /* Ważne, żeby nity nie zostały "ucięte" przez maskę */
     position: relative;
     transition: transform 0.2s, box-shadow 0.2s;
-    display: inline-flex !important;
     align-items: center;
     justify-content: center;
 
@@ -234,6 +231,7 @@ html {
     text-transform: uppercase;
 
     cursor: pointer !important;
+    display: none;
 }
 
 .btn-mosiezny:hover {
@@ -286,6 +284,13 @@ html {
     border: none;
     mask: none;
     -webkit-mask: none;
+}
+
+@media (max-width: 991.98px) {
+    .btn-mosiezny {
+        display: flex !important; /* Teraz "puchnie" tylko na mobile/tablet pionowo */
+        width: 100%;
+    }
 }
 
 @media (min-width: 992px) {
@@ -366,3 +371,5 @@ html {
         transform: scale(1.05); /* Lekkie powiększenie "wyrytych" liter */
     }
 }
+
+
