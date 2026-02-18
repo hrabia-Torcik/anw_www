@@ -185,6 +185,7 @@ html {
 
     text-transform: uppercase;
     /* Kolor tekstu: musi być nieco ciemniejszy niż środek tabliczki */
+
     color: #896a2d !important;
     /*color: #5d4310 !important;*/
     border: 2px solid #edb538 !important;
@@ -192,6 +193,7 @@ html {
     font-weight: bold;
     text-shadow: 1px 1px 0px rgba(255, 255, 255, 0.3);
 
+    display: flex;
     justify-content: center;
     align-items: center;
     box-shadow: 0 4px 6px rgba(0,0,0,0.3), inset 0 1px 0 rgba(255,255,255,0.4);
@@ -231,7 +233,6 @@ html {
     text-transform: uppercase;
 
     cursor: pointer !important;
-    display: none;
 }
 
 .btn-mosiezny:hover {
@@ -299,11 +300,22 @@ html {
     }
 
     .menu-mosiezna-plyta {
-        display: flex !important; /* Wymuszamy flexa dla linków */
+        display: flex !important;
+        /* Tutaj Twoja korekta, która "prostowała" grawerkę na płycie */
+
+        flex-wrap: wrap;
+         /* DODAJ TO: Odstęp pionowy między wierszami menu */
+        row-gap: 15px;
+
+        padding-top: 10px !important;
+        padding-bottom: 15px !important;
+        padding-left: 40px;     /* Minimalny "oddech" belki od góry i dołu */
+        padding-right: 40px;     /* Minimalny "oddech" belki od góry i dołu */
         justify-content: center;
         align-items: center;
-        padding: 10px 40px;     /* Minimalny "oddech" belki od góry i dołu */
+
         min-height: 50px;       /* Ale bez 'height' - niech rośnie z tekstem */
+
 
         /* Twoje "turbo tłuste" style mosiądzu */
         background: linear-gradient(135deg, #b59049 0%, #e0c57a 45%, #d1a13e 55%, #8c6a2d 100%);
@@ -349,10 +361,12 @@ html {
         text-transform: uppercase;
         letter-spacing: 2px;
 
+
+        line-height: 1.4 !important; /* Daje fontowi naturalną przestrzeń */
+
         /* Wywalamy asymetrię */
         padding-top: 5px !important;
-        padding-bottom: 10px !important;
-        line-height: 1.2 !important; /* Daje fontowi naturalną przestrzeń */
+        padding-bottom: 5px !important;
         display: flex;
         align-items: center;
 
