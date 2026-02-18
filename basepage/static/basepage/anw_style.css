@@ -319,7 +319,7 @@ html {
 
         /* Twoje "turbo tłuste" style mosiądzu */
         background: linear-gradient(135deg, #b59049 0%, #e0c57a 45%, #d1a13e 55%, #8c6a2d 100%);
-        border: 3px solid #edb538 !important;
+        border: 2px solid #edb538 !important;
         position: relative;
 
         /* Wycięte narożniki (maska) */
