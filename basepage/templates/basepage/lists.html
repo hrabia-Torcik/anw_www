@@ -120,7 +120,7 @@
                         <input type="hidden" id="check2" name="dod_dane" {% if sign2 %}
                                value="{{ sub1 }},{{ sub2 }},{{ sub3 }},{{ sub4 }},{{ sub5 }},{{ sub6 }}" {% else %}
                                value="" {% endif %}>
-                            <label class="form-check-label ps-2" for="check1">wyświetl również <span class="fs-5" >zakończone</span> kursy</label>
+                            <label class="form-check-label ps-2" for="check1">wyświetl również <span class="fs-5" >trwające i zakończone</span> kursy</label>
                         <br>
                         </div>
                     </form>
@@ -136,10 +136,18 @@
         <div id="punkt-docelowy1"></div>
         {% if flage4 %}
         {% else %}
-
+            {% if kalarepka0 %}
+            {% else %}
+                <div id="punkt-docelowy2"></div>
+            {% endif %}
 
             <div class="container">
                 {% for elem, trwa, zak in kursy_mod %}
+
+                    {% if forloop.counter == do_kotwicy2%}
+                        <div id="punkt-docelowy2"></div>
+                    {% endif %}
+
                     <div class="row m-0 mt-2 pb-1">
 
                         <div class="col-12 col-md-10 offset-md-1 col-lg-8 offset-lg-2 text-center">
@@ -194,9 +202,9 @@
                                 </div>
                                 <div class="mt-auto ms-auto text-end text-md-center pb-2">
                                 {% if zak %}
-                                    <p>To już się skończyło.<br>Było epicko.</p>
+                                    <p>Te już zakończone.<br>Było epicko.</p>
                                 {% elif trwa %}
-                                    <p>Konkret działamy.<br>Szkoda, że Cię nie ma!</p>
+                                    <p>Zawzięcie manewrujemy.<br>Szkoda, że Cię nie ma!</p>
                                 {% else %}
 
 
@@ -217,6 +225,6 @@
 
     </div>
     </div>
-<div id="punkt-docelowy2"></div>
+{#{{ efekt }}#}
 
 {% endblock %}

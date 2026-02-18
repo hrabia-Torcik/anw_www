@@ -76,7 +76,7 @@ def basepage(request):
     if request.GET.get('znak_form1') and any(list_pom) is False:
         nicnierob = 1
 
-    if any(request.GET.get(p) for p in ['param1', 'param2', 'param3']):  # Sprawdzasz czy filtry działają
+    if request.GET:  # Sprawdzasz czy filtry działają
         messages.info(request, "Filtry zastosowane", extra_tags='wybrane')
 
     flage4 = ''
@@ -88,7 +88,7 @@ def basepage(request):
             kursy = KursyWszystkie.objects.filter(kursu_data_start__contains=teraz_rok)
         else:
             kursy = KursyWszystkie.objects.filter(kursu_data_start__contains=teraz_rok).filter(
-                kursu_data_end__range=(teraz_data, koniec_roku))
+                kursu_data_start__range=(teraz_data, koniec_roku))
 
     else:
         if nicnierob == 1:
@@ -96,7 +96,7 @@ def basepage(request):
             flage4 = 1
         else:
             kursy = KursyWszystkie.objects.filter(kursu_data_start__contains=teraz_rok).filter(
-                kursu_data_end__range=(teraz_data, koniec_roku))
+                kursu_data_start__range=(teraz_data, koniec_roku))
 
 
 
@@ -158,12 +158,15 @@ def basepage(request):
         napis = "Niczego nie&nbsp;pokazuję. A&nbsp;może by tak coś zaznaczyć?"
     else:
         if sign:
-            napis = "Pokazuję listę wszystkich organizowanych przez nas w&nbsp;tym roku kursów i&nbsp;egzaminów:"
+            napis = "Pokazuję listę zaplanowanych przez nas do&nbsp;końca roku kursów i&nbsp;egzaminów:"
         else:
             if flage:
                 napis = "Pokazuję przefiltrowaną listę tegorocznych wydarzeń:"
             else:
-                napis = "Pokazuję listę wszystkich organizowanych przez nas w&nbsp;tym roku kursów i&nbsp;egzaminów:"
+                napis = "Pokazuję listę zaplanowanych przez nas do&nbsp;końca roku kursów i&nbsp;egzaminów:"
+
+    if z_czekboksa:
+        napis += '<br>Pokazuję również zakończone oraz trwające wydarzenia.'
 
     kursy_mod.sort(key=lambda x: x['data1'])
     lista_trwaj = []
@@ -195,9 +198,29 @@ def basepage(request):
             else:
                 lista_zakoncz.append(False)
 
+    index_trwajace = None
+    for i, elem in enumerate(kursy_mod):
+        deltat1 = elem['data1'] - teraz_data
+        if elem['data2']:
+            deltat2 = elem['data2'] - teraz_data
+        else:
+            deltat2 = False
+
+        if deltat2:
+            if deltat1 <= timedelta(0) and deltat2 >= timedelta(0):
+                index_trwajace = i + 1
+                break
+
+        else:
+            if deltat1 >= timedelta(0):
+                index_trwajace = i + 1
+                break
+
+
     dane_powiazane = zip(kursy_mod, lista_trwaj, lista_zakoncz)
 
     context['kursy_mod'] = dane_powiazane
+    context['do_kotwicy2'] = index_trwajace
     context['klienci'] = klienci
     context['klienciNiedorosli'] = klienciNiedorosli
     context['zapisy'] = zapisy
@@ -212,8 +235,9 @@ def basepage(request):
 
     # PPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP
 
-    context['efekt'] = [lista_trwaj,len(lista_trwaj),lista_zakoncz,len(lista_zakoncz)]
+    # context['efekt'] = [lista_trwaj,len(lista_trwaj),lista_zakoncz,len(lista_zakoncz)]
     # context['efekt'] = kursy_mod
+    context['efekt'] = index_trwajace
 
     takalista = [elemen for elemen in context]
 
@@ -253,6 +277,18 @@ def instr_dojazdu(request):
     return render(request, 'basepage/dojazd.html', context)
 
 
+def opisz_dunajca(request):
+    napis = 'Tu będzie coś o naszym Dunajcu.'
+
+    context = {
+        'text': napis,
+
+        'liczba_lat': liczba_lat,
+        'foremnik': foremnik,
+    }
+    return render(request, 'basepage/dunajec.html', context)
+
+
 def kursy_opisuj(request):
     napis = 'Tu będzie coś o kursach.'
 
@@ -263,6 +299,7 @@ def kursy_opisuj(request):
         'foremnik': foremnik,
     }
     return render(request, 'basepage/kursy.html', context)
+
 
 def pokaz_baze_wiedzy(request):
     napis = 'Tu będzie coś do pouczenia.'
@@ -275,8 +312,8 @@ def pokaz_baze_wiedzy(request):
     }
     return render(request, 'basepage/wiedza.html', context)
 
-def pokaz_ciekawostki(request):
-    napis = 'Tu będą jakieś teksty.'
+def pokaz_polecajki(request):
+    napis = 'Tu będą jakieś pożyteczne linki.'
 
     context = {
         'text': napis,

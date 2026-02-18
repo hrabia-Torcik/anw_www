@@ -1,3 +1,26 @@
+@font-face {
+    font-family: 'boskiGrawer'; /* Twoja własna nazwa */
+         url('../fonts/BonaNova-Regular.otf') format('opentype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'boskiGrawer'; /* Twoja własna nazwa */
+    src: url('../fonts/BonaNova-Bold.otf') format('opentype');
+    font-weight: normal;
+    font-style: italic;
+}
+
+
+
+@font-face {
+    font-family: 'boskiGrawer'; /* Twoja własna nazwa */
+         url('../fonts/BonaNova-Italic.otf') format('opentype');
+    font-weight: bold;
+    font-style: normal;
+}
+
 body {
 background-color: #0C0055;
 }
@@ -5,7 +28,6 @@ background-color: #0C0055;
 html {
   scroll-behavior: smooth;
 }
-
 
 
 #stopka_obrazek {
@@ -32,6 +54,14 @@ html {
   background-image: url("/static/basepage/img/lina_prosta_pion.png"), url("/static/basepage/img/lina_prosta_pion.png");
   background-repeat: repeat-y;
   background-position: left, right;
+}
+
+#punkt-docelowy1 {
+    scroll-margin-top: 25vh;
+}
+
+#punkt-docelowy2 {
+    scroll-margin-top: 25vh;
 }
 
 .naglowek_obrazek {
@@ -146,4 +176,193 @@ html {
   line-height: 1;         /* Kasuje "puste miejsce" nad i pod tekstem */
   display: flex;          /* Pomaga w idealnym wyrównaniu */
   align-items: center;
+}
+
+.btn-mosiezny {
+    font-family: 'boskiGrawer', serif !important; /* Twoja nazwa + zapasowy szeryf */
+    font-size: 1.4rem;
+    font-weight: bold;
+
+    text-transform: uppercase;
+    /* Kolor tekstu: musi być nieco ciemniejszy niż środek tabliczki */
+    color: #896a2d !important;
+    /*color: #5d4310 !important;*/
+    border: 2px solid #edb538 !important;
+    text-decoration: none;
+    font-weight: bold;
+    text-shadow: 1px 1px 0px rgba(255, 255, 255, 0.3);
+
+    justify-content: center;
+    align-items: center;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.3), inset 0 1px 0 rgba(255,255,255,0.4);
+
+    /* Kolory mosiądzu i szczotkowana faktura */
+    background: linear-gradient(135deg, #b59049 0%, #e0c57a 45%, #d1a13e 55%, #8c6a2d 100%);
+
+    /* Mechanika i wymiary (zastępuje w-100 i py-3) */
+    display: flex; /* Zamiast d-flex w HTML */
+    width: 100%;
+    padding: 10px 50px !important;
+    /* Wyłączamy sztywną wysokość linii, która często blokuje padding */
+    line-height: 1.2 !important;
+    margin-top: 0.5rem; /* Zastępuje mt-2 */
+
+    overflow: visible; /* Ważne, żeby nity nie zostały "ucięte" przez maskę */
+    position: relative;
+    transition: transform 0.2s, box-shadow 0.2s;
+    display: inline-flex !important;
+    align-items: center;
+    justify-content: center;
+
+    /* MAGIA: Wycięte narożniki */
+    position: relative;
+    --r: 10px; /* promień wycięcia */
+    mask: radial-gradient(var(--r) at var(--r) var(--r),#0000 98%,#000)
+          calc(-1*var(--r)) calc(-1*var(--r));
+    -webkit-mask: radial-gradient(var(--r) at var(--r) var(--r),#0000 98%,#000)
+                  calc(-1*var(--r)) calc(-1*var(--r));
+
+
+    /* MAGIA GRAWERKI: */
+    /* 1. Ciemny cień u góry (wewnątrz litery) */
+    /* 2. Jasny błysk u dołu (krawędź rytu) */
+    text-shadow:
+        -1px -1px 1px rgba(0, 0, 0, 1),  /* cień głębi */
+         1px  1px 1px rgba(255, 255, 255, 0.3); /* błysk krawędzi */
+
+    letter-spacing: 2px; /* Grawer lepiej wygląda z lekkim rozstrzeleniem liter */
+    text-transform: uppercase;
+
+    cursor: pointer !important;
+}
+
+.btn-mosiezny:hover {
+    transform: translateY(-2px);
+    transition: all 0.2s ease;
+    filter: brightness(1) contrast(1.1);
+    box-shadow: 0 6px 10px rgba(0,0,0,0.4);
+    background: linear-gradient(135deg, #c2a156 0%, #f0d891 45%, #e2b44f 55%, #a17d3a 100%);
+}
+
+.btn-mosiezny:active {
+    transform: translateY(3px) !important; /* Tabliczka "siada" pod palcem */
+    box-shadow: 0 1px 2px rgba(0,0,0,0.5), inset 0 2px 5px rgba(0,0,0,0.4) !important;
+    /* Cień zewnętrzny maleje, wewnętrzny rośnie - efekt wciśnięcia w głąb */
+}
+
+/* Wspólny styl dla obu nitów (guzów) */
+.btn-mosiezny::before,
+.btn-mosiezny::after {
+    content: "";
+    position: absolute;
+    top: 50%;             /* Wycentrowanie w pionie */
+    transform: translateY(-50%); /* Precyzyjna korekta środka */
+    width: 14px;          /* Średnica guza */
+    height: 14px;
+    border-radius: 50%;   /* Robimy idealne koło */
+
+
+    /* Efekt wypukłego metalu (3D) */
+    background: radial-gradient(circle at 30% 30%, #fff9e6 0%, #b59049 40%, #5d4310 100%);
+    box-shadow: 2px 2px 4px rgba(0,0,0,0.5), inset -1px -1px 2px rgba(0,0,0,0.4);
+
+    z-index: 2;           /* Nity muszą być nad tabliczką */
+}
+
+/* Pozycjonowanie lewego nitu */
+.btn-mosiezny::before {
+    left: 20px;
+}
+
+/* Pozycjonowanie prawego nitu */
+.btn-mosiezny::after {
+    right: 20px;
+}
+
+.menu-mosiezna-plyta {
+    /* Na mobile: brak mosiądzu, zwykłe tło lub przeźroczystość */
+    margin-top: 0.5rem;
+    background: transparent;
+    border: none;
+    mask: none;
+    -webkit-mask: none;
+}
+
+@media (min-width: 992px) {
+    .btn-mosiezny {
+        display: none !important;
+    }
+
+    .menu-mosiezna-plyta {
+        display: flex !important; /* Wymuszamy flexa dla linków */
+        justify-content: center;
+        align-items: center;
+        padding: 10px 40px;     /* Minimalny "oddech" belki od góry i dołu */
+        min-height: 50px;       /* Ale bez 'height' - niech rośnie z tekstem */
+
+        /* Twoje "turbo tłuste" style mosiądzu */
+        background: linear-gradient(135deg, #b59049 0%, #e0c57a 45%, #d1a13e 55%, #8c6a2d 100%);
+        border: 3px solid #edb538 !important;
+        position: relative;
+
+        /* Wycięte narożniki (maska) */
+        --r: 10px;
+        mask: radial-gradient(var(--r) at var(--r) var(--r),#0000 98%,#000) calc(-1*var(--r)) calc(-1*var(--r));
+        -webkit-mask: radial-gradient(var(--r) at var(--r) var(--r),#0000 98%,#000) calc(-1*var(--r)) calc(-1*var(--r));
+
+        box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+    }
+
+    .menu-mosiezna-plyta ul.nav {
+        margin-bottom: 0 !important; /* Bootstrapowy 'ul' często dodaje 1rem na dole! */
+        display: flex;
+        flex-wrap: wrap;             /* Pozwala na łamanie linii wewnątrz płyty */
+        justify-content: center;
+        align-items: center;
+    }
+
+    .menu-mosiezna-plyta::before,
+    .menu-mosiezna-plyta::after {
+        content: "";
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        width: 16px;
+        height: 16px;
+        border-radius: 50%;
+        background: radial-gradient(circle at 30% 30%, #fff9e6 0%, #b59049 40%, #5d4310 100%);
+        box-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+    }
+    .menu-mosiezna-plyta::before { left: 20px; }
+    .menu-mosiezna-plyta::after { right: 20px; }
+
+    .menu-mosiezna-plyta .nav-link {
+        font-family: 'boskiGrawer', serif !important;
+        font-weight: bold !important;
+        color: #6c4e13 !important; /* Kolor grawerunku */
+        /*color: #5d4310 !important; !* Kolor grawerunku *! (ten był sugerowany przez AI)*/
+        text-transform: uppercase;
+        letter-spacing: 2px;
+
+        /* Wywalamy asymetrię */
+        padding-top: 5px !important;
+        padding-bottom: 10px !important;
+        line-height: 1.2 !important; /* Daje fontowi naturalną przestrzeń */
+        display: flex;
+        align-items: center;
+
+        /* Efekt grawerowania dla każdego linku z osobna */
+        text-shadow:
+            -1px -1px 1px rgba(0, 0, 0, 0.7),
+             1px  1px 1px rgba(255, 255, 255, 0.3);
+
+        transition: color 0.3s ease, transform 0.2s ease;
+
+    }
+
+    /* Efekt po najechaniu na konkretny napis w menu */
+    .menu-mosiezna-plyta .nav-link:hover {
+        color: #2b1d06 !important; /* Ciemniejsza patyna */
+        transform: scale(1.05); /* Lekkie powiększenie "wyrytych" liter */
+    }
 }

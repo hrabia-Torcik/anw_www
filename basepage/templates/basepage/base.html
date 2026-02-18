@@ -143,17 +143,18 @@
       <div class="col-12 px-3 px-md-5">
           <nav>
                 <!-- Przycisk hamburgera (widoczny tylko na mobile) -->
-                <button class="btn w-100 py-3 text-uppercase border shadow-sm mt-2 d-lg-none text-light" type="button" data-bs-toggle="collapse" data-bs-target="#menuGlowne">
-                   menu
+                <button class="btn-mosiezny" type="button" data-bs-toggle="collapse" data-bs-target="#menuGlowne">
+                   menu<small class="ms-1">▼</small>
                 </button>
 
                 <!-- Kontener menu -->
-                <div class="collapse d-lg-block" id="menuGlowne">
+                <div class="collapse d-lg-block menu-mosiezna-plyta" id="menuGlowne">
                   <ul class="nav justify-content-center pt-2">
-                      <li class="nav-item"><a class="nav-link text-light fw-bold text-uppercase" href="{% url 'basepage:dojazd' %}">dojazd do naszych baz</a></li>
+                      <li class="nav-item"><a class="nav-link text-light fw-bold text-uppercase" href="{% url 'basepage:dojazd' %}">dojazd do baz</a></li>
+                      <li class="nav-item"><a class="nav-link text-light fw-bold text-uppercase" href="{% url 'basepage:o_dunajcu' %}">nasz statek</a></li>
                       <li class="nav-item"><a class="nav-link text-light fw-bold text-uppercase" href="{% url 'basepage:o_kursach' %}">o kursach</a></li>
                     <li class="nav-item"><a class="nav-link text-light fw-bold text-uppercase" href="{% url 'basepage:strefa_wiedzy' %}">strefa wiedzy</a></li>
-                    <li class="nav-item"><a class="nav-link text-light fw-bold text-uppercase" href="{% url 'basepage:ciekawostki' %}">inne ciekawostki</a></li>
+                    <li class="nav-item"><a class="nav-link text-light fw-bold text-uppercase" href="{% url 'basepage:ciekawostki' %}">polecajki</a></li>
                     <li class="nav-item"><a class="nav-link text-light fw-bold text-uppercase" href="{% url 'basepage:kontakt' %}">kontakt</a></li>
                   </ul>
                 </div>
@@ -229,11 +230,15 @@ if (window.history.replaceState && window.performance.navigation.type === 1) {
 
 {% if messages %}
        {% for message in messages %}
-            let targetId = "";
+           let targetId = "";
 
             // Mapujemy tagi z Django na ID Twoich kotwic w HTML
+
             {% if 'zakonczone' in message.tags %}
                 targetId = "punkt-docelowy2";
+
+
+
             {% elif 'wybrane' in message.tags %}
                 targetId = "punkt-docelowy1";
             {% endif %}
@@ -244,6 +249,7 @@ if (window.history.replaceState && window.performance.navigation.type === 1) {
                     elementario.scrollIntoView({ behavior: "smooth", block: "start" });
                 }
             }
+
         {% endfor %}
     {% endif %}
 
