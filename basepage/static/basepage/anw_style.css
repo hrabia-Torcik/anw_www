@@ -1,13 +1,13 @@
 @font-face {
     font-family: 'boskiGrawer'; /* Twoja własna nazwa */
-         url('../fonts/BonaNova-Regular.otf') format('opentype');
+         url('fonts/BonaNova-Regular.otf') format('opentype');
     font-weight: normal;
     font-style: normal;
 }
 
 @font-face {
     font-family: 'boskiGrawer'; /* Twoja własna nazwa */
-    src: url('../fonts/BonaNova-Bold.otf') format('opentype');
+    src: url('fonts/BonaNova-Bold.otf') format('opentype');
     font-weight: normal;
     font-style: italic;
 }
@@ -16,7 +16,7 @@
 
 @font-face {
     font-family: 'boskiGrawer'; /* Twoja własna nazwa */
-         url('../fonts/BonaNova-Italic.otf') format('opentype');
+         url('fonts/BonaNova-Italic.otf') format('opentype');
     font-weight: bold;
     font-style: normal;
 }

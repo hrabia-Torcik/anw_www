@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from basepage.models import Klientela, UczestUnder18, KursyWszystkie, ZapisyNaKursy, PrzypisOpiekU18, PrzypisanieDoDniaKursu, DniKursowe, Instruktorostwo
 from django.template import loader
 
@@ -6,7 +6,7 @@ from django.http import HttpResponseRedirect
 from django.shortcuts import render
 from datetime import datetime, timedelta
 from datetime import date
-from basepage.forms.forms import UploadFileForm
+from basepage.forms.forms import AnkietaForm
 # from somewhere import handle_uploaded_file
 import pandas as pd
 
@@ -351,10 +351,26 @@ def kontaktuj(request):
     return render(request, 'basepage/kontakt.html', context)
 
 def obsmaruj(request):
-    napis = 'Poświęć proszę trochę czasu i daj nam znać, jakie są Twoje wrażenia po szkoleniu.<br>To bardzo pomoże nam podnieść poziom naszych usług.'
+    napis = ('Poświęć proszę trochę czasu i daj nam znać, jakie są Twoje wrażenia po szkoleniu.<br>'
+             'To bardzo pomoże nam podnieść poziom naszych usług.<br><span class="fs-3">Szczególnie zależy nam, żeby wiedzieć, jeśli coś Ci się nie podobało.</span>')
+
+    p = Instruktorostwo.objects.values_list('instruktoro_name', 'instruktoro_surname')
+    list_instr = [((i + 1), f'{elem[0]} {elem[1][0]}.') for i, elem in enumerate(p)]
+
+    if request.method == 'POST':
+        form = AnkietaForm(request.POST)
+        if form.is_valid():
+            # Django już wyczyściło dane!
+            dane = form.cleaned_data['wybrani_instruktorzy']
+            # ... twoja logika (np. messages) ...
+            return redirect('success_url')
+    else:
+        form = AnkietaForm()
 
     context = {
         'text': napis,
+        'instruktorostwo': list_instr,
+        'form': form,
 
         'liczba_lat': liczba_lat,
         'foremnik': foremnik,
