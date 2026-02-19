@@ -81,8 +81,8 @@ WSGI_APPLICATION = 'anw_www.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
-        # 'NAME': '/home/hrabiaTorcik/anw_www/gh85e@hrt@#44y7n^#$wekokw3210anw_baza.db',
-        'NAME': 'gh85e@hrt@#44y7n^#$wekokw3210anw_baza.db',
+        'NAME': '/home/hrabiaTorcik/anw_www/gh85e@hrt@#44y7n^#$wekokw3210anw_baza.db',
+        # 'NAME': 'gh85e@hrt@#44y7n^#$wekokw3210anw_baza.db',
     }
 }
 
