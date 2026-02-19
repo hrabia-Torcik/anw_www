@@ -1,0 +1,73 @@
+{% extends "basepage/base.html" %}
+{% load static %}
+{% block title %}AN-ankieta{% endblock %}
+{% block content %}
+<div class="container p-3 text-center">
+    {{ text|safe }}
+</div>
+
+    <div class="container p-3">
+<form class="row g-3">
+
+    <div class="col-md-6">
+    <label for="plec">Czy możesz określić swoją płeć?</label>
+<select name="plec" id="plec">
+  <option value="False">nie odpowiem na to pytanie</option>
+  <option value="K">kobieta</option>
+  <option value="M">mężczyzna</option>
+  <option value="O">inna opcja</option>
+</select>
+    </div>
+    <div class="col-md-6">
+    <label for="wiek">W jakim jesteś przedziale wiekowym?</label>
+<select name="wiek" id="wiek">
+  <option value="False">nie powiem</option>
+  <option value="nastolatek">14-18 lat</option>
+  <option value="młody dorosły">18-30 lat</option>
+  <option value="średni">30-50 lat</option>
+  <option value="mędrzec">ponad 50 lat</option>
+</select>
+    </div>
+
+  <div class="col-12">
+    <label for="uwagi" class="form-label">Pomysły i inne uwagi</label>
+    <input type="text" class="form-control" id="uwagi" placeholder="Kurczę, moglibyście...">
+  </div>
+  <div class="col-12">
+    <label for="pozytyw" class="form-label">Czy było coś, co zrobiło na Tobie szczególnie dobre wrażenie?</label>
+    <input type="text" class="form-control" id="pozytyw" placeholder="Np. najlepsze były przerwy...">
+  </div>
+    <div class="col-12">
+    <label for="negatyw" class="form-label">Jakie widzisz wady Twojego szkolenia?</label>
+    <input type="text" class="form-control" id="negatyw" placeholder="Np. było za krótkie. Tak dobrze się bawiłom/am/em, że chciałobym/łabym/łbym więcej!">
+  </div>
+  <div class="col-md-6">
+    <label for="inputCity" class="form-label">City</label>
+    <input type="text" class="form-control" id="inputCity">
+  </div>
+  <div class="col-md-4">
+    <label for="inputState" class="form-label">State</label>
+    <select id="inputState" class="form-select">
+      <option selected>Choose...</option>
+      <option>...</option>
+    </select>
+  </div>
+  <div class="col-md-2">
+    <label for="inputZip" class="form-label">Zip</label>
+    <input type="text" class="form-control" id="inputZip">
+  </div>
+  <div class="col-12">
+    <div class="form-check">
+      <input class="form-check-input" type="checkbox" id="gridCheck">
+      <label class="form-check-label" for="gridCheck">
+        Check me out
+      </label>
+    </div>
+  </div>
+  <div class="col-12">
+    <button type="submit" class="btn btn-primary">Wyślij</button>
+  </div>
+</form>
+</div>
+
+{% endblock %}

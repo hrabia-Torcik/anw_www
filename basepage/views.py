@@ -12,9 +12,9 @@ import pandas as pd
 
 from django.contrib import messages
 
-teraz = datetime.now()
-teraz_rok = teraz.strftime("%Y")
-teraz_data = teraz.date()
+teraz_data = datetime.now().date()
+# teraz_data = date(2026, 12, 22)
+teraz_rok = teraz_data.strftime("%Y")
 koniec_roku = date(int(teraz_rok), 12, 31)
 
 rok_zalozenia = 1993
@@ -79,16 +79,36 @@ def basepage(request):
     if request.GET:  # Sprawdzasz czy filtry działają
         messages.info(request, "Filtry zastosowane", extra_tags='wybrane')
 
+    """
+    Tu poniej jest podstawowy mechanizm zasysania danych o kursach z bazy.
+    flage3 jest na wypadek uruchomienia formularza POST, który informuje o chęci wyświetlenia zakończonych kursów.
+    nicnierob jest na okoliczność niezaznaczenia niczego do wyświetlenia.
+    """
+
     flage4 = ''
-    # efekt = nicnierob
-    klienci = Klientela.objects.all()
+    jestKursWPrzeszlosci = ''
+    nieMaJuzKursuWPlanach = ''
+
+    liczba_wszystkich = KursyWszystkie.objects.filter(kursu_data_start__contains=teraz_rok).count()
+
+    liczba_poDzisiaju = KursyWszystkie.objects.filter(kursu_data_start__contains=teraz_rok).filter(
+                kursu_data_start__range=((teraz_data + timedelta(days=1)), koniec_roku)).count()
+
+    liczba_zak = liczba_wszystkich - liczba_poDzisiaju
+
+    if liczba_poDzisiaju == 0:
+        nieMaJuzKursuWPlanach = 'kabanos'
+
+    if liczba_zak > 0:
+        jestKursWPrzeszlosci = 'herbatka'
+
 
     if flage3 == 1:
         if z_czekboksa:
             kursy = KursyWszystkie.objects.filter(kursu_data_start__contains=teraz_rok)
         else:
             kursy = KursyWszystkie.objects.filter(kursu_data_start__contains=teraz_rok).filter(
-                kursu_data_start__range=(teraz_data, koniec_roku))
+                kursu_data_start__range=((teraz_data + timedelta(days=1)), koniec_roku))
 
     else:
         if nicnierob == 1:
@@ -96,13 +116,17 @@ def basepage(request):
             flage4 = 1
         else:
             kursy = KursyWszystkie.objects.filter(kursu_data_start__contains=teraz_rok).filter(
-                kursu_data_start__range=(teraz_data, koniec_roku))
+                kursu_data_start__range=((teraz_data + timedelta(days=1)), koniec_roku))
+            if liczba_poDzisiaju == 0:
+                kursy = KursyWszystkie.objects.filter(kursu_data_start__contains=teraz_rok)
+
+
 
 
 
     # kursy = KursyWszystkie.objects.all()
-    klienciNiedorosli = UczestUnder18.objects.all()
-    zapisy = ZapisyNaKursy.objects.all()
+    # klienciNiedorosli = UczestUnder18.objects.all()
+    # zapisy = ZapisyNaKursy.objects.all()
 
     kursy_mod = []
     for elem in kursy:
@@ -154,7 +178,10 @@ def basepage(request):
     if znakL == 6:
         sign = 1
 
-    if flage4:
+    if nieMaJuzKursuWPlanach:
+
+        napis = '<span class="fs-3">Niczego już nie mamy w planach w tym roku.</span><br> Ale zobacz, ile się działo! Jeśli chcesz wiedzieć, co będzie w przyszłym roku - napisz do nas.'
+    elif flage4:
         napis = "Niczego nie&nbsp;pokazuję. A&nbsp;może by tak coś zaznaczyć?"
     else:
         if sign:
@@ -171,7 +198,6 @@ def basepage(request):
     kursy_mod.sort(key=lambda x: x['data1'])
     lista_trwaj = []
     lista_zakoncz = []
-
     for elem in kursy_mod:
         deltat1 = elem['data1'] - teraz_data
         if elem['data2']:
@@ -179,7 +205,7 @@ def basepage(request):
         else:
             deltat2 = False
 
-        if deltat2:
+        if deltat2 or deltat2 == timedelta(0):
             if deltat1 <= timedelta(0) and deltat2 >= timedelta(0):
                 lista_trwaj.append(True)
             else:
@@ -198,32 +224,19 @@ def basepage(request):
             else:
                 lista_zakoncz.append(False)
 
-    index_trwajace = None
+    index_zaplanowane = None
     for i, elem in enumerate(kursy_mod):
         deltat1 = elem['data1'] - teraz_data
-        if elem['data2']:
-            deltat2 = elem['data2'] - teraz_data
-        else:
-            deltat2 = False
+        if deltat1 >= timedelta(0):
+            index_zaplanowane = i + 1
+            break
 
-        if deltat2:
-            if deltat1 <= timedelta(0) and deltat2 >= timedelta(0):
-                index_trwajace = i + 1
-                break
-
-        else:
-            if deltat1 >= timedelta(0):
-                index_trwajace = i + 1
-                break
 
 
     dane_powiazane = zip(kursy_mod, lista_trwaj, lista_zakoncz)
 
     context['kursy_mod'] = dane_powiazane
-    context['do_kotwicy2'] = index_trwajace
-    context['klienci'] = klienci
-    context['klienciNiedorosli'] = klienciNiedorosli
-    context['zapisy'] = zapisy
+    context['do_kotwicy2'] = index_zaplanowane
     context['test'] = efekt
     context['flage'] = flage
     context['flage4'] = flage4
@@ -232,12 +245,15 @@ def basepage(request):
     context['sign2'] = sign2
     context['liczba_lat'] = liczba_lat
     context['foremnik'] = foremnik
+    context['jest_przeszlosc'] = jestKursWPrzeszlosci
+    context['bez_przyszlosci'] = nieMaJuzKursuWPlanach
 
     # PPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP
 
     # context['efekt'] = [lista_trwaj,len(lista_trwaj),lista_zakoncz,len(lista_zakoncz)]
     # context['efekt'] = kursy_mod
-    context['efekt'] = index_trwajace
+    # context['efekt'] = index_zaplanowane
+    # context['efekt2'] = teraz_data, f"długość listy kursy: {len(kursy)}"
 
     takalista = [elemen for elemen in context]
 
@@ -321,7 +337,7 @@ def pokaz_polecajki(request):
         'liczba_lat': liczba_lat,
         'foremnik': foremnik,
     }
-    return render(request, 'basepage/ciekaw.html', context)
+    return render(request, 'basepage/polecajki.html', context)
 
 def kontaktuj(request):
     napis = 'Tu będą nasze mejle i telefony.'
@@ -333,3 +349,14 @@ def kontaktuj(request):
         'foremnik': foremnik,
     }
     return render(request, 'basepage/kontakt.html', context)
+
+def obsmaruj(request):
+    napis = 'Poświęć proszę trochę czasu i daj nam znać, jakie są Twoje wrażenia po szkoleniu.<br>To bardzo pomoże nam podnieść poziom naszych usług.'
+
+    context = {
+        'text': napis,
+
+        'liczba_lat': liczba_lat,
+        'foremnik': foremnik,
+    }
+    return render(request, 'basepage/ankieta.html', context)

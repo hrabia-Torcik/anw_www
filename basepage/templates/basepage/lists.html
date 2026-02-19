@@ -104,30 +104,36 @@
                 </form>
 
 
-                {% if flage4 %}
+                {% if bez_przyszlosci %}
                 {% else %}
+                    {% if jest_przeszlosc %}
+                    {% if flage4 %}
+                    {% else %}
 
-                        <form action="{% url 'main' %}" method="post" style="padding-bottom: 10px;">
-                        {% csrf_token %}
-                        <div class="form-check custom-check-row d-inline-flex align-items-center mt-3 px-2 rounded">
-                        {% if flage3 %}
-                            <input class="form-check-input m-0 mt-1" type="checkbox" id="check1" {% if kalarepka0 %}
-                                   checked {% endif %} name="bez" onchange="this.form.submit()">
-                        {% else %}
-                            <input class="form-check-input m-0 mt-1" type="checkbox" id="check1" name="bez"
-                                   onchange="this.form.submit()">
-                        {% endif %}
-                        <input type="hidden" id="check2" name="dod_dane" {% if sign2 %}
-                               value="{{ sub1 }},{{ sub2 }},{{ sub3 }},{{ sub4 }},{{ sub5 }},{{ sub6 }}" {% else %}
-                               value="" {% endif %}>
-                            <label class="form-check-label ps-2" for="check1">wyświetl również <span class="fs-5" >trwające i zakończone</span> kursy</label>
-                        <br>
-                        </div>
-                    </form>
+                            <form action="{% url 'main' %}" method="post" style="padding-bottom: 10px;">
+                            {% csrf_token %}
+                            <div class="form-check custom-check-row d-inline-flex align-items-center mt-3 px-2 rounded">
+                            {% if flage3 %}
+                                <input class="form-check-input m-0 mt-1" type="checkbox" id="check1" {% if kalarepka0 %}
+                                       checked {% endif %} name="bez" onchange="this.form.submit()">
+                            {% else %}
+                                <input class="form-check-input m-0 mt-1" type="checkbox" id="check1" name="bez"
+                                       onchange="this.form.submit()">
+                            {% endif %}
+                            <input type="hidden" id="check2" name="dod_dane" {% if sign2 %}
+                                   value="{{ sub1 }},{{ sub2 }},{{ sub3 }},{{ sub4 }},{{ sub5 }},{{ sub6 }}" {% else %}
+                                   value="" {% endif %}>
+                                <label class="form-check-label ps-2" for="check1">wyświetl również <span class="fs-5" >trwające i zakończone</span> kursy</label>
+                            <br>
+                            </div>
+                        </form>
 
+                    {% endif %}
+                    {% endif %}
                 {% endif %}
 
         </div>
+
         <div class="mb-3 ps-3">
 
             <p>{{ napis|safe  }}</p>
@@ -225,6 +231,5 @@
 
     </div>
     </div>
-{#{{ efekt }}#}
 
 {% endblock %}
