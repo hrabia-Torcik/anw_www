@@ -233,3 +233,8 @@
     </div>
 
 {% endblock %}
+
+{% block extra_js %}
+    <script src="{% static 'basepage/js/pewne_skrypty.js' %}"></script>
+    {% include 'basepage/includes/skrypt_backToTop.html' %}
+{% endblock %}

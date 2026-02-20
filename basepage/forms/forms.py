@@ -16,7 +16,7 @@ class AnkietaForm(forms.Form):
     list_instr = [((i +1),f'{elem[0]} {elem[1][0]}.') for i,elem in enumerate(p)]
 
     wybrani_instruktorzy = forms.MultipleChoiceField(
-        label="Kto był Twoim instruktorem na jachcie?",
+        label="Kto był Twoim instruktoro na jachcie?",
         choices=list_instr,
         widget=forms.SelectMultiple(attrs={
             'class': 'form-select ankieta-select',

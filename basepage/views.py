@@ -351,8 +351,8 @@ def kontaktuj(request):
     return render(request, 'basepage/kontakt.html', context)
 
 def obsmaruj(request):
-    napis = ('Poświęć proszę trochę czasu i daj nam znać, jakie są Twoje wrażenia po szkoleniu.<br>'
-             'To bardzo pomoże nam podnieść poziom naszych usług.<br><span class="fs-3">Szczególnie zależy nam, żeby wiedzieć, jeśli coś Ci się nie podobało.</span>')
+    napis = ('Poświęć proszę trochę czasu i daj nam znać, jakie są Twoje wrażenia po szkoleniu. To nam bardzo pomoże.'
+             '<br><span class="fs-3">Szczególnie zależy nam, żeby wiedzieć, jeśli coś Ci się nie podobało.</span>')
 
     p = Instruktorostwo.objects.values_list('instruktoro_name', 'instruktoro_surname')
     list_instr = [((i + 1), f'{elem[0]} {elem[1][0]}.') for i, elem in enumerate(p)]

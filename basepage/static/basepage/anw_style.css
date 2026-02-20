@@ -214,7 +214,6 @@ html {
     justify-content: center;
 
     /* MAGIA: Wycięte narożniki */
-    position: relative;
     --r: 10px; /* promień wycięcia */
     mask: radial-gradient(var(--r) at var(--r) var(--r),#0000 98%,#000)
           calc(-1*var(--r)) calc(-1*var(--r));

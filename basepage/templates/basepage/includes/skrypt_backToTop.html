@@ -1,0 +1,52 @@
+{% load static %}
+
+<script>
+    console.log("Logika wspólna dla wszystkich stron");
+    function jakas() {
+        document.getElementById('hiddenField').value = document.getElementById('someDiv').innerText;
+        }
+
+            // Pobierz przycisk
+            var mybutton = document.getElementById("backToTop");
+
+            // Gdy użytkownik przewinie stronę o 100px, pokaż przycisk
+            window.onscroll = function() {scrollFunction()};
+
+            function scrollFunction() {
+                if (document.body.scrollTop > 100 || document.documentElement.scrollTop > 100) {
+                    mybutton.style.display = "block";
+                } else {
+                    mybutton.style.display = "none";
+                }
+            }
+
+            // Sprawdzamy, czy formularz został wysłany (przeładowanie typu POST)
+        if (window.history.replaceState && window.performance.navigation.type === 1) {
+            // Jeśli chcesz, żeby działo się to zawsze po odświeżeniu
+        }
+
+        {% if messages %}
+               {% for message in messages %}
+                   let targetId = "";
+
+                    // Mapujemy tagi z Django na ID Twoich kotwic w HTML
+
+                    {% if 'zakonczone' in message.tags %}
+                        targetId = "punkt-docelowy2";
+
+
+
+                    {% elif 'wybrane' in message.tags %}
+                        targetId = "punkt-docelowy1";
+                    {% endif %}
+
+                    if (targetId) {
+                        const elementario = document.getElementById(targetId);
+                        if (elementario) {
+                            elementario.scrollIntoView({ behavior: "smooth", block: "start" });
+                        }
+                    }
+
+                {% endfor %}
+            {% endif %}
+</script>
