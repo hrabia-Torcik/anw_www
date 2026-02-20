@@ -45,8 +45,8 @@ class AnkietaForm(forms.Form):
 
     startowa_wiedza = forms.ChoiceField(
         label="Jaki był poziom Twoich umiejętności przed kursem?",
-        choices=(('0', 'Total tabula rasa'), ('1', 'parę razy obserwowałom, jaki inni obsługują jacht'),
-                 ('2', 'Raz czy dwa razy coś tam porobiłom na jachcie'), ('3', 'Trochę żeglowałom'),('4','Niemałe doświadczenie, również za sterem')),
+        choices=(('0', 'Total tabula rasa'), ('1', 'parę razy obserwowałom, jak inni obsługują jacht'),
+                 ('2', 'Raz czy dwa razy coś tam porobiłom na jachcie'), ('3', 'Trochę się żeglowało'),('4','Niemałe doświadczenie, również za sterem')),
     )
 
     nabycie_wiedzy = forms.ChoiceField(
