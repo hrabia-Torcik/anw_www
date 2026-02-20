@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
     'django_extensions',
+    'widget_tweaks',
 
     'basepage.apps.BasepageConfig',
 

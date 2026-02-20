@@ -362,7 +362,14 @@ def obsmaruj(request):
         if form.is_valid():
             # Django już wyczyściło dane!
             dane = form.cleaned_data['wybrani_instruktorzy']
-            # ... twoja logika (np. messages) ...
+            for inst_id in dane:
+                # Wyciągamy dynamiczne pola po nazwie zdefiniowanej w JS
+                punktualnosc = request.POST.get(f'ocena_punktualnosc_{inst_id}')
+                wiedza = request.POST.get(f'ocena_wiedza_{inst_id}')
+
+                # Tutaj zapisujesz do bazy (np. do modelu Ocena)
+                print(f"Instruktor {inst_id}: Punktualność {punktualnosc}, Wiedza {wiedza}")
+
             return redirect('success_url')
     else:
         form = AnkietaForm()
