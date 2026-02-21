@@ -7,23 +7,45 @@
     {{ text|safe }}
 </div>
     <div class="container p-3">
-        <form method="post">
+        <form method="post" novalidate>
         {% csrf_token %}
             <div class="row justify-content-center align-items-end g-4 mb-4">
                 <div class="col-md-5">
                     <label class="form-label">{{ form.plec.label_tag }}</label>
                     {% render_field form.plec class="form-select" %}
+                    {# TUTAJ DODAJEMY WYŚWIETLANIE BŁĘDÓW #}
+                    {% if form.plec.errors %}
+                        <div class="text-danger small mt-1">
+                            {% for error in form.plec.errors %}
+                                {{ error }}
+                            {% endfor %}
+                        </div>
+                    {% endif %}
                 </div>
                 <div class="col-md-5">
                     <label class="form-label">{{ form.wiek.label_tag }}</label>
                     {% render_field form.wiek class="form-select" %}
+                    {# TUTAJ DODAJEMY WYŚWIETLANIE BŁĘDÓW #}
+                    {% if form.wiek.errors %}
+                        <div class="text-danger small mt-1">
+                            {% for error in form.wiek.errors %}
+                                {{ error }}
+                            {% endfor %}
+                        </div>
+                    {% endif %}
                 </div>
             </div>
             <div class="row justify-content-center align-items-end g-4 mb-4">
                 <div class="col-md-10">
-                    {{ form.wybrani_instruktorzy.label_tag }}
-                    {{ form.wybrani_instruktorzy }}
-                    {{ form.wybrani_instruktorzy.errors }}
+                    <label for="{{ form.wybrani_instruktorzy.id_for_label }}" class="form-label">{{ form.wybrani_instruktorzy.label_tag }}</label>
+                    {% render_field form.wybrani_instruktorzy class="ankieta-select" %}
+                    {% if form.wybrani_instruktorzy.errors|striptags %}
+        <div class="text-danger small mt-1">
+            {% for error in form.wybrani_instruktorzy.errors %}
+                {{ error }}
+            {% endfor %}
+        </div>
+    {% endif %}
                 </div>
                 <div id="instruktorzy-oceny-container" class="mt-4">
                 </div>
@@ -32,24 +54,56 @@
                 <div class="col-md-5">
                     <label class="form-label">{{ form.startowa_wiedza.label_tag }}</label>
                     {% render_field form.startowa_wiedza class="form-select" %}
+                    {# TUTAJ DODAJEMY WYŚWIETLANIE BŁĘDÓW #}
+                    {% if form.startowa_wiedza.errors %}
+                        <div class="text-danger small mt-1">
+                            {% for error in form.startowa_wiedza.errors %}
+                                {{ error }}
+                            {% endfor %}
+                        </div>
+                    {% endif %}
                 </div>
                 <div class="col-md-5">
                     <label class="form-label">{{ form.nabycie_wiedzy.label_tag }}</label>
                     {% render_field form.nabycie_wiedzy class="form-select" %}
+                    {# TUTAJ DODAJEMY WYŚWIETLANIE BŁĘDÓW #}
+                    {% if form.nabycie_wiedzy.errors %}
+                        <div class="text-danger small mt-1">
+                            {% for error in form.nabycie_wiedzy.errors %}
+                                {{ error }}
+                            {% endfor %}
+                        </div>
+                    {% endif %}
                 </div>
                 <div class="col-md-5">
                     <label class="form-label">{{ form.prowadzenie_rejsu.label_tag }}</label>
                     {% render_field form.prowadzenie_rejsu class="form-select" %}
+                    {# TUTAJ DODAJEMY WYŚWIETLANIE BŁĘDÓW #}
+                    {% if form.prowadzenie_rejsu.errors %}
+                        <div class="text-danger small mt-1">
+                            {% for error in form.prowadzenie_rejsu.errors %}
+                                {{ error }}
+                            {% endfor %}
+                        </div>
+                    {% endif %}
                 </div>
                 <div class="col-md-5">
                     <label class="form-label">{{ form.czy_polecisz.label_tag }}</label>
                     {% render_field form.czy_polecisz class="form-select" %}
+                    {# TUTAJ DODAJEMY WYŚWIETLANIE BŁĘDÓW #}
+                    {% if form.czy_polecisz.errors %}
+                        <div class="text-danger small mt-1">
+                            {% for error in form.czy_polecisz.errors %}
+                                {{ error }}
+                            {% endfor %}
+                        </div>
+                    {% endif %}
                 </div>
 
             </div>
 
             <div class="row justify-content-center mt-4">
-                <div class="col-md-5">
+                <div class="col-md-8">
                     <label class="form-label">{{ form.uwagi.label_tag }}</label>
                     {% render_field form.uwagi class="form-control" %}
                 </div>

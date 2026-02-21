@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from basepage.models import Klientela, UczestUnder18, KursyWszystkie, ZapisyNaKursy, PrzypisOpiekU18, PrzypisanieDoDniaKursu, DniKursowe, Instruktorostwo
+from basepage.models import Klientela, UczestUnder18, KursyWszystkie, ZapisyNaKursy, PrzypisOpiekU18, PrzypisanieDoDniaKursu, DniKursowe, Instruktorostwo, OcenaSzczegolowa
 from django.template import loader
 
 from django.http import HttpResponseRedirect
@@ -351,6 +351,7 @@ def kontaktuj(request):
     return render(request, 'basepage/kontakt.html', context)
 
 def obsmaruj(request):
+    context = {}
     napis = ('Poświęć proszę trochę czasu i daj nam znać, jakie są Twoje wrażenia po szkoleniu. To nam bardzo pomoże.'
              '<br><span class="fs-3">Szczególnie zależy nam, żeby wiedzieć, jeśli coś Ci się nie podobało.</span>')
 
@@ -360,26 +361,54 @@ def obsmaruj(request):
     if request.method == 'POST':
         form = AnkietaForm(request.POST)
         if form.is_valid():
-            # Django już wyczyściło dane!
-            dane = form.cleaned_data['wybrani_instruktorzy']
-            for inst_id in dane:
-                # Wyciągamy dynamiczne pola po nazwie zdefiniowanej w JS
-                punktualnosc = request.POST.get(f'ocena_punktualnosc_{inst_id}')
-                wiedza = request.POST.get(f'ocena_wiedza_{inst_id}')
+            # 2. Zapisujemy główne dane (czy_polecisz, uwagi, instruktorzy)
+            # form.save() automatycznie obsłuży tabelę ManyToMany
+            ankieta_instancja = form.save()
+            # 3. Wyłapujemy DYNAMICZNE oceny z suwaków (range)
+            # Pobieramy listę ID wybranych instruktorów
+            wybrani_id = request.POST.getlist('wybrani_instruktorzy')
 
-                # Tutaj zapisujesz do bazy (np. do modelu Ocena)
-                print(f"Instruktor {inst_id}: Punktualność {punktualnosc}, Wiedza {wiedza}")
+            for inst_id in wybrani_id:
+                # Szukamy oceny po nazwie, którą nadaliśmy w JS: ocena_wiedza_${id}
+                ocena_punktualnosc_wartosc = request.POST.get(f'ocena_punktualnosc_{inst_id}')
+                ocena_wiedza_wartosc = request.POST.get(f'ocena_wiedza_{inst_id}')
+                ocena_nauczania_wartosc = request.POST.get(f'ocena_nauczania_{inst_id}')
+                ocena_atmosfery_wartosc = request.POST.get(f'ocena_atmosfery_{inst_id}')
 
-            return redirect('success_url')
+                if ocena_wiedza_wartosc and ocena_punktualnosc_wartosc:
+                    # Tutaj na razie wypiszemy to w konsoli serwera,
+                    # żebyś widział, że "dolatuje":
+                    print(f"Instruktor ID {inst_id} otrzymał ocenę umiejętności nauczania: {ocena_wiedza_wartosc}, natomiast atmosfery: {ocena_atmosfery_wartosc}.")
+
+                    OcenaSzczegolowa.objects.create(
+                        ankieta=ankieta_instancja,
+                        instruktor_id=int(inst_id),
+                        ocena_punktualnosc=int(ocena_punktualnosc_wartosc),
+                        ocena_wiedza=int(ocena_wiedza_wartosc),
+                        ocena_nauczanie=int(ocena_nauczania_wartosc),
+                        ocena_zachowanie=int(ocena_atmosfery_wartosc)
+                    )
+
+            return redirect('basepage:podziekowanie')
+        else:
+            context['post_data'] = request.POST
+
     else:
         form = AnkietaForm()
 
-    context = {
-        'text': napis,
-        'instruktorostwo': list_instr,
-        'form': form,
+    context['text'] = napis
+    context['instruktorostwo'] = list_instr
+    context['form'] = form
 
+    context['liczba_lat'] = liczba_lat
+    context['foremnik'] = foremnik
+
+    return render(request, 'basepage/ankieta.html', context)
+
+
+def odpowiedz_respondentowi(request):
+    context = {
         'liczba_lat': liczba_lat,
         'foremnik': foremnik,
     }
-    return render(request, 'basepage/ankieta.html', context)
+    return render(request, 'basepage/ankieta_po.html', context)
