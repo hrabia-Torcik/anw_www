@@ -180,14 +180,6 @@ class WynikAnkiety(models.Model):
     uwagi = models.TextField(blank=True, max_length=5000, verbose_name="Dodatkowe uwagi",)
 
 
-
-
-
-
-
-
-
-
     class Meta:
         verbose_name = "Wynik ankiety"
         verbose_name_plural = "Wyniki ankiet"

@@ -15,6 +15,7 @@ from django.contrib import messages
 teraz_data = datetime.now().date()
 # teraz_data = date(2026, 12, 22)
 teraz_rok = teraz_data.strftime("%Y")
+poczatek_roku = date(int(teraz_rok), 1, 1)
 koniec_roku = date(int(teraz_rok), 12, 31)
 
 rok_zalozenia = 1993
@@ -63,7 +64,6 @@ def basepage(request):
     if request.GET.get('sub3') or (flage3 == 1 and lista[2] != ''):
         list_pom[2] = 'egzamin żeglarski'
         context['sub3'] = 'cokolwiek'
-        efekt = 'wlazło'
     if request.GET.get('sub4') or (flage3 == 1 and lista[3] != ''):
         list_pom[3] = 'doszk'
         context['sub4'] = 'cokolwiek'
@@ -149,19 +149,54 @@ def basepage(request):
     flage = ''
     sign = ''
     sign2 = ''
+    suma_licznikow = ''
 
     znakL = 0
     for elem in list_pom:
         if elem:
             znakL += 1
-
+    liczniki_dlugosci = ['','','','','','']
     if znakL != 0:
         sign2 = 1
         kursy_mod_filtrami = []
+        suma_licznikow = 0
         for elem in kursy_mod:
             kursy_mod_filtrami.append([0,elem])
-        for elem in list_pom:
+        for u,elem in enumerate(list_pom):
             if elem:
+
+                if u == 0:
+                    liczba = KursyWszystkie.objects.filter(kursu_data_start__contains=teraz_rok).filter(
+                    kursu_name=('patent żeglarski')).count()
+                    liczniki_dlugosci[0] = liczba
+                    suma_licznikow += liczba
+                if u == 1:
+                    liczba = KursyWszystkie.objects.filter(kursu_data_start__contains=teraz_rok).filter(
+                    kursu_name=('patent motorowodny')).count()
+                    liczniki_dlugosci[1] = liczba
+                    suma_licznikow += liczba
+                if u == 2:
+                    liczba = KursyWszystkie.objects.filter(kursu_data_start__contains=teraz_rok).filter(
+                    kursu_name=('egzamin żeglarski')).count()
+                    liczniki_dlugosci[2] = liczba
+                    suma_licznikow += liczba
+                if u == 3:
+                    liczba1 = KursyWszystkie.objects.filter(kursu_data_start__contains=teraz_rok).filter(
+                    kursu_name__icontains='manewrowanie').count()
+                    liczba2 = KursyWszystkie.objects.filter(kursu_data_start__contains=teraz_rok).filter(
+                        kursu_name__icontains='doskonalenie').count()
+                    liczniki_dlugosci[3] = liczba1 + liczba2
+                    suma_licznikow += (liczba1 + liczba2)
+                if u == 4:
+                    liczba = KursyWszystkie.objects.filter(kursu_data_start__contains=teraz_rok).filter(
+                    kursu_name=('jachtowy sternik morski')).count()
+                    liczniki_dlugosci[4] = liczba
+                    suma_licznikow += liczba
+                if u == 5:
+                    liczba = KursyWszystkie.objects.filter(kursu_data_start__contains=teraz_rok).filter(
+                    kursu_name__icontains=('licencja')).count()
+                    liczniki_dlugosci[5] = liczba
+                    suma_licznikow += liczba
                 for ind,el in enumerate(kursy_mod_filtrami):
                     if (elem == 'doszk' and el[1]['nazwa'].count('doskonalenie') == 1) or (elem == 'doszk' and el[1]['nazwa'].count('manewrowanie') == 1):
                         kursy_mod_filtrami[ind][0] = 1
@@ -224,6 +259,13 @@ def basepage(request):
             else:
                 lista_zakoncz.append(False)
 
+
+    if suma_licznikow:
+        if suma_licznikow == len(kursy_mod):
+            jestKursWPrzeszlosci = ''
+        if z_czekboksa:
+            jestKursWPrzeszlosci = 'kalarepka'
+
     index_zaplanowane = None
     for i, elem in enumerate(kursy_mod):
         deltat1 = elem['data1'] - teraz_data
@@ -251,13 +293,14 @@ def basepage(request):
     # PPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP
 
     # context['efekt'] = [lista_trwaj,len(lista_trwaj),lista_zakoncz,len(lista_zakoncz)]
-    # context['efekt'] = kursy_mod
+    # context['efekt2'] = kursy_mod
+    # context['efekt3'] = liczniki_dlugosci, suma_licznikow
     # context['efekt'] = index_zaplanowane
     # context['efekt2'] = teraz_data, f"długość listy kursy: {len(kursy)}"
 
-    takalista = [elemen for elemen in context]
-
-    context['takalista'] = takalista
+    # takalista = [elemen for elemen in context]
+    #
+    # context['takalista'] = takalista
 
 
     return render(request, 'basepage/lists.html', context)
@@ -352,8 +395,8 @@ def kontaktuj(request):
 
 def obsmaruj(request):
     context = {}
-    napis = ('Poświęć proszę trochę czasu i daj nam znać, jakie są Twoje wrażenia po szkoleniu. To nam bardzo pomoże.'
-             '<br><span class="fs-3">Szczególnie zależy nam, żeby wiedzieć, jeśli coś Ci się nie podobało.</span>')
+    napis = ('<p>Poświęć proszę 3 minuty i daj nam znać, jakie są Twoje wrażenia po szkoleniu.</p>'
+             '<p class="fs-3 mt-3">Szczególnie zależy nam, żeby wiedzieć, jeśli coś Ci się nie podobało.</p>')
 
     p = Instruktorostwo.objects.values_list('instruktoro_name', 'instruktoro_surname')
     list_instr = [((i + 1), f'{elem[0]} {elem[1][0]}.') for i, elem in enumerate(p)]

@@ -3,7 +3,7 @@
 {% load widget_tweaks %}
 {% block title %}AN-ankieta{% endblock %}
 {% block content %}
-<div class="container p-3 text-center">
+<div class="container col-10 p-3 mt-3 mb-2 text-center">
     {{ text|safe }}
 </div>
     <div class="container p-3">
@@ -132,4 +132,5 @@
             initTomSelect('.ankieta-select');
         });
     </script>
+    {% include 'basepage/includes/skrypt_backToTop.html' %}
 {% endblock %}
