@@ -121,36 +121,39 @@ class Dataset(models.Model):
     sd_user_B = models.PositiveIntegerField(null=True)
 
 class WynikAnkiety(models.Model):
+    PLEC_CHOICES = (('', 'Wybierz odpowiedź...'),
+                    ('0', 'nie odpowiem na to pytanie'), ('K', 'kobieta'), ('M', 'mężczyzna'),
+                    ('inna', 'inna opcja'))
 
-    PLEC_CHOICES=(('', 'Wybierz odpowiedź...'), ('0', 'nie odpowiem na to pytanie'), ('K', 'kobieta'), ('M', 'mężczyzna'),
-                 ('inna', 'inna opcja'))
+    WIEK_CHOICES = (('', 'Wybierz odpowiedź...'),
+                    ('nie', 'nie powiem'), ('nastolatek', '14-18 lat'), ('mlody_dorosly', '18-30 lat'),
+                    ('sredni_wiek', '30-50 lat'), ('pozna_doroslosc', 'niemalże dojrzałym'))
 
-    WIEK_CHOICES=(('', 'Wybierz odpowiedź...'), ('nie', 'nie powiem'), ('nastolatek', '14-18 lat'), ('mlody_dorosly', '18-30 lat'),
-                 ('sredni_wiek', '30-50 lat'), ('pozna_doroslosc', 'niemalże dojrzałym'))
+    CZY_POLECISZ_CHOICES = (('', 'Wybierz odpowiedź...'),
+                            ('tak', 'Tak'), ('tak_ale', 'tak, ale...'), ('neutralnie', 'ani tak, ani nie'),
+                            ('odradzam', 'odradzałobym'), ('zniechecam', 'bardzo zniechęcało'))
 
-    CZY_POLECISZ_CHOICES=(('', 'Wybierz odpowiedź...'), ('tak', 'Tak'), ('tak_ale', 'tak, ale...'), ('neutralnie', 'ani tak, ani nie'),
-                 ('odradzam', 'odradzałobym'), ('zniechecam', 'bardzo zniechęcało'))
+    STARTOWA_WIEDZA_CHOICES = (('', 'Wybierz odpowiedź...'),
+                               ('1', 'Total tabula rasa'), ('2', 'parę razy obserwowałom, jak inni obsługują jacht'),
+                               ('3', 'Raz czy dwa razy coś tam porobiłom na jachcie'), ('4', 'Trochę się żeglowało'),
+                               ('5', 'Niemałe doświadczenie, również za sterem'))
 
-    STARTOWA_WIEDZA_CHOICES=(('', 'Wybierz odpowiedź...'), ('1', 'Total tabula rasa'), ('2', 'parę razy obserwowałom, jak inni obsługują jacht'),
-                 ('3', 'Raz czy dwa razy coś tam porobiłom na jachcie'), ('4', 'Trochę się żeglowało'),
-                 ('5', 'Niemałe doświadczenie, również za sterem'))
+    NABYCIE_WIEDZY_CHOICES = (('', 'Wybierz odpowiedź...'),
+                              ('super', 'Super'), ('moze_byc', 'Może być'), ('slabo', 'Słabo'))
 
-    NABYCIE_WIEDZY_CHOICES=(('', 'Wybierz odpowiedź...'), ('super', 'Super'), ('moze_byc', 'Może być'), ('slabo', 'Słabo'))
-
-    PROWADZENIE_REJSU_CHOICES=(('', 'Wybierz odpowiedź...'), ('super', 'Tak, spoko to ogarnę'), ('moze_byc', 'Popłynę, ale z duszą na ramieniu'),
-                 ('slabo', 'Niespecjalnie'))
+    PROWADZENIE_REJSU_CHOICES = (('', 'Wybierz odpowiedź...'),
+                                 ('super', 'Tak, spoko to ogarnę'), ('moze_byc', 'Popłynę, ale z duszą na ramieniu'),
+                                 ('slabo', 'Niespecjalnie'))
 
     data_wyslania = models.DateTimeField(auto_now_add=True)
 
     plec = models.CharField(
-        blank=True,
         max_length=50,
         choices=PLEC_CHOICES,
         verbose_name="Czy możesz określić swoją płeć?",
     )
 
     wiek = models.CharField(
-        blank=True,
         max_length=50,
         choices=WIEK_CHOICES,
         verbose_name= "W jakim jesteś przedziale wiekowym?",)

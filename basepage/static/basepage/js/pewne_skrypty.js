@@ -22,9 +22,24 @@ function initTomSelect(selector) {
     if (!ankietaEl) return;
 
     const control = new TomSelect(ankietaEl, {
-            plugins: ['remove_button'],
+        plugins: ['remove_button'],
         persist: false,
-        onItemAdd: function() { this.setTextboxValue(''); }, // Czyści szukanie po wyborze
+        placeholder: ankietaEl.getAttribute('placeholder') || "Wybierz...",
+
+        // Twoje czyszczenie okienka po wyborze (zostaje!)
+        onItemAdd: function() {
+            this.setTextboxValue('');
+            this.refreshOptions();
+        },
+
+        // Magia dzieje się tutaj:
+        // Nasze nowe stylowanie placeholdera
+        onInitialize: function() {
+            const input = this.control_input;
+            if (input) {
+                input.classList.add('small', 'text-muted', 'fst-italic');
+            }
+        }
         });
 
 

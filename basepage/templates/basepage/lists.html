@@ -4,8 +4,17 @@
 {% block content %}
     <div class="container px-3 px-md-5 pt-2">
     <div class=" text-black bg-white rounded p-1 pt-3 mt-3 clearfix">
+<div class="col-12 px-3">
+    <button class="btn btn-outline-secondary w-100 d-md-none mb-2"
+        type="button"
+        data-bs-toggle="collapse"
+        data-bs-target="#listaCheckboxow">
+    filtrowanie ▼
+    </button>
+</div>
 
-        <div class="ms-1 ms-md-3 pb-2">
+
+        <div class="collapse d-md-block ms-1 ms-md-3 pb-2" id="listaCheckboxow">
 
 
                 <form action="{% url 'main' %}" method="get" id="sort_kursow">

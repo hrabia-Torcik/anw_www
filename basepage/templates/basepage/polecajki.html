@@ -9,60 +9,80 @@
 
   <div class="container d-flex">
       <div class="row g-4">
-          <div class="col-12 col-md-5 offset-md-1">
-              <div class="card px-3" style="max-width: 540px;">
-              <div class="row g-0 align-items-center">
-                  <div class="col-md-4">
+          <div class="col-12 col-lg-5 offset-md-1">
+              <div class="card px-3 pt-sm-5 pt-md-0" style="max-width: 540px;">
+              <div class="row g-0">
+                  <div class="col-md-4 mt-3 mt-md-0 d-flex align-items-center justify-content-center">
                     <!-- Obrazek na górze -->
                   <img class="card-img-top" src="{% static 'basepage/img/pogoda.gif' %}" alt="kolejno przeskakujące grafiki słońca, chmur burz, wiatru"/>
                   </div>
                       <div class="card-body col-md-8">
                         <h5 class="card-title">Prognoza pogody</h5>
                         <p class="card-text">Różne strony z prognozą pogody.</p>
-                            <div class="">
-                               <a href="https://www.meteo.pl/">
-                            https://www.meteo.pl/
-                            </a>
-                            </div>
-                              <div class="">
-                               <a href="https://www.windy.com/">
-                            https://www.windy.com/
-                            </a>
-                            </div>
-                              <div class="">
-                               <a href="https://www.weatheronline.pl/cgi-app/sailing?03&LANG=pl&WIND=g183">
-                            Prognoza dla polskiego wybrzeża Bałtyku
-                            </a>
-                            </div>
+                              <ul class="justify-content-center pt-2">
+                                  <li ><a href="https://www.meteo.pl/">
+                                https://www.meteo.pl/
+                                </a></li>
+                                  <li ><a href="https://www.windy.com/">
+                                https://www.windy.com/</a></li>
+                                  <li ><a href="https://www.weatheronline.pl/cgi-app/sailing?03&LANG=pl&WIND=g183">
+                                Prognoza dla polskiego wybrzeża Bałtyku
+                                </a></li>
+                              </ul>
+
                       </div>
               </div>
               </div>
-          </div>
-          <div class="col-12 col-md-5">
-              <div class="card px-3" style="max-width: 540px;">
-              <div class="row g-0 align-items-center">
-                  <div class="col-md-4">
+              <div class="card px-3 mt-3" style="max-width: 540px;">
+              <div class="row">
+                  <div class="col-md-4 mt-3 mt-md-0 d-flex align-items-center justify-content-center">
                     <!-- Obrazek na górze -->
-                  <img class="card-img-top col-md-4" src="{% static 'basepage/img/zamkniete.gif' %}" alt="kolejno przeskakujące grafiki słońca, chmur burz, wiatru"/>
+                  <img class="card-im-top" src="{% static 'basepage/img/kolo_rat.gif' %}" alt="obracające się koło ratunkowe"/>
+                  </div>
+                      <div class="card-body col-md-8">
+                        <h5 class="card-title">Ratownictwo</h5>
+                        <p class="card-text">Różne strony związane z wołaniem o pomoc</p>
+
+                            <ul class="justify-content-center pt-2">
+                                  <li ><a href="https://www.mopr.com.pl/stacje-ratownicze/">
+                            Namiary do poszczególnych stacji ratownictwa na Szlaku Wielkich Jezior Mazurskich
+                            </a></li>
+                                  <li ><a href="https://www.sar.gov/nasze-oddzialy/mspir">
+                            Lokalizacje poszczególnych baz SAR w Polsce.
+                            </a></li>
+                                  <li ><a href="https://https://www.umgdy.gov.pl/wp-content/uploads/2022/08/Lista-osrodkow-szkoleniowych-uznanych-przez-ministra-wlasciwego-ds.-gospodarki-morskiej_sierpien-2022.pdf">
+                            Lista certyfikowanych przez MdsGW ośrodków szkoleniowych oferujących szkolenie STCW.
+                            </a></li>
+                              </ul>
+
+                      </div>
+              </div>
+              </div>
+
+          </div>
+          <div class="col-12 col-lg-5 offset-md-1 offset-lg-0">
+              <div class="card px-3" style="max-width: 540px;">
+              <div class="row g-0">
+                  <div class="col-md-4 mt-3 mt-md-0 d-flex align-items-center justify-content-center">
+                    <!-- Obrazek na górze -->
+                  <img class="card-im-top" src="{% static 'basepage/img/zamkniete.gif' %}" alt='symbol z napisem "canceled"'/>
                   </div>
                   <div class="card-body col-md-8">
                         <h5 class="card-title">Komunikaty nawigacyjne</h5>
                         <p class="card-text">Pod poniższymi linkami znajdziesz informacje o aktualnych zarządzeniach dotyczących ruchu na polskich wodach.</p>
-                            <div class="">
-                               <a href="https://www.gov.pl/web/wody-polskie-bialystok/zegluga-srodladowa">
+
+                            <ul class="justify-content-center pt-2">
+                                  <li ><a href="https://www.gov.pl/web/wody-polskie-bialystok/zegluga-srodladowa">
                             Komunikaty o Mazurach
-                            </a>
-                            </div>
-                              <div class="">
-                               <a href="https://www.gov.pl/web/wody-polskie/komunikaty-nawigacyjne">
+                            </a></li>
+                                  <li ><a href="https://bhmw.gov.pl/pl/warnings/current/">
                             Strona główna komunikatów nawigacyjnych dla polskich dróg wodnych
-                            </a>
-                            </div>
-                              <div class="">
-                               <a href="https://bhmw.gov.pl/pl/warnings/current/">
+                            </a></li>
+                                  <li ><a href="https://https://www.umgdy.gov.pl/wp-content/uploads/2022/08/Lista-osrodkow-szkoleniowych-uznanych-przez-ministra-wlasciwego-ds.-gospodarki-morskiej_sierpien-2022.pdf">
                             Ostrzeżenia nawigacyjne dla polskich wód morskich
-                            </a>
-                            </div>
+                            </a></li>
+                              </ul>
+
                   </div>
               </div>
               </div>

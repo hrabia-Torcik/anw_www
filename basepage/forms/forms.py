@@ -18,8 +18,6 @@ class InstruktorChoiceField(forms.ModelMultipleChoiceField):
 
 class AnkietaForm(forms.ModelForm):
 
-
-
     class Meta:
         model = WynikAnkiety
         fields = ['plec', 'wiek', 'wybrani_instruktorzy', 'czy_polecisz', 'startowa_wiedza', 'nabycie_wiedzy', 'prowadzenie_rejsu', 'uwagi']
@@ -43,5 +41,18 @@ class AnkietaForm(forms.ModelForm):
         super().__init__(*args, **kwargs)
         # TUTAJ przywracasz ładne wyświetlanie imion bez definiowania całego pola od nowa:
         self.fields['wybrani_instruktorzy'].label_from_instance = lambda obj: f"{obj.instruktoro_name} {obj.instruktoro_surname[0]}."
+        self.fields['plec'].empty_label = "wybierz odpowiedź..."
+        self.fields['wiek'].empty_label = "wybierz odpowiedź..."
+        self.fields['czy_polecisz'].empty_label = "wybierz odpowiedź..."
+        self.fields['startowa_wiedza'].empty_label = "wybierz odpowiedź..."
+        self.fields['nabycie_wiedzy'].empty_label = "wybierz odpowiedź..."
+        self.fields['prowadzenie_rejsu'].empty_label = "wybierz odpowiedź..."
+
+        
+
+
+
+
+
 
 
