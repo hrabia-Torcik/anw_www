@@ -1,12 +1,13 @@
 from django.shortcuts import render, redirect
-from basepage.models import Klientela, UczestUnder18, KursyWszystkie, ZapisyNaKursy, PrzypisOpiekU18, PrzypisanieDoDniaKursu, DniKursowe, Instruktorostwo, OcenaSzczegolowa
+from basepage.models import (Klientela, UczestUnder18, KursyWszystkie, ZapisyNaKursy, PrzypisOpiekU18,
+                             PrzypisanieDoDniaKursu, DniKursowe, Instruktorostwo, OcenaSzczegolowa)
 from django.template import loader
 
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
 from datetime import datetime, timedelta
 from datetime import date
-from basepage.forms.forms import AnkietaForm
+from basepage.forms.forms import AnkietaForm, OceniajStroneFORM
 # from somewhere import handle_uploaded_file
 import pandas as pd
 
@@ -448,6 +449,30 @@ def obsmaruj(request):
 
     return render(request, 'basepage/ankieta.html', context)
 
+
+def ocen_strone(request):
+
+
+    if request.method == 'POST':
+        form = OceniajStroneFORM(request.POST)
+        if form.is_valid():
+            form.save()
+
+
+            return redirect('basepage:podziekowanie')
+
+
+    else:
+        form = OceniajStroneFORM()
+
+
+    context = {
+        'form': form,
+
+        'liczba_lat': liczba_lat,
+        'foremnik': foremnik,
+    }
+    return render(request, 'basepage/ocena_strony.html', context)
 
 def odpowiedz_respondentowi(request):
     context = {

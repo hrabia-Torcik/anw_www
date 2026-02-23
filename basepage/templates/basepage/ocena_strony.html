@@ -1,0 +1,78 @@
+{% extends "basepage/base.html" %}
+{% load static %}
+{% load widget_tweaks %}
+{% block title %}AN-ocena-strony{% endblock %}
+{% block content %}
+<div class="container col-10 p-3 mt-3 mb-2 text-center">
+    <p>Ha, nasza nowa strona będzie naszym wspólnym dzieckiem! Ekstra, nie?</p>
+</div>
+    <div class="container p-3">
+        <form method="post" novalidate>
+        {% csrf_token %}
+            <div class="row justify-content-center align-items-end g-4 mb-4">
+                <div class="col-md-5">
+                    <label class="form-label">{{ form.fajnosc.label_tag }}</label>
+                    {% render_field form.fajnosc class="form-select" %}
+                    {# TUTAJ DODAJEMY WYŚWIETLANIE BŁĘDÓW #}
+                    {% if form.fajnosc.errors %}
+                        <div class="text-danger small mt-1">
+                            {% for error in form.fajnosc.errors %}
+                                {{ error }}
+                            {% endfor %}
+                        </div>
+                    {% endif %}
+                </div>
+                <div class="col-md-5">
+                    <label class="form-label">{{ form.czytelnosc.label_tag }}</label>
+                    {% render_field form.czytelnosc class="form-select" %}
+                    {# TUTAJ DODAJEMY WYŚWIETLANIE BŁĘDÓW #}
+                    {% if form.czytelnosc.errors %}
+                        <div class="text-danger small mt-1">
+                            {% for error in form.czytelnosc.errors %}
+                                {{ error }}
+                            {% endfor %}
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+
+
+            <div class="row justify-content-center mt-4">
+                <div class="col-md-8">
+                    <label class="form-label">{{ form.co_zmienic.label_tag }}</label>
+                    {% render_field form.co_zmienic class="form-control" %}
+                </div>
+            </div>
+
+
+            <div class="row justify-content-center mt-4">
+                <div class="col-md-8">
+                    <label class="form-label">{{ form.co_dodac.label_tag }}</label>
+                    {% render_field form.co_dodac class="form-control" %}
+                </div>
+            </div>
+
+
+            <div class="row justify-content-center mt-4">
+                <div class="col-md-8">
+                    <label class="form-label">{{ form.sugestie.label_tag }}</label>
+                    {% render_field form.sugestie class="form-control" %}
+                </div>
+            </div>
+            <div class="row justify-content-center mt-5">
+                <div class="col-auto">
+                    <button type="submit" class="btn btn-primary px-3">Wyślij butelkę z ankietą</button>
+                </div>
+            </div>
+
+
+        </form>
+
+
+</div>
+
+{% endblock %}
+
+{% block extra_js %}
+
+{% endblock %}

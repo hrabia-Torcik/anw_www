@@ -1,5 +1,5 @@
 from django import forms
-from basepage.models import Instruktorostwo, WynikAnkiety
+from basepage.models import Instruktorostwo, WynikAnkiety, OceniajStrone
 
 
 class UploadFileForm(forms.Form):
@@ -49,6 +49,28 @@ class AnkietaForm(forms.ModelForm):
         self.fields['prowadzenie_rejsu'].empty_label = "wybierz odpowiedź..."
 
         
+class OceniajStroneFORM(forms.ModelForm):
+
+    class Meta:
+        model = OceniajStrone
+
+        fields = ['fajnosc', 'czytelnosc', 'co_zmienic', 'co_dodac', 'sugestie']
+        widgets = {
+            # Django samo weźmie choices z modelu, Ty tylko dokładasz klasę CSS
+            'fajnosc': forms.Select(attrs={'class': 'form-select'}),
+            'czytelnosc': forms.Select(attrs={'class': 'form-select'}),
+
+            'co_zmienic': forms.Textarea(attrs={'class': 'form-control', 'rows': 3}),
+            'co_dodac': forms.Textarea(attrs={'class': 'form-control', 'rows': 3}),
+            'sugestie': forms.Textarea(attrs={'class': 'form-control', 'rows': 3}),
+        }
+
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        # TUTAJ przywracasz ładne wyświetlanie imion bez definiowania całego pola od nowa:
+        self.fields['fajnosc'].empty_label = "wybierz odpowiedź..."
+        self.fields['czytelnosc'].empty_label = "wybierz odpowiedź..."
 
 
 

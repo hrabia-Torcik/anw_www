@@ -2,9 +2,55 @@
 {% load static %}
 {% block title %}AN-kontakt{% endblock %}
 {% block content %}
-<div class="container p-3">
+<div class="container">
+<div class="p-3">
     {{ text }}
 </div>
+
+<div class="p-3 mt-5 d-flex justify-content-center">
+<a class="text-light fw-bold text-uppercase" href="{% url 'basepage:form_oceny' %}">Kliknij tu, jeśli chcesz pomóc ze stroną</a>
+</div>
+</div>
+{#    <div class="container p-3" style="background-color: orangered; border: 2px; border-style: solid; border-color: #f0f0f0">#}
+{#        <div class="">#}
+{#            <div style="background-color: orange; border: 2px; border-style: solid; border-color: #f0f0f0;">fffffffffffff</div>#}
+{#            <div style="background-color: lightsalmon; border: 1px solid #f0f0f0;">jjjjjj</div>#}
+{##}
+{#        </div>#}
+{##}
+{##}
+{#    </div>#}
+{##}
+{#    <div class="container border border-primary my-5">#}
+{#    <h2 class="text-center">Poligon Bootstrapa</h2>#}
+{##}
+{#    <!-- ĆWICZENIE 1: Blok vs Inline -->#}
+{#    <div class="section my-4 p-3 bg-secondary">#}
+{#        <h4>1. Magia d-block i mx-auto</h4>#}
+{#        <div class="d-block mx-auto border p-2 w-50">#}
+{#            <img src="{% static 'basepage/img/lina_kolano.png' %}" class="d-block ms-auto border">#}
+{#        </div>#}
+{#        <p class="small text-muted mt-2">Zadanie: Wyśrodkuj obrazek powyżej.</p>#}
+{#    </div>#}
+{##}
+{#    <!-- ĆWICZENIE 2: Flexbox i wyrównanie -->#}
+{#    <div class="section my-4 p-3 bg-secondary align-items-center">#}
+{#        <h4>2. Rozpychanie d-flex</h4>#}
+{#        <div class="border bg-white justify-content-center w-50">#}
+{#            <div class="p-3 bg-warning">A</div>#}
+{#            <div class="bg-danger text-white">B</div>#}
+{#            <div class="p-3 bg-info text-white">C</div>#}
+{#        </div>#}
+{#        <p class="small text-muted mt-2">Zadanie: Rozsuń kwadraty na boki i wyśrodkuj w pionie.</p>#}
+{#    </div>#}
+{##}
+{#    <!-- ĆWICZENIE 3: Siatka i Container -->#}
+{#    <div class="row g-3">#}
+{#        <div class="col-md-6 border bg-success text-white p-4">Karta Lewa</div>#}
+{#        <div class="col-md-6 border bg-dark text-white p-4">Karta Prawa</div>#}
+{#    </div>#}
+{#</div>#}
+
 
 
 {% endblock %}

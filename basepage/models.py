@@ -195,3 +195,36 @@ class OcenaSzczegolowa(models.Model):
     ocena_wiedza = models.IntegerField()
     ocena_nauczanie = models.IntegerField()
     ocena_zachowanie = models.IntegerField()
+
+class OceniajStrone(models.Model):
+    FAJNOSC_CHOICES = (('', 'Wybierz odpowiedź...'),
+                    ('-2', 'ale słaba!'), ('-1', 'ma istotne wady'), ('0', 'jest w porządku'),
+                    ('1', 'fajna'), ('2', 'kurde, ósmy cud świata!'))
+
+    CZYTELNOSC_CHOICES = (('', 'Wybierz odpowiedź...'),
+                          ('-2', 'nie mam pojęcia, jak poruszać się po stronie'), ('-1', 'w pewnych miejsca nie wiadomo gdzie kliknąć'),
+                          ('1', 'można zrozumieć, co robić na stronie'), ('2', 'bardzo łatwo wszystko znaleźć'))
+
+    data_wyslania = models.DateTimeField(auto_now_add=True)
+
+    fajnosc = models.CharField(
+        max_length=50,
+        choices=FAJNOSC_CHOICES,
+        verbose_name="Czy strona jest przyjemna w odbiorze?",
+    )
+
+    czytelnosc = models.CharField(
+        max_length=50,
+        choices=CZYTELNOSC_CHOICES,
+        verbose_name= "Czy łatwo jest poruszać się po stronie?",)
+
+
+    co_zmienic = models.TextField(blank=True, max_length=5000, verbose_name="Napisz tutaj o ewentualnych błędach, jeśli są na stronie",)
+    co_dodac = models.TextField(blank=True, max_length=5000, verbose_name="Wpisz tutaj, czego Twoim zdaniem brakuje na stronie",)
+    sugestie = models.TextField(blank=True, max_length=5000, verbose_name="inne uwagi",)
+
+
+    class Meta:
+        verbose_name = "Wynik oceny"
+        verbose_name_plural = "Wyniki ocen strony"
+        ordering = ['-data_wyslania']
