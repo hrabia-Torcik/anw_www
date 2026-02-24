@@ -144,7 +144,7 @@
 
         </div>
 
-        <div class="mb-3 ps-3">
+        <div class="mb-3 px-3">
 
             <p>{{ napis|safe  }}</p>
 
@@ -241,10 +241,14 @@
 
     </div>
     </div>
-{#{{ efekt }}#}
-{#{{ efekt2 }}#}
+{#{{ efekt2 }}<br>#}
+{#{{ efekt|safe }}#}
 {#    <br>#}
-{#znaczek z kup: {{ efekt3 }}#}
+{#  to jest kalarepka0  {{ kalarepka0 }}#}
+{#    <br>#}
+{#  to jest kalarepka1  {{ kalarepka1 }}#}
+{#    <br>#}
+{#kolejka kursy: {{ efekt3 }}#}
 {% endblock %}
 
 {% block extra_js %}

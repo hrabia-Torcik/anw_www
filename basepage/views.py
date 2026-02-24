@@ -23,77 +23,113 @@ rok_zalozenia = 1993
 liczba_lat = int(teraz_rok) - rok_zalozenia
 
 foremnik = ''
-if str(liczba_lat)[-1] in ('1','5','6','7','8','9','0'):
+if str(liczba_lat)[-1] in ('1', '5', '6', '7', '8', '9', '0'):
     foremnik = 'lat'
 else:
     foremnik = 'lata'
 
+
 def basepage(request):
+    '''
+    Tu są funkcje przeszukujące bazę danych dla konkretnego rodzaju wydarzenia w ZADANYM PRZEDZIALE CZASU.
+    Póżniej w zależności od potrzeb ich wyniki są sumowane.
+    '''
+
+    def znajdz_PZ_Wczasie(kursy, data1):
+        qs1 = KursyWszystkie.objects.filter(kursu_data_start__contains=teraz_rok).filter(
+            kursu_name__contains='patent żeglarski').filter(
+            kursu_data_start__range=(data1, koniec_roku))
+        if kursy:
+            kursy = kursy | qs1
+        else:
+            kursy = qs1
+
+        return kursy
+
+    def znajdz_SM_Wczasie(kursy, data1):
+        qs1 = KursyWszystkie.objects.filter(kursu_data_start__contains=teraz_rok).filter(
+            kursu_name__contains='patent motorowodny').filter(
+            kursu_data_start__range=(data1, koniec_roku))
+        if kursy:
+            kursy = kursy | qs1
+        else:
+            kursy = qs1
+
+        return kursy
+
+    def znajdz_EG_Wczasie(kursy, data1):
+        qs1 = KursyWszystkie.objects.filter(kursu_data_start__contains=teraz_rok).filter(
+            kursu_name__contains='egzamin żeglarski').filter(
+            kursu_data_start__range=(data1, koniec_roku))
+        if kursy:
+            kursy = kursy | qs1
+        else:
+            kursy = qs1
+
+        return kursy
+
+    def znajdz_MA_Wczasie(kursy, data1):
+        qs1a = KursyWszystkie.objects.filter(kursu_data_start__contains=teraz_rok).filter(
+            kursu_name__contains='manewrowanie').filter(
+            kursu_data_start__range=(data1, koniec_roku))
+        qs1b = KursyWszystkie.objects.filter(kursu_data_start__contains=teraz_rok).filter(
+            kursu_name__contains='doskonalenie').filter(
+            kursu_data_start__range=(data1, koniec_roku))
+        if qs1a and qs1b:
+            qs1 = qs1a | qs1b
+        elif qs1a:
+            qs1 = qs1a
+        elif qs1b:
+            qs1 = qs1b
+
+        if kursy:
+            kursy = kursy | qs1
+        else:
+            kursy = qs1
+
+        return kursy
+
+    def znajdz_JSM_Wczasie(kursy, data1):
+        qs1 = KursyWszystkie.objects.filter(kursu_data_start__contains=teraz_rok).filter(
+            kursu_name__contains='jachtowy sternik morski').filter(
+            kursu_data_start__range=(data1, koniec_roku))
+        if kursy:
+            kursy = kursy | qs1
+        else:
+            kursy = qs1
+
+        return kursy
+
+    def znajdz_RC_Wczasie(kursy, data1):
+        qs1 = KursyWszystkie.objects.filter(kursu_data_start__contains=teraz_rok).filter(
+            kursu_name__contains='licencja').filter(
+            kursu_data_start__range=(data1, koniec_roku))
+        if kursy:
+            kursy = kursy | qs1
+        else:
+            kursy = qs1
+
+        return kursy
+
     nicnierob = 0
     efekt = 'pusto'
+    kursy = ''
 
-
-    list_pom = ['','','','','','']
-    lista = ['','','','','','']
+    list_pom = ['', '', '', '', '', '']
+    lista = ['', '', '', '', '', '']
     context = {}
     flage3 = ''
+    flage4 = ''
     napis = ''
     z_czekboksa = ''
 
-
-    if request.method == 'POST':
-        z_czekboksa = request.POST.get('bez')
-        z_hidenu = request.POST.get('dod_dane')
-        lista_00 = z_hidenu.split(',')
-        for i,elem in enumerate(lista_00):
-            lista[i]=elem
-        context['kalarepka0'] = z_czekboksa
-        context['kalarepka1'] = lista
-
-        flage3 = 1
-        messages.success(request, "Formularz wysłany!", extra_tags='zakonczone')
-
-    context['flage3'] = flage3
-
-
-    if request.GET.get('sub1') or (flage3 == 1 and lista[0] != ''):
-        list_pom[0] ='patent żeglarski'
-        context['sub1'] = 'cokolwiek'
-    if request.GET.get('sub2') or (flage3 == 1 and lista[1] != ''):
-        list_pom[1] = 'patent motorowodny'
-        context['sub2'] = 'cokolwiek'
-    if request.GET.get('sub3') or (flage3 == 1 and lista[2] != ''):
-        list_pom[2] = 'egzamin żeglarski'
-        context['sub3'] = 'cokolwiek'
-    if request.GET.get('sub4') or (flage3 == 1 and lista[3] != ''):
-        list_pom[3] = 'doszk'
-        context['sub4'] = 'cokolwiek'
-    if request.GET.get('sub5') or (flage3 == 1 and lista[4] != ''):
-        list_pom[4] = 'jachtowy sternik morski'
-        context['sub5'] = 'cokolwiek'
-    if request.GET.get('sub6') or (flage3 == 1 and lista[5] != ''):
-        list_pom[5] = 'lic'
-        context['sub6'] = 'cokolwiek'
-    if request.GET.get('znak_form1') and any(list_pom) is False:
-        nicnierob = 1
-
-    if request.GET:  # Sprawdzasz czy filtry działają
-        messages.info(request, "Filtry zastosowane", extra_tags='wybrane')
-
-    """
-    Tu poniej jest podstawowy mechanizm zasysania danych o kursach z bazy.
-    flage3 jest na wypadek uruchomienia formularza POST, który informuje o chęci wyświetlenia zakończonych kursów.
-    nicnierob jest na okoliczność niezaznaczenia niczego do wyświetlenia.
-    """
-
-    flage4 = ''
     jestKursWPrzeszlosci = ''
     nieMaJuzKursuWPlanach = ''
 
     liczba_wszystkich = KursyWszystkie.objects.filter(kursu_data_start__contains=teraz_rok).count()
 
     liczba_poDzisiaju = KursyWszystkie.objects.filter(kursu_data_start__contains=teraz_rok).filter(
-                kursu_data_start__range=((teraz_data + timedelta(days=1)), koniec_roku)).count()
+        kursu_data_start__range=((teraz_data + timedelta(days=1)), koniec_roku)).count()
 
     liczba_zak = liczba_wszystkich - liczba_poDzisiaju
 
@@ -103,27 +139,105 @@ def basepage(request):
     if liczba_zak > 0:
         jestKursWPrzeszlosci = 'herbatka'
 
+    if request.method == 'POST':
+        z_czekboksa = request.POST.get('bez')
+        z_hidenu = request.POST.get('dod_dane')
+        lista_00 = z_hidenu.split(',')
+        for i, elem in enumerate(lista_00):
+            lista[i] = elem
+        context['kalarepka0'] = z_czekboksa
+        context['kalarepka1'] = lista
 
-    if flage3 == 1:
-        if z_czekboksa:
+        flage3 = 1
+
+        if z_hidenu:
+            for i, elem in enumerate(lista):
+                if elem:
+                    if z_czekboksa:
+                        if i == 0:
+                            kursy = znajdz_PZ_Wczasie(kursy, poczatek_roku)
+                        elif i == 1:
+                            kursy = znajdz_SM_Wczasie(kursy, poczatek_roku)
+                        elif i == 2:
+                            kursy = znajdz_EG_Wczasie(kursy, poczatek_roku)
+                        elif i == 3:
+                            kursy = znajdz_MA_Wczasie(kursy, poczatek_roku)
+                        elif i == 4:
+                            kursy = znajdz_JSM_Wczasie(kursy, poczatek_roku)
+                        elif i == 5:
+                            kursy = znajdz_RC_Wczasie(kursy, poczatek_roku)
+
+                    else:
+                        if i == 0:
+                            kursy = znajdz_PZ_Wczasie(kursy, (teraz_data + timedelta(days=1)))
+                        elif i == 1:
+                            kursy = znajdz_SM_Wczasie(kursy, (teraz_data + timedelta(days=1)))
+                        elif i == 2:
+                            kursy = znajdz_EG_Wczasie(kursy, (teraz_data + timedelta(days=1)))
+                        elif i == 3:
+                            kursy = znajdz_MA_Wczasie(kursy, (teraz_data + timedelta(days=1)))
+                        elif i == 4:
+                            kursy = znajdz_JSM_Wczasie(kursy, (teraz_data + timedelta(days=1)))
+                        elif i == 5:
+                            kursy = znajdz_RC_Wczasie(kursy, (teraz_data + timedelta(days=1)))
+        else:
+            if z_czekboksa:
+                kursy = KursyWszystkie.objects.filter(kursu_data_start__contains=teraz_rok)
+            else:
+                kursy = KursyWszystkie.objects.filter(kursu_data_start__contains=teraz_rok).filter(
+                    kursu_data_start__range=((teraz_data + timedelta(days=1)), koniec_roku))
+
+        messages.success(request, "Formularz wysłany!", extra_tags='zakonczone')
+
+    if request.GET:  # Sprawdzasz czy filtry działają
+        messages.info(request, "Filtry zastosowane", extra_tags='wybrane')
+
+    if request.GET.get('sub1') or (flage3 == 1 and lista[0] != ''):
+        list_pom[0] = 'patent żeglarski'
+        context['sub1'] = 'cokolwiek'
+
+        kursy = znajdz_PZ_Wczasie(kursy, (teraz_data + timedelta(days=1)))
+
+    if request.GET.get('sub2') or (flage3 == 1 and lista[1] != ''):
+        list_pom[1] = 'patent motorowodny'
+        context['sub2'] = 'cokolwiek'
+        kursy = znajdz_SM_Wczasie(kursy, (teraz_data + timedelta(days=1)))
+
+    if request.GET.get('sub3') or (flage3 == 1 and lista[2] != ''):
+        list_pom[2] = 'egzamin żeglarski'
+        context['sub3'] = 'cokolwiek'
+        kursy = znajdz_EG_Wczasie(kursy, (teraz_data + timedelta(days=1)))
+
+    if request.GET.get('sub4') or (flage3 == 1 and lista[3] != ''):
+        list_pom[3] = 'doszk'
+        context['sub4'] = 'cokolwiek'
+        kursy = znajdz_MA_Wczasie(kursy, (teraz_data + timedelta(days=1)))
+
+    if request.GET.get('sub5') or (flage3 == 1 and lista[4] != ''):
+        list_pom[4] = 'jachtowy sternik morski'
+        context['sub5'] = 'cokolwiek'
+        kursy = znajdz_JSM_Wczasie(kursy, (teraz_data + timedelta(days=1)))
+
+    if request.GET.get('sub6') or (flage3 == 1 and lista[5] != ''):
+        list_pom[5] = 'lic'
+        context['sub6'] = 'cokolwiek'
+        kursy = znajdz_RC_Wczasie(kursy, (teraz_data + timedelta(days=1)))
+
+    if request.GET.get('znak_form1') and any(list_pom) is False:
+        nicnierob = 1
+
+    if nicnierob == 1:
+        kursy = {}
+        flage4 = 1
+
+    if kursy == '':
+        if liczba_poDzisiaju == 0:
             kursy = KursyWszystkie.objects.filter(kursu_data_start__contains=teraz_rok)
         else:
             kursy = KursyWszystkie.objects.filter(kursu_data_start__contains=teraz_rok).filter(
                 kursu_data_start__range=((teraz_data + timedelta(days=1)), koniec_roku))
 
-    else:
-        if nicnierob == 1:
-            kursy = {}
-            flage4 = 1
-        else:
-            kursy = KursyWszystkie.objects.filter(kursu_data_start__contains=teraz_rok).filter(
-                kursu_data_start__range=((teraz_data + timedelta(days=1)), koniec_roku))
-            if liczba_poDzisiaju == 0:
-                kursy = KursyWszystkie.objects.filter(kursu_data_start__contains=teraz_rok)
-
-
-
-
+    context['flage3'] = flage3
 
     # kursy = KursyWszystkie.objects.all()
     # klienciNiedorosli = UczestUnder18.objects.all()
@@ -147,6 +261,7 @@ def basepage(request):
                               'data2': elem.kursu_data_end,
                               'cena': elem.kursu_prise,
                               'id': elem.kursu_lp})
+
     flage = ''
     sign = ''
     sign2 = ''
@@ -156,57 +271,59 @@ def basepage(request):
     for elem in list_pom:
         if elem:
             znakL += 1
-    liczniki_dlugosci = ['','','','','','']
+    liczniki_dlugosci = ['', '', '', '', '', '']
     if znakL != 0:
         sign2 = 1
         kursy_mod_filtrami = []
         suma_licznikow = 0
         for elem in kursy_mod:
-            kursy_mod_filtrami.append([0,elem])
-        for u,elem in enumerate(list_pom):
+            kursy_mod_filtrami.append([0, elem])
+        for u, elem in enumerate(list_pom):
             if elem:
 
                 if u == 0:
                     liczba = KursyWszystkie.objects.filter(kursu_data_start__contains=teraz_rok).filter(
-                    kursu_name=('patent żeglarski')).count()
+                        kursu_name=('patent żeglarski')).count()
                     liczniki_dlugosci[0] = liczba
                     suma_licznikow += liczba
                 if u == 1:
                     liczba = KursyWszystkie.objects.filter(kursu_data_start__contains=teraz_rok).filter(
-                    kursu_name=('patent motorowodny')).count()
+                        kursu_name=('patent motorowodny')).count()
                     liczniki_dlugosci[1] = liczba
                     suma_licznikow += liczba
                 if u == 2:
                     liczba = KursyWszystkie.objects.filter(kursu_data_start__contains=teraz_rok).filter(
-                    kursu_name=('egzamin żeglarski')).count()
+                        kursu_name=('egzamin żeglarski')).count()
                     liczniki_dlugosci[2] = liczba
                     suma_licznikow += liczba
                 if u == 3:
                     liczba1 = KursyWszystkie.objects.filter(kursu_data_start__contains=teraz_rok).filter(
-                    kursu_name__icontains='manewrowanie').count()
+                        kursu_name__icontains='manewrowanie').count()
                     liczba2 = KursyWszystkie.objects.filter(kursu_data_start__contains=teraz_rok).filter(
                         kursu_name__icontains='doskonalenie').count()
                     liczniki_dlugosci[3] = liczba1 + liczba2
                     suma_licznikow += (liczba1 + liczba2)
                 if u == 4:
                     liczba = KursyWszystkie.objects.filter(kursu_data_start__contains=teraz_rok).filter(
-                    kursu_name=('jachtowy sternik morski')).count()
+                        kursu_name=('jachtowy sternik morski')).count()
                     liczniki_dlugosci[4] = liczba
                     suma_licznikow += liczba
                 if u == 5:
                     liczba = KursyWszystkie.objects.filter(kursu_data_start__contains=teraz_rok).filter(
-                    kursu_name__icontains=('licencja')).count()
+                        kursu_name__icontains=('licencja')).count()
                     liczniki_dlugosci[5] = liczba
                     suma_licznikow += liczba
-                for ind,el in enumerate(kursy_mod_filtrami):
-                    if (elem == 'doszk' and el[1]['nazwa'].count('doskonalenie') == 1) or (elem == 'doszk' and el[1]['nazwa'].count('manewrowanie') == 1):
+                for ind, el in enumerate(kursy_mod_filtrami):
+                    if (elem == 'doszk' and el[1]['nazwa'].count('doskonalenie') == 1) or (
+                            elem == 'doszk' and el[1]['nazwa'].count('manewrowanie') == 1):
                         kursy_mod_filtrami[ind][0] = 1
-                    elif (elem == 'lic' and el[1]['nazwa'].count('SRC') == 1) or (elem == 'lic' and el[1]['nazwa'].count('LRC') == 1):
+                    elif (elem == 'lic' and el[1]['nazwa'].count('SRC') == 1) or (
+                            elem == 'lic' and el[1]['nazwa'].count('LRC') == 1):
                         kursy_mod_filtrami[ind][0] = 1
                     elif el[1]['nazwa'] == elem:
                         kursy_mod_filtrami[ind][0] = 1
         kursy_mod.clear()
-        for i,j in enumerate(kursy_mod_filtrami):
+        for i, j in enumerate(kursy_mod_filtrami):
             if j[0] == 1:
                 kursy_mod.append(j[1])
         flage = 1
@@ -215,21 +332,21 @@ def basepage(request):
         sign = 1
 
     if nieMaJuzKursuWPlanach:
-
         napis = '<span class="fs-3">Niczego już nie mamy w planach w tym roku.</span><br> Ale zobacz, ile się działo! Jeśli chcesz wiedzieć, co będzie w przyszłym roku - napisz do nas.'
     elif flage4:
         napis = "Niczego nie&nbsp;pokazuję. A&nbsp;może by tak coś zaznaczyć?"
     else:
         if sign:
-            napis = "Pokazuję listę zaplanowanych przez nas do&nbsp;końca roku kursów i&nbsp;egzaminów:"
+            napis = "Pokazuję zaplanowane przez nas do&nbsp;końca roku kursy i&nbsp;egzaminy"
         else:
             if flage:
-                napis = "Pokazuję przefiltrowaną listę tegorocznych wydarzeń:"
+                napis = "Pokazuję przefiltrowane tegoroczne wydarzenia:"
             else:
-                napis = "Pokazuję listę zaplanowanych przez nas do&nbsp;końca roku kursów i&nbsp;egzaminów:"
+                napis = "Pokazuję zaplanowane przez nas do&nbsp;końca roku kursy i&nbsp;egzaminy:"
 
     if z_czekboksa:
-        napis += '<br>Pokazuję również zakończone oraz trwające wydarzenia.'
+        napis = napis[:-1]
+        napis += '.<br>Pokazuję również zakończone oraz (jeśli są) trwające wydarzenia:'
 
     kursy_mod.sort(key=lambda x: x['data1'])
     lista_trwaj = []
@@ -260,7 +377,6 @@ def basepage(request):
             else:
                 lista_zakoncz.append(False)
 
-
     if suma_licznikow:
         if suma_licznikow == len(kursy_mod):
             jestKursWPrzeszlosci = ''
@@ -273,8 +389,6 @@ def basepage(request):
         if deltat1 >= timedelta(0):
             index_zaplanowane = i + 1
             break
-
-
 
     dane_powiazane = zip(kursy_mod, lista_trwaj, lista_zakoncz)
 
@@ -294,25 +408,27 @@ def basepage(request):
     # PPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP
 
     # context['efekt'] = [lista_trwaj,len(lista_trwaj),lista_zakoncz,len(lista_zakoncz)]
-    # context['efekt2'] = kursy_mod
+    context['efekt2'] = list_pom
     # context['efekt3'] = liczniki_dlugosci, suma_licznikow
+    context['efekt3'] = kursy
     # context['efekt'] = index_zaplanowane
     # context['efekt2'] = teraz_data, f"długość listy kursy: {len(kursy)}"
+    context['efekt'] = teraz_data, f"długość listy kursy: {len(kursy)}"
 
     # takalista = [elemen for elemen in context]
     #
     # context['takalista'] = takalista
 
-
     return render(request, 'basepage/lists.html', context)
+
 
 def kursu_zapis(request, elem_id):
     p = KursyWszystkie.objects.get(kursu_lp=elem_id)
 
-    if p.kursu_data_start==p.kursu_data_end:
-        wskaznik=''
+    if p.kursu_data_start == p.kursu_data_end:
+        wskaznik = ''
     else:
-        wskaznik=1
+        wskaznik = 1
 
     context = {
         'post': p,
@@ -322,10 +438,10 @@ def kursu_zapis(request, elem_id):
     }
     return render(request, 'basepage/form_zapis.html', context)
 
+
 # Imaginary function to handle an uploaded file.
 
 def instr_dojazdu(request):
-
     napis = 'Tu będzie coś o dojeździe.'
 
     context = {
@@ -372,6 +488,7 @@ def pokaz_baze_wiedzy(request):
     }
     return render(request, 'basepage/wiedza.html', context)
 
+
 def pokaz_polecajki(request):
     napis = 'Tu będą jakieś pożyteczne linki.'
 
@@ -383,6 +500,7 @@ def pokaz_polecajki(request):
     }
     return render(request, 'basepage/polecajki.html', context)
 
+
 def kontaktuj(request):
     napis = 'Tu będą nasze mejle i telefony.'
 
@@ -393,6 +511,7 @@ def kontaktuj(request):
         'foremnik': foremnik,
     }
     return render(request, 'basepage/kontakt.html', context)
+
 
 def obsmaruj(request):
     context = {}
@@ -422,7 +541,8 @@ def obsmaruj(request):
                 if ocena_wiedza_wartosc and ocena_punktualnosc_wartosc:
                     # Tutaj na razie wypiszemy to w konsoli serwera,
                     # żebyś widział, że "dolatuje":
-                    print(f"Instruktor ID {inst_id} otrzymał ocenę umiejętności nauczania: {ocena_wiedza_wartosc}, natomiast atmosfery: {ocena_atmosfery_wartosc}.")
+                    print(
+                        f"Instruktor ID {inst_id} otrzymał ocenę umiejętności nauczania: {ocena_wiedza_wartosc}, natomiast atmosfery: {ocena_atmosfery_wartosc}.")
 
                     OcenaSzczegolowa.objects.create(
                         ankieta=ankieta_instancja,
@@ -451,20 +571,16 @@ def obsmaruj(request):
 
 
 def ocen_strone(request):
-
-
     if request.method == 'POST':
         form = OceniajStroneFORM(request.POST)
         if form.is_valid():
             form.save()
-
 
             return redirect('basepage:podziekowanie')
 
 
     else:
         form = OceniajStroneFORM()
-
 
     context = {
         'form': form,
@@ -473,6 +589,7 @@ def ocen_strone(request):
         'foremnik': foremnik,
     }
     return render(request, 'basepage/ocena_strony.html', context)
+
 
 def odpowiedz_respondentowi(request):
     context = {
