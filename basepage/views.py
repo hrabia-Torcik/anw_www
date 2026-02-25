@@ -454,7 +454,8 @@ def instr_dojazdu(request):
 
 
 def opisz_dunajca(request):
-    napis = 'Tu będzie coś o naszym Dunajcu.'
+    napis = ('Historia statku Dunajec sprawia, że korzystanie z jego pokładu podczas szkoleń jest nie tylko przyjemnością,'
+             ' ale i wyjątkowym doznaniem.')
 
     context = {
         'text': napis,

@@ -286,6 +286,54 @@ html {
     -webkit-mask: none;
 }
 
+.nawigacja-lista {
+    list-style: none;
+}
+
+/* Styl bazowy linku */
+.link-zeglarski {
+    text-decoration: none; /* brak chamskiego podkreślenia */
+    color: #212529;        /* elegancki ciemny kolor */
+    position: relative;    /* potrzebne do pozycjonowania kreski */
+    display: inline-block;
+    transition: color 0.3s ease;
+    padding-bottom: 2px;
+}
+
+/* Ikona strzałki */
+.link-zeglarski i {
+    font-size: 0.8rem;      /* strzałka nieco mniejsza od tekstu */
+    transition: transform 0.3s ease; /* przygotowanie pod ruch */
+    display: inline-block;
+}
+
+/* Efekt najechania (Hover) - Kolor i ruch strzałki */
+.link-zeglarski:hover {
+    color: #b58900; /* Twój mosiężny/złoty kolor */
+}
+
+.link-zeglarski:hover i {
+    transform: translateX(5px); /* strzałka delikatnie płynie w prawo */
+    color: #b58900;
+}
+
+/* TWORZYMY WYSUWANĄ KRESKĘ */
+.link-zeglarski::after {
+    content: '';
+    position: absolute;
+    width: 0;               /* startujemy od zera szerokości */
+    height: 2px;            /* grubość kreski */
+    bottom: 0;
+    left: 0;
+    background-color: #b58900; /* kolor kreski (taki jak hover) */
+    transition: width 0.3s ease; /* płynne rozwijanie */
+}
+
+/* Rozwinięcie kreski przy najechaniu */
+.link-zeglarski:hover::after {
+    width: 100%;            /* kreska zajmuje całą szerokość linku */
+}
+
 @media (max-width: 991.98px) {
     .btn-mosiezny {
         display: flex !important; /* Teraz "puchnie" tylko na mobile/tablet pionowo */
