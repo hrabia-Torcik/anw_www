@@ -15,46 +15,58 @@ function setCheckboxes() {
 
 function initTomSelect(selector) {
 
-    // --- 1. TWOJA NOWA ANKIETA (TomSelect) ---
-    // Upewnij się, że masz klasę "ankieta-select" w swoim HTML
-    const ankietaEl = document.querySelectorAll(selector).forEach(ankietaEl);
+    const ankietaElements = document.querySelectorAll(selector);
 
-    if (!ankietaEl) return;
+    // if (!ankietaEl) return;
+    ankietaElements.forEach(el => {
 
-    const control = new TomSelect(ankietaEl, {
-        plugins: ['remove_button'],
-        allowEmptyOption: false,
-        persist: false,
-        placeholder: ankietaEl.getAttribute('placeholder') || "Wybierz...",
+        const control = new TomSelect(el, {
+            plugins: el.multiple ? ['remove_button'] : [],
+            persist: false,
+            create: false,
+            allowEmptyOption: false,
+            placeholder: el.getAttribute('placeholder') || "Wybierz...",
 
-        // Twoje czyszczenie okienka po wyborze (zostaje!)
-        onItemAdd: function() {
-            this.setTextboxValue('');
-            this.refreshOptions();
-        },
-
-        // Magia dzieje się tutaj:
-        // Nasze nowe stylowanie placeholdera
-        onInitialize: function() {
-            const input = this.control_input;
-            if (input) {
-                input.classList.add('small', 'text-muted', 'fst-italic');
+            // Magia dzieje się tutaj:
+            // Nasze nowe stylowanie placeholdera
+            onInitialize: function () {
+                const input = this.control_input;
+                if (input) {
+                    input.classList.add('small', 'text-muted', 'fst-italic');
+                }
             }
-        }
         });
 
+        if (el.multiple) {
+            // Reagujemy na zmiany od razu tutaj
+            control.on('change', function () {
+                // Wywołujemy funkcję budującą suwaki
+                // przekazując 'control' jako argument
+                renderujSuwaki(control);
 
-    // Nasłuchiwanie na zmiany
-    control.on('change', function() {
-        const selectedItems = control.getValue(); // Pobiera ID wybranych instruktorów
+                // Twoje czyszczenie okienka po wyborze
+                this.setTextboxValue('');
+                this.refreshOptions();
+            });
+
+            renderujSuwaki(control);
+        }
+    });
+    
+}
+
+function renderujSuwaki(selector) {
+
+        const selectedItems = selector.getValue(); // Pobiera ID wybranych instruktorów
         const container = document.getElementById('instruktorzy-oceny-container');
 
+        if (!container) return;
         // Czyścimy kontener i budujemy go na nowo
         container.innerHTML = '';
 
         selectedItems.forEach(id => {
             // Pobieramy tekst (imię i nazwisko) dla danego ID
-            const itemText = control.options[id].text;
+            const itemText = selector.options[id].text;
 
             // Tworzymy HTML dla dodatkowych pól (np. ocena 1-5)
             const row = `
@@ -88,28 +100,14 @@ function initTomSelect(selector) {
                     <div class="mb-4">
                         <label>Umiejętność przekazywania wiedzy:</label>
                             <!-- Tutaj wklejasz swoje SVG lub ikony Bootstrapa -->
-                            <div class="d-flex mt-2">
+                            <div class="d-flex flex-wrap mt-2">
                                 
-                                <div class="pe-5"><input type="radio" name="ocena_nauczania_${id}" value="1"> <i class="bi bi-star-fill"></i> </div>
-                                
-                                <div class="pe-5"><input type="radio" name="ocena_nauczania_${id}" value="2"> <i class="bi bi-star-fill"></i> 
-                                                                                                              <i class="bi bi-star-fill"></i> </div>
-                               
-                                <div class="pe-5"><input type="radio" name="ocena_nauczania_${id}" value="3"> <i class="bi bi-star-fill"></i>
-                                                                                                              <i class="bi bi-star-fill"></i>
-                                                                                                              <i class="bi bi-star-fill"></i> </div>
-                                
-                                <div class="pe-5"><input type="radio" name="ocena_nauczania_${id}" value="3"> <i class="bi bi-star-fill"></i>
-                                                                                                              <i class="bi bi-star-fill"></i>
-                                                                                                              <i class="bi bi-star-fill"></i>
-                                                                                                              <i class="bi bi-star-fill"></i> </div>
-                                                                                                              
-                                <div class="pe-5"><input type="radio" name="ocena_nauczania_${id}" value="3"> <i class="bi bi-star-fill"></i>
-                                                                                                              <i class="bi bi-star-fill"></i>
-                                                                                                              <i class="bi bi-star-fill"></i>
-                                                                                                              <i class="bi bi-star-fill"></i>
-                                                                                                              <i class="bi bi-star-fill"></i> </div>                                                                              
-
+                                ${[1, 2, 3, 4, 5].map(num => `
+                            <div class="pe-3">
+                                <input type="radio" name="ocena_nauczania_${id}" value="${num}" ${num === 3 ? 'checked' : ''}> 
+                                ${Array(num).fill('<i class="bi bi-star-fill text-warning"></i>').join('')}
+                            </div>
+                        `).join('')}
                             </div>
                     </div>
                     
@@ -118,7 +116,7 @@ function initTomSelect(selector) {
                         <select name="ocena_atmosfery_${id}" class="form-select">
                             <option value="1">1 - ciężko, nie mam ochoty doświadczać takiego zachowania</option>
                             <option value="2">2 - nieprzyjemnie, z deka nerwowo</option>
-                            <option value="3">3 - w porządku, neutralnie</option>
+                            <option value="3" selected>3 - w porządku, neutralnie</option>
                             <option value="4">4 - było fajnie</option>
                             <option value="5">5 - to był turboodlot</option>
                         </select>
@@ -127,22 +125,6 @@ function initTomSelect(selector) {
             `;
             container.insertAdjacentHTML('beforeend', row);
         });
-    });
-    // NOWOŚĆ: Funkcja budująca suwaki wyciągnięta do osobnej nazwy
-    const buildRatings = () => {
-        const selectedItems = control.getValue();
-        const container = document.getElementById('instruktorzy-oceny-container');
-
-        // Tutaj logika budowania suwaków (ta sama co wcześniej w 'change')
-        // Ale dodaj mały trik: spróbujemy odzyskać wartość z POST jeśli istnieje
-        // (Wymaga to małego wsparcia od Django w punkcie 3)
-    };
-
-    // Odpal budowanie przy każdej zmianie...
-    control.on('change', buildRatings);
-
-    // ...oraz NATYCHMIAST przy załadowaniu (jeśli są już wybrani instruktorzy)
-    buildRatings();
 }
 
 
