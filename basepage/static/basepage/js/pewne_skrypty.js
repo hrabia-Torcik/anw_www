@@ -75,6 +75,7 @@ function renderujSuwaki(selector) {
                     <div class="mb-4">
                         <label>Punktualność:</label>
                         <select name="ocena_punktualnosc_${id}" class="form-select">
+                            <option value="" disabled selected hidden>Wybierz ocenę...</option>
                             <option value="1">1 - ciągle czekaliśmy, zdażyło się, że długo</option>
                             <option value="2">2 - regularne spóźnienia, ale o niezauważalnej długości</option>
                             <option value="3">3 - w kratkę, raz tak, raz śmak</option>
@@ -104,8 +105,11 @@ function renderujSuwaki(selector) {
                                 
                                 ${[1, 2, 3, 4, 5].map(num => `
                             <div class="pe-3">
-                                <input type="radio" name="ocena_nauczania_${id}" value="${num}" ${num === 3 ? 'checked' : ''}> 
+                                
+                                <label class="d-flex align-items-center custom-star-label" style="cursor: pointer;">
+                                <input type="radio" name="ocena_nauczania_${id}" value="${num}" class="me-2"}>
                                 ${Array(num).fill('<i class="bi bi-star-fill text-warning"></i>').join('')}
+                                </label>
                             </div>
                         `).join('')}
                             </div>
@@ -114,9 +118,10 @@ function renderujSuwaki(selector) {
                     <div class="mb-4">
                         <label>Sposób bycia:</label>
                         <select name="ocena_atmosfery_${id}" class="form-select">
+                            <option value="" disabled selected hidden>Wybierz ocenę...</option>
                             <option value="1">1 - ciężko, nie mam ochoty doświadczać takiego zachowania</option>
                             <option value="2">2 - nieprzyjemnie, z deka nerwowo</option>
-                            <option value="3" selected>3 - w porządku, neutralnie</option>
+                            <option value="3">3 - w porządku, neutralnie</option>
                             <option value="4">4 - było fajnie</option>
                             <option value="5">5 - to był turboodlot</option>
                         </select>

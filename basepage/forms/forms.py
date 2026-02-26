@@ -24,15 +24,15 @@ class AnkietaForm(forms.ModelForm):
         widgets = {
             # Django samo weźmie choices z modelu, Ty tylko dokładasz klasę CSS
             'plec': forms.Select(attrs={'class': 'form-select ankieta-select'}),
-            'wiek': forms.Select(attrs={'class': 'form-select'}),
+            'wiek': forms.Select(attrs={'class': 'form-select ankieta-select'}),
             'wybrani_instruktorzy': forms.SelectMultiple(attrs={
             'class': 'form-select ankieta-select',
             'placeholder': 'Wybierz kogoś...',
         }),
-            'czy_polecisz': forms.Select(attrs={'class': 'form-select'}),
-            'startowa_wiedza': forms.Select(attrs={'class': 'form-select'}),
-            'nabycie_wiedzy': forms.Select(attrs={'class': 'form-select'}),
-            'prowadzenie_rejsu': forms.Select(attrs={'class': 'form-select'}),
+            'czy_polecisz': forms.Select(attrs={'class': 'form-select ankieta-select'}),
+            'startowa_wiedza': forms.Select(attrs={'class': 'form-select ankieta-select'}),
+            'nabycie_wiedzy': forms.Select(attrs={'class': 'form-select ankieta-select'}),
+            'prowadzenie_rejsu': forms.Select(attrs={'class': 'form-select ankieta-select'}),
             'uwagi': forms.Textarea(attrs={'class': 'form-control', 'rows': 3}),
         }
 

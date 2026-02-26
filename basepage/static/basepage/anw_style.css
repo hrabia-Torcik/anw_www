@@ -334,6 +334,40 @@ html {
     width: 100%;            /* kreska zajmuje całą szerokość linku */
 }
 
+/* Styl dla selecta, gdy wybrany jest placeholder (pusta wartość) */
+select.form-select:has(option[value=""]:checked) {
+    color: #6c757d !important;    /* jasny szary */
+    font-size: 0.85rem !important; /* mniejszy */
+    font-style: italic !important; /* kursywa */
+}
+
+/* Przywrócenie normalnego wyglądu, gdy użytkownik wybierze ocenę (1-5) */
+select.form-select:not(:has(option[value=""]:checked)) {
+    color: #212529 !important;
+    font-size: 1rem !important;
+    font-style: normal !important;
+}
+
+.custom-star-label {
+    padding: 5px 10px;
+    border-radius: 5px;
+    transition: background-color 0.2s ease;
+}
+
+/* Delikatne podświetlenie tła przy najechaniu (opcjonalnie) */
+.custom-star-label:hover {
+    background-color: rgba(181, 137, 0, 0.05); /* lekki mosiężny nalot */
+}
+
+/* Powiększenie gwiazdek przy najechaniu na label */
+.custom-star-label:hover .bi-star-fill {
+    transform: scale(1.15);
+    transition: transform 0.2s ease;
+    display: inline-block;
+}
+
+.bi-star-fill { margin-right: 2px; }
+
 
 @media (max-width: 991.98px) {
     .btn-mosiezny {
