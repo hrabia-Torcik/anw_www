@@ -17,12 +17,13 @@ function initTomSelect(selector) {
 
     // --- 1. TWOJA NOWA ANKIETA (TomSelect) ---
     // Upewnij się, że masz klasę "ankieta-select" w swoim HTML
-    const ankietaEl = document.querySelector(selector);
+    const ankietaEl = document.querySelectorAll(selector).forEach(ankietaEl);
 
     if (!ankietaEl) return;
 
     const control = new TomSelect(ankietaEl, {
         plugins: ['remove_button'],
+        allowEmptyOption: false,
         persist: false,
         placeholder: ankietaEl.getAttribute('placeholder') || "Wybierz...",
 
@@ -62,8 +63,8 @@ function initTomSelect(selector) {
                     <div class="mb-4">
                         <label>Punktualność:</label>
                         <select name="ocena_punktualnosc_${id}" class="form-select">
-                            <option value="1">1 -ciągle czekaliśmy, zdażyło się, że długo</option>
-                            <option value="2">2 -regularne spóźnienia, ale o niezauważalnej długości</option>
+                            <option value="1">1 - ciągle czekaliśmy, zdażyło się, że długo</option>
+                            <option value="2">2 - regularne spóźnienia, ale o niezauważalnej długości</option>
                             <option value="3">3 - w kratkę, raz tak, raz śmak</option>
                             <option value="4">4 - spóźnienie raz, może trzy razy</option>
                             <option value="5">5 - zawsze punktualnie</option>
