@@ -41,7 +41,6 @@ class AnkietaForm(forms.ModelForm):
         super().__init__(*args, **kwargs)
         # TUTAJ przywracasz ładne wyświetlanie imion bez definiowania całego pola od nowa:
         self.fields['wybrani_instruktorzy'].label_from_instance = lambda obj: f"{obj.instruktoro_name} {obj.instruktoro_surname[0]}."
-        self.fields['plec'].empty_label = "wybierz odpowiedź..."
         self.fields['wiek'].empty_label = "wybierz odpowiedź..."
         self.fields['czy_polecisz'].empty_label = "wybierz odpowiedź..."
         self.fields['startowa_wiedza'].empty_label = "wybierz odpowiedź..."
