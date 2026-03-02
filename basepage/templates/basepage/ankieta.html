@@ -7,10 +7,10 @@
     {{ text|safe }}
 </div>
     <div class="container p-3">
-        <form method="post" novalidate>
+        <form method="post" novalidate id="ankieta-form">
         {% csrf_token %}
-            <div class="row justify-content-center align-items-end g-4 mb-4">
-                <div class="col-md-5">
+            <div class="row justify-content-center align-items-end g-4">
+                <div class="col-md-5 ocena-blok mb-4">
                     <label class="form-label">{{ form.plec.label_tag }}</label>
                     {% render_field form.plec %}
                     {# TUTAJ DODAJEMY WYŚWIETLANIE BŁĘDÓW #}
@@ -21,8 +21,9 @@
                             {% endfor %}
                         </div>
                     {% endif %}
+                <div class="invalid-feedback">Proszę wybrać jedną z opcji z listy.</div>
                 </div>
-                <div class="col-md-5">
+                <div class="col-md-5 ocena-blok mb-4">
                     <label class="form-label">{{ form.wiek.label_tag }}</label>
                     {% render_field form.wiek %}
                     {# TUTAJ DODAJEMY WYŚWIETLANIE BŁĘDÓW #}
@@ -33,25 +34,27 @@
                             {% endfor %}
                         </div>
                     {% endif %}
+                <div class="invalid-feedback">Proszę wybrać jedną z opcji z listy.</div>
                 </div>
             </div>
-            <div class="row justify-content-center align-items-end g-4 mb-4">
-                <div class="col-md-10">
+            <div class="row justify-content-center align-items-end g-4">
+                <div class="col-md-10 ocena-blok mb-4">
                     <label for="{{ form.wybrani_instruktorzy.id_for_label }}" class="form-label">{{ form.wybrani_instruktorzy.label_tag }}</label>
                     {% render_field form.wybrani_instruktorzy %}
                     {% if form.wybrani_instruktorzy.errors|striptags %}
-        <div class="text-danger small mt-1">
-            {% for error in form.wybrani_instruktorzy.errors %}
-                {{ error }}
-            {% endfor %}
-        </div>
-    {% endif %}
+                        <div class="text-danger small mt-1">
+                            {% for error in form.wybrani_instruktorzy.errors %}
+                                {{ error }}
+                            {% endfor %}
+                        </div>
+                    {% endif %}
+                <div class="invalid-feedback">Proszę kogoś wskazać.</div>
                 </div>
                 <div id="instruktorzy-oceny-container" class="mt-4">
                 </div>
 
 
-                <div class="col-md-5">
+                <div class="col-md-5 ocena-blok mb-4">
                     <label class="form-label">{{ form.startowa_wiedza.label_tag }}</label>
                     {% render_field form.startowa_wiedza %}
                     {# TUTAJ DODAJEMY WYŚWIETLANIE BŁĘDÓW #}
@@ -62,8 +65,9 @@
                             {% endfor %}
                         </div>
                     {% endif %}
+                <div class="invalid-feedback">Proszę wybrać jedną z opcji z listy.</div>
                 </div>
-                <div class="col-md-5">
+                <div class="col-md-5 ocena-blok mb-4">
                     <label class="form-label">{{ form.nabycie_wiedzy.label_tag }}</label>
                     {% render_field form.nabycie_wiedzy %}
                     {# TUTAJ DODAJEMY WYŚWIETLANIE BŁĘDÓW #}
@@ -74,8 +78,9 @@
                             {% endfor %}
                         </div>
                     {% endif %}
+                <div class="invalid-feedback">Proszę wybrać jedną z opcji z listy.</div>
                 </div>
-                <div class="col-md-5">
+                <div class="col-md-5 ocena-blok mb-4">
                     <label class="form-label">{{ form.prowadzenie_rejsu.label_tag }}</label>
                     {% render_field form.prowadzenie_rejsu %}
                     {# TUTAJ DODAJEMY WYŚWIETLANIE BŁĘDÓW #}
@@ -86,8 +91,9 @@
                             {% endfor %}
                         </div>
                     {% endif %}
+                <div class="invalid-feedback">Proszę wybrać jedną z opcji z listy.</div>
                 </div>
-                <div class="col-md-5">
+                <div class="col-md-5 ocena-blok mb-4">
                     <label class="form-label">{{ form.czy_polecisz.label_tag }}</label>
                     {% render_field form.czy_polecisz %}
                     {# TUTAJ DODAJEMY WYŚWIETLANIE BŁĘDÓW #}
@@ -98,6 +104,7 @@
                             {% endfor %}
                         </div>
                     {% endif %}
+                <div class="invalid-feedback">Proszę wybrać jedną z opcji z listy.</div>
                 </div>
 
             </div>

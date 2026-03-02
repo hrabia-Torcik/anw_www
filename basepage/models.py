@@ -162,7 +162,7 @@ class WynikAnkiety(models.Model):
 
     czy_polecisz = models.CharField(max_length=50,
         choices=CZY_POLECISZ_CHOICES,
-        verbose_name="Czy poleciłbyś nas znajomemu?",)
+        verbose_name="Czy polecisz nas znajomej osobie?",)
 
     startowa_wiedza = models.CharField(max_length=50,
         choices=STARTOWA_WIEDZA_CHOICES,

@@ -348,25 +348,151 @@ select.form-select:not(:has(option[value=""]:checked)) {
     font-style: normal !important;
 }
 
+/* --- 1. KONTENER GŁÓWNY (OCENA-BLOK) --- */
+.ocena-blok {
+    position: relative;
+    padding-bottom: 1.5rem; /* Rezerwacja miejsca na błąd */
+    margin-bottom: 1rem;
+}
+
+/* --- 2. STREFA GWIAZDEK (FIT-CONTENT) --- */
+
+.strefa-gwiazdek {
+    display: inline-grid !important;
+    vertical-align: middle;
+    position: relative !important;
+    width: fit-content !important;
+    transition: all 0.3s ease;
+}
+
+/* 1. Kiedy jest błąd - zapalamy różowe tło i CZERWONĄ RAMKĘ */
+/* 3. WALIDACJA: Zapalamy tło i wykrzyknik */
+.was-validated .strefa-gwiazdek:has(input:invalid) {
+    background-color: rgba(220, 53, 69, 0.05) !important;
+    border: 1px solid #dc3545 !important;
+    padding-right: 40px !important; /* Rezerwacja miejsca wewnątrz tła */
+}
+
+
+/* 2. POKAZUJEMY WYKRZYKNIK (naszą nową ikonkę bi) */
+.was-validated .strefa-gwiazdek:has(input:invalid) .wykrzyknik-ankieta {
+    display: block !important; /* Robi się widoczny tylko przy błędzie */
+}
+
+
+
+.wykrzyknik-ankieta {
+    display: none !important;
+    position: absolute !important;
+    right: 10px !important; /* Odstęp od prawej krawędzi różowego tła */
+    top: 50% !important;
+    transform: translateY(-50%) !important;
+    font-size: 1.2rem !important;
+    color: #dc3545 !important;
+    pointer-events: none;
+}
+
+/* Różowy podkład przy błędzie (tylko dla gwiazdek) */
+/*.ocena-blok.was-validated:has(input[type="radio"]:invalid) .strefa-gwiazdek {*/
+/*    background-color: rgba(255,0,0, 0.15);*/
+/*    border: red solid 1px;*/
+/*    border-radius: 12px;*/
+/*    padding: 10px 15px;*/
+/*    margin: 0 -15px 0.5rem -15px;*/
+/*}*/
+
+/* --- 3. KAFELKI GWIAZDEK (CUSTOM-STAR-LABEL) --- */
 .custom-star-label {
     padding: 5px 10px;
     border-radius: 5px;
-    transition: background-color 0.2s ease;
+    border: 1px solid transparent; /* Rezerwacja miejsca na ramkę */
+    transition: all 0.2s ease;
+    cursor: pointer;
 }
 
-/* Delikatne podświetlenie tła przy najechaniu (opcjonalnie) */
+.custom-star-label .form-check-input {
+    display: none !important; /* Ukrycie kółka */
+}
+
+/* Hover na kafelku */
 .custom-star-label:hover {
-    background-color: rgba(181, 137, 0, 0.05); /* lekki mosiężny nalot */
+    background-color: #f8f9fa !important;
+    border-color: #dee2e6 !important;
 }
 
-/* Powiększenie gwiazdek przy najechaniu na label */
-.custom-star-label:hover .bi-star-fill {
+/* Zaznaczony kafelek */
+.custom-star-label:has(input:checked) {
+    border-color: #0d6efd !important;
+    background-color: #f0f7ff !important;
+    box-shadow: 0 0 5px rgba(13, 110, 253, 0.2);
+}
+
+/* --- 4. IKONY GWIAZDEK (I) --- */
+/* 1. FUNDAMENT: Ikony MUSZĄ być inline-block, żeby Scale zadziałało */
+.custom-star-label i.bi {
+    display: inline-block; /* KLUCZOWA LINIA */
+    color: #997404;
+    transition: transform 0.2s ease-in-out, color 0.2s ease;
+    margin: 0 3px;
+}
+
+/* 2. POWIĘKSZENIE przy najechaniu (Hover) */
+.custom-star-label:hover i.bi {
     transform: scale(1.15);
-    transition: transform 0.2s ease;
-    display: inline-block;
+    color: #e2bb11;
 }
 
-.bi-star-fill { margin-right: 2px; }
+/* 3. POWIĘKSZENIE wybranych gwiazdek (Checked) */
+.custom-star-label:has(input:checked) i.bi {
+    color: #ffc107 !important;
+    transform: scale(1.1) !important; /* Tutaj ustawiasz jak bardzo mają urosnąć wybrane */
+}
+
+
+/* --- 5. WALIDACJA I NAPISY BŁĘDU --- */
+.invalid-feedback {
+    display: none !important;
+    position: absolute;
+    bottom: 0;
+    font-size: 0.8rem;
+    margin-top: 0.5rem;
+}
+
+
+/* Pokazuj napis błędu gdy blok jest invalid */
+.ocena-blok.was-validated:has(:invalid) .invalid-feedback {
+    display: block !important;
+}
+
+/* Czerwona ramka TomSelect */
+.ocena-blok.was-validated .ts-wrapper .ts-control {
+    border-color: #dc3545 !important;
+    background-image: none !important;
+}
+
+/* Ukryj błąd gdy pole jest poprawne */
+.ocena-blok.was-validated :valid ~ .invalid-feedback {
+    display: none !important;
+}
+
+.ocena-blok .custom-check-row:hover {
+    background-color: transparent !important;
+    box-shadow: none !important;
+}
+
+/* 2. POWIĘKSZENIE WYBRANYCH GWIAZDEK (NAPRAWA) */
+.custom-star-label:has(input:checked) i.bi {
+    display: inline-block !important; /* Bez tego scale nie zadziała */
+    transform: scale(1.25) !important;
+    color: #ffc107 !important;
+}
+
+/* 3. ŻEBY SAM KAFELEK NIE MIAŁ CIENIA PRZY NAJECHANIU */
+.custom-star-label:hover {
+    box-shadow: none !important;
+    background-color: #f8f9fa !important;
+}
+
 
 
 @media (max-width: 991.98px) {
