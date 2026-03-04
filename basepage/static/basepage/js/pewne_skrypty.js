@@ -57,6 +57,7 @@ document.addEventListener('submit', function(event) {
 
 // --- 2. GENEROWANIE KART OCEN ---
 function renderujSuwaki(control) {
+
     const selectedItems = control.getValue();
     const container = document.getElementById('instruktorzy-oceny-container');
     if (!container) return;
@@ -74,11 +75,17 @@ function renderujSuwaki(control) {
     container.innerHTML = '';
 
     selectedItems.forEach(id => {
-        const itemText = control.options[id]?.text || "Instruktor";
+
+        const itemText = control.options[id]?.text || "Instruktoro";
+        // Poniżej jest zmienna, która jest na potrzeby odmienionej nazwy instruktora.
+        // Definicja jest sprytna, bo ma oddzielone symbolem or kolejne wersje - próbuj pierwszą, jeśli nie ma to drugą itd, itd.
+        // Żeby móc tak zrobić mapaOdmian musi być zdefiniowana w szablonie html, gdzie wczytywany jest ten skrypt.
+        // Musi być nad nim. U mnie to jest w bloku na dole szablonu.
+        const odmienionyTekst = mapaOdmian[String(id)] || control.options[id]?.text || "Instruktoro";
 
         const row = `
             <div class="card col-md-10 offset-md-1 mb-4 p-3 bg-light shadow-sm border-0 border-start border-primary border-4 new-card">
-                <h5 class="mb-3">Ocena dla: <strong class="text-primary">${itemText}</strong></h5>
+                <h5 class="mb-3">Ocena dla <strong class="text-primary">${odmienionyTekst}</strong></h5>
                 
                 <div class="ocena-blok mb-4">
                     <label class="form-label fw-bold">Punktualność:</label>
@@ -97,13 +104,17 @@ function renderujSuwaki(control) {
                     <label class="form-label fw-bold">Wiedza merytoryczna:</label>
                     <input type="range" name="ocena_wiedza_${id}" class="form-range" min="1" max="5" step="1" value="${savedValues[`ocena_wiedza_${id}`] || 3}">
                     <div class="d-flex justify-content-between px-1 text-muted small">
+                        <span><i class="bi bi-emoji-angry"></i></span><span><i class="bi bi-emoji-frown"></i></span><span><i class="bi bi-circle"></i></span><span><i class="bi bi-emoji-smile"></i></span><span><i class="bi bi-emoji-heart-eyes"></i></span>
+                    </div>
+                    
+                    <div class="d-flex justify-content-between px-1 mt-1 text-muted small">
                         <span>Słabo</span><span>Super!</span>
                     </div>
                 </div>
 
                 <div class="ocena-blok mb-4">
                     <label class="form-label fw-bold d-block">Umiejętność przekazywania wiedzy:</label>
-                    <div class="strefa-gwiazdek p-2 pe-4 ms-3 rounded"> 
+                    <div class="strefa-gwiazdek p-2 pe-4 ms-lg-3 rounded"> 
                         <div class="d-flex flex-wrap gap-2 my-2">
                             ${[1, 2, 3, 4, 5].map(num => `
                                 <div class="form-check form-check-inline m-0 custom-check-row">
@@ -125,11 +136,11 @@ function renderujSuwaki(control) {
                     <label class="form-label fw-bold">Sposób bycia:</label>
                     <select name="ocena_atmosfery_${id}" class="form-select" required>
                         <option value="" disabled selected hidden>Wybierz ocenę...</option>
-                        <option value="1">1 - ciężko</option>
-                        <option value="2">2 - nieprzyjemnie, z deka nerwowo</option>
-                        <option value="3">3 - w porządku, neutralnie</option>
-                        <option value="4">4 - było fajnie</option>
-                        <option value="5">5 - turboodlot</option>
+                        <option value="-2">-2 - ciężko</option>
+                        <option value="-1">-1 - nieprzyjemnie, z deka nerwowo</option>
+                        <option value="0">0 - w porządku, neutralnie</option>
+                        <option value="1">1 - było fajnie</option>
+                        <option value="2">2 - turboodlot</option>
                     </select>
                     <div class="invalid-feedback">Proszę wybrać ocenę sposobu bycia.</div>
                 </div>

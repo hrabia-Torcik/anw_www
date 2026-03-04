@@ -1,5 +1,5 @@
 from django import forms
-from basepage.models import Instruktorostwo, WynikAnkiety, OceniajStrone
+from basepage.models import WynikAnkiety, OceniajStrone
 
 
 class UploadFileForm(forms.Form):
@@ -14,7 +14,7 @@ class XlsxImportForm(forms.Form):
 class InstruktorChoiceField(forms.ModelMultipleChoiceField):
     def label_from_instance(self, obj):
         # Tutaj definiujesz co widzi użytkownik
-        return f"{obj.instruktoro_name} {obj.instruktoro_surname[0]}."
+        return f"{obj.imie} {obj.nazwisko[0]}."
 
 class AnkietaForm(forms.ModelForm):
 
@@ -40,7 +40,7 @@ class AnkietaForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         # TUTAJ przywracasz ładne wyświetlanie imion bez definiowania całego pola od nowa:
-        self.fields['wybrani_instruktorzy'].label_from_instance = lambda obj: f"{obj.instruktoro_name} {obj.instruktoro_surname[0]}."
+        self.fields['wybrani_instruktorzy'].label_from_instance = lambda obj: f"{obj.imie} {obj.nazwisko[0]}."
         self.fields['plec'].widget.attrs['class'] = 'form-select ankieta-select'
         self.fields['wiek'].widget.attrs['class'] = 'form-select ankieta-select'
         self.fields['czy_polecisz'].widget.attrs['class'] = 'form-select ankieta-select'

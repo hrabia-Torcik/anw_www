@@ -1,19 +1,17 @@
 from django.shortcuts import render, redirect
-from basepage.models import (Klientela, UczestUnder18, KursyWszystkie, ZapisyNaKursy, PrzypisOpiekU18,
-                             PrzypisanieDoDniaKursu, DniKursowe, Instruktorostwo, OcenaSzczegolowa)
-from django.template import loader
-
-from django.http import HttpResponseRedirect
-from django.shortcuts import render
-from datetime import datetime, timedelta
-from datetime import date
+from basepage.models import (Klient, UczestUnder18, Wydarzenie, ZapisNaKurs, PrzypisOpiekU18,
+                             PrzypisanieDoDniaKursu, DzienKursu, Instruktor, OcenaSzczegolowa)
+import json
+from datetime import date, timedelta
+from django.utils import timezone
 from basepage.forms.forms import AnkietaForm, OceniajStroneFORM
 # from somewhere import handle_uploaded_file
 import pandas as pd
 
+from basepage.logic import znajdz_odmiane
 from django.contrib import messages
 
-teraz_data = datetime.now().date()
+teraz_data = timezone.now().date()
 # teraz_data = date(2026, 12, 22)
 teraz_rok = teraz_data.strftime("%Y")
 poczatek_roku = date(int(teraz_rok), 1, 1)
@@ -36,9 +34,9 @@ def basepage(request):
     '''
 
     def znajdz_PZ_Wczasie(kursy, data1):
-        qs1 = KursyWszystkie.objects.filter(kursu_data_start__contains=teraz_rok).filter(
-            kursu_name__contains='patent żeglarski').filter(
-            kursu_data_start__range=(data1, koniec_roku))
+        qs1 = Wydarzenie.objects.filter(data_start__contains=teraz_rok).filter(
+            name__contains='patent żeglarski').filter(
+            data_start__range=(data1, koniec_roku))
         if kursy:
             kursy = kursy | qs1
         else:
@@ -47,9 +45,9 @@ def basepage(request):
         return kursy
 
     def znajdz_SM_Wczasie(kursy, data1):
-        qs1 = KursyWszystkie.objects.filter(kursu_data_start__contains=teraz_rok).filter(
-            kursu_name__contains='patent motorowodny').filter(
-            kursu_data_start__range=(data1, koniec_roku))
+        qs1 = Wydarzenie.objects.filter(data_start__contains=teraz_rok).filter(
+            name__contains='patent motorowodny').filter(
+            data_start__range=(data1, koniec_roku))
         if kursy:
             kursy = kursy | qs1
         else:
@@ -58,9 +56,9 @@ def basepage(request):
         return kursy
 
     def znajdz_EG_Wczasie(kursy, data1):
-        qs1 = KursyWszystkie.objects.filter(kursu_data_start__contains=teraz_rok).filter(
-            kursu_name__contains='egzamin żeglarski').filter(
-            kursu_data_start__range=(data1, koniec_roku))
+        qs1 = Wydarzenie.objects.filter(data_start__contains=teraz_rok).filter(
+            name__contains='egzamin żeglarski').filter(
+            data_start__range=(data1, koniec_roku))
         if kursy:
             kursy = kursy | qs1
         else:
@@ -69,12 +67,12 @@ def basepage(request):
         return kursy
 
     def znajdz_MA_Wczasie(kursy, data1):
-        qs1a = KursyWszystkie.objects.filter(kursu_data_start__contains=teraz_rok).filter(
-            kursu_name__contains='manewrowanie').filter(
-            kursu_data_start__range=(data1, koniec_roku))
-        qs1b = KursyWszystkie.objects.filter(kursu_data_start__contains=teraz_rok).filter(
-            kursu_name__contains='doskonalenie').filter(
-            kursu_data_start__range=(data1, koniec_roku))
+        qs1a = Wydarzenie.objects.filter(data_start__contains=teraz_rok).filter(
+            name__contains='manewrowanie').filter(
+            data_start__range=(data1, koniec_roku))
+        qs1b = Wydarzenie.objects.filter(data_start__contains=teraz_rok).filter(
+            name__contains='doskonalenie').filter(
+            data_start__range=(data1, koniec_roku))
         if qs1a and qs1b:
             qs1 = qs1a | qs1b
         elif qs1a:
@@ -90,9 +88,9 @@ def basepage(request):
         return kursy
 
     def znajdz_JSM_Wczasie(kursy, data1):
-        qs1 = KursyWszystkie.objects.filter(kursu_data_start__contains=teraz_rok).filter(
-            kursu_name__contains='jachtowy sternik morski').filter(
-            kursu_data_start__range=(data1, koniec_roku))
+        qs1 = Wydarzenie.objects.filter(data_start__contains=teraz_rok).filter(
+            name__contains='jachtowy sternik morski').filter(
+            data_start__range=(data1, koniec_roku))
         if kursy:
             kursy = kursy | qs1
         else:
@@ -101,9 +99,9 @@ def basepage(request):
         return kursy
 
     def znajdz_RC_Wczasie(kursy, data1):
-        qs1 = KursyWszystkie.objects.filter(kursu_data_start__contains=teraz_rok).filter(
-            kursu_name__contains='licencja').filter(
-            kursu_data_start__range=(data1, koniec_roku))
+        qs1 = Wydarzenie.objects.filter(data_start__contains=teraz_rok).filter(
+            name__contains='licencja').filter(
+            data_start__range=(data1, koniec_roku))
         if kursy:
             kursy = kursy | qs1
         else:
@@ -126,10 +124,10 @@ def basepage(request):
     jestKursWPrzeszlosci = ''
     nieMaJuzKursuWPlanach = ''
 
-    liczba_wszystkich = KursyWszystkie.objects.filter(kursu_data_start__contains=teraz_rok).count()
+    liczba_wszystkich = Wydarzenie.objects.filter(data_start__contains=teraz_rok).count()
 
-    liczba_poDzisiaju = KursyWszystkie.objects.filter(kursu_data_start__contains=teraz_rok).filter(
-        kursu_data_start__range=((teraz_data + timedelta(days=1)), koniec_roku)).count()
+    liczba_poDzisiaju = Wydarzenie.objects.filter(data_start__contains=teraz_rok).filter(
+        data_start__range=((teraz_data + timedelta(days=1)), koniec_roku)).count()
 
     liczba_zak = liczba_wszystkich - liczba_poDzisiaju
 
@@ -182,10 +180,10 @@ def basepage(request):
                             kursy = znajdz_RC_Wczasie(kursy, (teraz_data + timedelta(days=1)))
         else:
             if z_czekboksa:
-                kursy = KursyWszystkie.objects.filter(kursu_data_start__contains=teraz_rok)
+                kursy = Wydarzenie.objects.filter(data_start__contains=teraz_rok)
             else:
-                kursy = KursyWszystkie.objects.filter(kursu_data_start__contains=teraz_rok).filter(
-                    kursu_data_start__range=((teraz_data + timedelta(days=1)), koniec_roku))
+                kursy = Wydarzenie.objects.filter(data_start__contains=teraz_rok).filter(
+                    data_start__range=((teraz_data + timedelta(days=1)), koniec_roku))
 
         messages.success(request, "Formularz wysłany!", extra_tags='zakonczone')
 
@@ -232,35 +230,37 @@ def basepage(request):
 
     if kursy == '':
         if liczba_poDzisiaju == 0:
-            kursy = KursyWszystkie.objects.filter(kursu_data_start__contains=teraz_rok)
+            kursy = Wydarzenie.objects.filter(data_start__contains=teraz_rok)
         else:
-            kursy = KursyWszystkie.objects.filter(kursu_data_start__contains=teraz_rok).filter(
-                kursu_data_start__range=((teraz_data + timedelta(days=1)), koniec_roku))
+            kursy = Wydarzenie.objects.filter(data_start__contains=teraz_rok).filter(
+                data_start__range=((teraz_data + timedelta(days=1)), koniec_roku))
 
     context['flage3'] = flage3
 
-    # kursy = KursyWszystkie.objects.all()
+    # kursy = Wydarzenie.objects.all()
     # klienciNiedorosli = UczestUnder18.objects.all()
     # zapisy = ZapisyNaKursy.objects.all()
 
     kursy_mod = []
     for elem in kursy:
-        if elem.kursu_data_start == elem.kursu_data_end:
-            kursy_mod.append({'nazwa': elem.kursu_name,
-                              'skrot': elem.kursu_kod,
-                              'tryb': elem.kursu_schedule,
-                              'data1': elem.kursu_data_start,
+        if elem.data_start == elem.data_end:
+            kursy_mod.append({'nazwa': elem.name,
+                              'skrot': elem.kod,
+                              'tryb': elem.schedule,
+                              'data1': elem.data_start,
                               'data2': '',
-                              'cena': elem.kursu_prise,
-                              'id': elem.kursu_lp})
+                              'cena': elem.price,
+                              # 'cena_promo': elem.price_promo,
+                              'id': elem.id})
         else:
-            kursy_mod.append({'nazwa': elem.kursu_name,
-                              'skrot': elem.kursu_kod,
-                              'tryb': elem.kursu_schedule,
-                              'data1': elem.kursu_data_start,
-                              'data2': elem.kursu_data_end,
-                              'cena': elem.kursu_prise,
-                              'id': elem.kursu_lp})
+            kursy_mod.append({'nazwa': elem.name,
+                              'skrot': elem.kod,
+                              'tryb': elem.schedule,
+                              'data1': elem.data_start,
+                              'data2': elem.data_end,
+                              'cena': elem.price,
+                              # 'cena_promo': elem.price_promo,
+                              'id': elem.id})
 
     flage = ''
     sign = ''
@@ -282,35 +282,35 @@ def basepage(request):
             if elem:
 
                 if u == 0:
-                    liczba = KursyWszystkie.objects.filter(kursu_data_start__contains=teraz_rok).filter(
-                        kursu_name=('patent żeglarski')).count()
+                    liczba = Wydarzenie.objects.filter(data_start__contains=teraz_rok).filter(
+                        name=('patent żeglarski')).count()
                     liczniki_dlugosci[0] = liczba
                     suma_licznikow += liczba
                 if u == 1:
-                    liczba = KursyWszystkie.objects.filter(kursu_data_start__contains=teraz_rok).filter(
-                        kursu_name=('patent motorowodny')).count()
+                    liczba = Wydarzenie.objects.filter(data_start__contains=teraz_rok).filter(
+                        name=('patent motorowodny')).count()
                     liczniki_dlugosci[1] = liczba
                     suma_licznikow += liczba
                 if u == 2:
-                    liczba = KursyWszystkie.objects.filter(kursu_data_start__contains=teraz_rok).filter(
-                        kursu_name=('egzamin żeglarski')).count()
+                    liczba = Wydarzenie.objects.filter(data_start__contains=teraz_rok).filter(
+                        name=('egzamin żeglarski')).count()
                     liczniki_dlugosci[2] = liczba
                     suma_licznikow += liczba
                 if u == 3:
-                    liczba1 = KursyWszystkie.objects.filter(kursu_data_start__contains=teraz_rok).filter(
-                        kursu_name__icontains='manewrowanie').count()
-                    liczba2 = KursyWszystkie.objects.filter(kursu_data_start__contains=teraz_rok).filter(
-                        kursu_name__icontains='doskonalenie').count()
+                    liczba1 = Wydarzenie.objects.filter(data_start__contains=teraz_rok).filter(
+                        name__icontains='manewrowanie').count()
+                    liczba2 = Wydarzenie.objects.filter(data_start__contains=teraz_rok).filter(
+                        name__icontains='doskonalenie').count()
                     liczniki_dlugosci[3] = liczba1 + liczba2
                     suma_licznikow += (liczba1 + liczba2)
                 if u == 4:
-                    liczba = KursyWszystkie.objects.filter(kursu_data_start__contains=teraz_rok).filter(
-                        kursu_name=('jachtowy sternik morski')).count()
+                    liczba = Wydarzenie.objects.filter(data_start__contains=teraz_rok).filter(
+                        name=('jachtowy sternik morski')).count()
                     liczniki_dlugosci[4] = liczba
                     suma_licznikow += liczba
                 if u == 5:
-                    liczba = KursyWszystkie.objects.filter(kursu_data_start__contains=teraz_rok).filter(
-                        kursu_name__icontains=('licencja')).count()
+                    liczba = Wydarzenie.objects.filter(data_start__contains=teraz_rok).filter(
+                        name__icontains=('licencja')).count()
                     liczniki_dlugosci[5] = liczba
                     suma_licznikow += liczba
                 for ind, el in enumerate(kursy_mod_filtrami):
@@ -423,9 +423,9 @@ def basepage(request):
 
 
 def kursu_zapis(request, elem_id):
-    p = KursyWszystkie.objects.get(kursu_lp=elem_id)
+    p = Wydarzenie.objects.get(id=elem_id)
 
-    if p.kursu_data_start == p.kursu_data_end:
+    if p.data_start == p.data_end:
         wskaznik = ''
     else:
         wskaznik = 1
@@ -519,8 +519,13 @@ def obsmaruj(request):
     napis = ('<p>Poświęć proszę 3 minuty i daj nam znać, jakie są Twoje wrażenia po szkoleniu.</p>'
              '<p class="fs-3 mt-3">Szczególnie zależy nam, żeby wiedzieć, jeśli coś Ci się nie podobało.</p>')
 
-    p = Instruktorostwo.objects.values_list('instruktoro_name', 'instruktoro_surname')
+    p = Instruktor.objects.values_list('imie','nazwisko', 'imie_dopelniacz', 'id')
     list_instr = [((i + 1), f'{elem[0]} {elem[1][0]}.') for i, elem in enumerate(p)]
+
+    odmiana_mapa = {
+        str(i[3]): f"{i[2]} {i[1][0]}."
+        for i in p if i[2]
+    }
 
     if request.method == 'POST':
         form = AnkietaForm(request.POST)
@@ -562,8 +567,9 @@ def obsmaruj(request):
         form = AnkietaForm()
 
     context['text'] = napis
-    context['instruktorostwo'] = list_instr
+    context['Instruktor'] = list_instr
     context['form'] = form
+    context['odmiana_json'] = json.dumps(odmiana_mapa)
 
     context['liczba_lat'] = liczba_lat
     context['foremnik'] = foremnik

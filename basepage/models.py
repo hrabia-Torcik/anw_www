@@ -1,183 +1,235 @@
 from django.db import models
-import sqlite3
-import datetime
+from django.utils import timezone
+from django.core.validators import MinValueValidator, MaxValueValidator
 
 
-class DniKursowe(models.Model):
-    dnia_lp = models.AutoField(primary_key=True)
+class DzienKursu(models.Model):
     data_dnia = models.DateField(unique=True, blank=True, null=True)
 
     class Meta:
-        managed = False
-        db_table = 'Dni_kursowe'
+        verbose_name = "Dzień_kursu"
+        verbose_name_plural = "Dni_kursowe"
 
 
-class Instruktorostwo(models.Model):
-    instruktoro_lp = models.AutoField(primary_key=True)
-    instruktoro_name = models.CharField(blank=True, null=True)
-    instruktoro_surname = models.CharField(blank=True, null=True)
-    instruktoro_phone = models.IntegerField()
-    instruktoro_email = models.CharField()
-    instruktoro_degree = models.CharField()
+class Instruktor(models.Model):
+    imie = models.CharField(max_length=100, verbose_name="Imię")
+    imie_dopelniacz = models.CharField(max_length=100, blank=True, null=True)
+    nazwisko = models.CharField(max_length=150, verbose_name="Nazwisko")
+    nazwisko_dopelniacz = models.CharField(max_length=150, blank=True, null=True)
+    telefon = models.CharField(max_length=20)
+    email = models.EmailField(max_length=100, blank=True, null=True)
+    stopien = models.CharField(max_length=50, blank=True, null=True)
+
 
     class Meta:
-        managed = False
-        db_table = 'Instruktorostwo'
+        verbose_name = "Instruktoro"
+        verbose_name_plural = "Instruktory"
+
+    def __str__(self):
+        return f"instr. {self.imie} {self.nazwisko}"
 
 
-class Klientela(models.Model):
-    uczestniko_lp = models.AutoField(primary_key=True)
-    uczestniko_name = models.CharField(blank=True, null=True)
-    uczestniko_surname = models.CharField(blank=True, null=True)
-    uczestniko_phone = models.IntegerField()
-    uczestniko_email = models.CharField()
-
-    class Meta:
-        managed = False
-        db_table = 'Klientela'
-
-
-class KursyWszystkie(models.Model):
-    kursu_lp = models.AutoField(primary_key=True)
-    kursu_kod = models.CharField(unique=True, blank=True, null=True)
-    kursu_schedule = models.CharField(blank=True, null=True)
-    kursu_data_start = models.DateField(blank=True, null=True)
-    kursu_data_end = models.DateField(blank=True, null=True)
-    kursu_prise = models.IntegerField(blank=True, null=True)
-    kursu_name = models.CharField(blank=True, null=True)
+class Klient(models.Model):
+    imie = models.CharField(max_length=100, verbose_name="Imię")
+    nazwisko = models.CharField(max_length=150, verbose_name="Nazwisko")
+    telefon = models.CharField(max_length=20)
+    email = models.EmailField(max_length=100)
 
     class Meta:
-        managed = False
-        db_table = 'Kursy_wszystkie'
+        verbose_name = "Klient"
+        verbose_name_plural = "Klientela"
+
+    def __str__(self):
+        return f"kliento {self.imie} {self.nazwisko}"
+
+
+class Wydarzenie(models.Model):
+    kod = models.CharField(unique=True, max_length=15)
+    schedule = models.CharField(max_length=50)
+    data_start = models.DateField()
+    data_end = models.DateField()
+    price = models.DecimalField(
+    max_digits=6,       # Łączna liczba cyfr (np. 99 999 999.99)
+    decimal_places=2,    # Liczba cyfr po przecinku (grosze)
+    validators=[
+        MinValueValidator(0.01, message="Cena musi być większa od zera"),
+        MaxValueValidator(9000, message="Cena nie może przekraczać 9 000 zł")
+    ],
+    verbose_name="Cena",
+    )
+    price_promo = models.DecimalField(
+    max_digits=6,       # Łączna liczba cyfr (np. 99 999 999.99)
+    decimal_places=2,    # Liczba cyfr po przecinku (grosze)
+    validators=[
+        MinValueValidator(0.01, message="Cena musi być większa od zera"),
+        MaxValueValidator(9000, message="Cena nie może przekraczać 9 000 zł")
+    ], blank=True, null=True,
+    verbose_name="promo Cena",
+    )
+    name = models.CharField(max_length=120, blank=True, null=True)
+
+    class Meta:
+        verbose_name = "Wydarzenie"
+        verbose_name_plural = "Wydarzenia"
+
+    def __str__(self):
+        return f"{self.name} {self.kod}"
 
 
 class UczestUnder18(models.Model):
-    uczestu18_lp = models.AutoField(db_column='uczestU18_lp', primary_key=True)  # Field name made lowercase.
-    uczestu18_name = models.CharField(db_column='uczestU18_name', blank=True, null=True)  # Field name made lowercase.
-    uczestu18_surname = models.CharField(db_column='uczestU18_surname', blank=True, null=True)  # Field name made lowercase.
-    uczestu18_phone = models.IntegerField(db_column='uczestU18_phone', blank=True, null=True)  # Field name made lowercase.
-    uczestu18_email = models.CharField(db_column='uczestU18_email', blank=True, null=True)  # Field name made lowercase.
+    imie = models.CharField(max_length=100, verbose_name="Imię")
+    nazwisko = models.CharField(max_length=150, verbose_name="Nazwisko")
+    telefon = models.CharField(max_length=20)
+    email = models.EmailField(max_length=100)
+
 
     class Meta:
-        managed = False
-        db_table = 'Uczest_under18'
+        verbose_name = "Niepełnoletnie"
+        verbose_name_plural = "Niepełnoletni"
+
+    def __str__(self):
+        return f"niepełoletnie {self.imie} {self.nazwisko}"
 
 
 class PrzypisOpiekU18(models.Model):
-    przypisuou18_lp = models.AutoField(db_column='przypisuOU18_lp', primary_key=True)  # Field name made lowercase.
-    opiek_lp = models.ForeignKey(Klientela, models.DO_NOTHING, db_column='opiek_lp', blank=True, null=True)
-    u18_lp = models.ForeignKey(UczestUnder18, models.DO_NOTHING, db_column='u18_lp', blank=True, null=True)
+    opiekuno = models.ForeignKey(Klient, on_delete=models.CASCADE, related_name='do_podopieczne')
+    podopieczne = models.ForeignKey(UczestUnder18, on_delete=models.CASCADE, related_name='do_opiekuno')
+
 
     class Meta:
-        managed = False
-        db_table = 'przypis_Opiek_U18'
+        verbose_name = "Przypisanie podopieczniko do opiekuno"
+        verbose_name_plural = "Przypisania podopiecznikostwa do opiekunostwa"
 
 
 class PrzypisanieDoDniaKursu(models.Model):
-    przypisanie_instr_lp = models.AutoField(db_column='przypisanie_Instr_lp', primary_key=True)  # Field name made lowercase.
-    dnia_kursu_lp = models.ForeignKey(DniKursowe, models.DO_NOTHING, db_column='dnia_kursu_lp', blank=True, null=True)
-    inst_lp = models.ForeignKey(Instruktorostwo, models.DO_NOTHING, db_column='inst_lp', blank=True, null=True)
-    od_kursu_lp = models.ForeignKey(KursyWszystkie, models.DO_NOTHING, db_column='od_kursu_lp', blank=True, null=True)
+    dzien_kursowy = models.ForeignKey(DzienKursu, on_delete=models.CASCADE, related_name='przypisania')
+    instruktoro = models.ForeignKey(Instruktor, on_delete=models.CASCADE, related_name='wydarzenia')
+    wydarzenie = models.ForeignKey(Wydarzenie, on_delete=models.CASCADE, related_name='instruktorostwo')
+
 
     class Meta:
-        managed = False
-        db_table = 'przypisanie_do_dnia_Kursu'
+        verbose_name = "Przypisanie instruktora do dnia Kursu"
+        verbose_name_plural = "Przypisania instruktorostwa do dni Kursu"
 
 
-class ZapisyNaKursy(models.Model):
-    zapisu_lp = models.AutoField(primary_key=True, blank=True, null=False)
-    uczest_lp = models.ForeignKey(Klientela, models.DO_NOTHING, db_column='uczest_lp', blank=True, null=True)
-    krs_lp = models.ForeignKey(KursyWszystkie, models.DO_NOTHING, db_column='krs_lp', blank=True, null=True)
-    uczu18_lp = models.ForeignKey(UczestUnder18, models.DO_NOTHING, db_column='uczU18_lp', blank=True, null=True)  # Field name made lowercase.
-    instruk_lp = models.ForeignKey(Instruktorostwo, models.DO_NOTHING, db_column='instruk_lp', blank=True, null=True)
-    data_zapisu_nakrs = models.DateField(blank=True, null=True)
+class ZapisNaKurs(models.Model):
+    kurs = models.ForeignKey(Wydarzenie, on_delete=models.CASCADE, related_name='zapisania_kursowe')
+    uczestniko = models.ForeignKey(Klient, on_delete=models.CASCADE, blank=True, null=True, related_name='zapisania_uczestniko')
+    uczestniko_U18 = models.ForeignKey(UczestUnder18, on_delete=models.CASCADE, blank=True, null=True, related_name='zapisania_nieletne')  # Field name made lowercase.
+    instruktoro = models.ForeignKey(Instruktor, on_delete=models.CASCADE, blank=True, null=True, related_name='zapisania_instruktoro')
+    data_zapisu_nakrs = models.DateTimeField(auto_now_add=True)
 
     class Meta:
-        managed = False
-        db_table = 'zapisy_na_Kursy'
+        verbose_name = ("Zapisanie na Wydarzenie")
+        verbose_name_plural = "Zapisania na Wydarzenia"
 
 
-class File(models.Model):
-    # user = models.ForeignKey(Profile, on_delete=models.CASCADE)
-    filename = models.CharField(max_length=250)
-    file_upload = models.FileField(upload_to='basepage/static')
-    upload_date  = models.DateField(default=datetime.datetime.now())
+class PlikImportu(models.Model):
+
+    nazwa_pliku = models.CharField(max_length=250)
+    # Pliki lecą do folderu 'uploads', a nie do 'static'!
+    plik = models.FileField(upload_to='imports/%Y/%m/%d/')
+    # auto_now_add=True sam wstawi właściwą datę wgrania
+    data_wgrania = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        verbose_name = "Plik importu"
+        verbose_name_plural = "Pliki importu"
 
     def __str__(self):
-        return self.user.name + 'file'
+        return f"{self.nazwa_pliku} ({self.data_wgrania.date()})"
 
-class Dataset(models.Model):
-    # user = models.ForeignKey(Profile, on_delete=models.CASCADE)
-    file_uploaded = models.OneToOneField(File, on_delete=models.CASCADE)
 
-    name_user_A = models.CharField(max_length=250)
-    code_user_A = models.PositiveIntegerField(null=True)
-    total_user_A = models.PositiveIntegerField(null=True)
-    sd_user_A = models.PositiveIntegerField(null=True)
+class DaneKursuZPliku(models.Model):
+    # OneToOneField oznacza: jeden wgrany plik = jeden zestaw danych
+    importowany_plik = models.OneToOneField(PlikImportu, on_delete=models.CASCADE, related_name='dane')
 
-    name_user_B = models.CharField(max_length=250)
-    code_user_B = models.PositiveIntegerField(null=True)
-    total_user_B = models.PositiveIntegerField(null=True)
-    sd_user_B = models.PositiveIntegerField(null=True)
+    # Dane wyciągnięte z Excela (przykładowo):
+    nazwa_kursu = models.CharField(max_length=250)
+    kod_kursu = models.CharField(max_length=50, blank=True, null=True)
+    liczba_uczestnikow = models.PositiveIntegerField(default=0)
+    cena_bazowa = models.DecimalField(max_digits=10, decimal_places=2, default=0.00)
+
+    class Meta:
+        verbose_name = "Dane z pliku"
+        verbose_name_plural = "Dane z plików"
 
 class WynikAnkiety(models.Model):
     PLEC_CHOICES = (('', 'Wybierz odpowiedź...'),
-                    ('0', 'nie odpowiem na to pytanie'), ('K', 'kobieta'), ('M', 'mężczyzna'),
-                    ('inna', 'inna opcja'))
+                    (0, 'nie odpowiem na to pytanie'),
+                    (1, 'kobieta'),
+                    (2, 'mężczyzna'),
+                    (3, 'inna opcja'),)
 
     WIEK_CHOICES = (('', 'Wybierz odpowiedź...'),
-                    ('nie', 'nie powiem'), ('nastolatek', '14-18 lat'), ('mlody_dorosly', '18-30 lat'),
-                    ('sredni_wiek', '30-50 lat'), ('pozna_doroslosc', 'niemalże dojrzałym'))
+                    (0, 'nie powiem'),
+                    (1, '14-18 lat'),
+                    (2, '18-30 lat'),
+                    (3, '30-50 lat'),
+                    (4, 'niemalże dojrzałym'),)
 
     CZY_POLECISZ_CHOICES = (('', 'Wybierz odpowiedź...'),
-                            ('tak', 'Tak'), ('tak_ale', 'tak, ale...'), ('neutralnie', 'ani tak, ani nie'),
-                            ('odradzam', 'odradzałobym'), ('zniechecam', 'bardzo zniechęcało'))
+                            (-2, 'będę zniechęcało. Bardzo'),
+                            (-1, 'odradzałobym'),
+                            (0, 'ani tak, ani nie'),
+                            (1, 'tak, ale...'),
+                            (2, 'Tak'),)
 
     STARTOWA_WIEDZA_CHOICES = (('', 'Wybierz odpowiedź...'),
-                               ('1', 'Total tabula rasa'), ('2', 'parę razy obserwowałom, jak inni obsługują jacht'),
-                               ('3', 'Raz czy dwa razy coś tam porobiłom na jachcie'), ('4', 'Trochę się żeglowało'),
-                               ('5', 'Niemałe doświadczenie, również za sterem'))
+                               (1, 'Total tabula rasa'), (2, 'parę razy obserwowałom, jak inni obsługują jacht'),
+                               (3, 'Raz czy dwa razy coś tam porobiłom na jachcie'), (4, 'Trochę się żeglowało'),
+                               (5, 'Niemałe doświadczenie, również za sterem'),)
 
     NABYCIE_WIEDZY_CHOICES = (('', 'Wybierz odpowiedź...'),
-                              ('super', 'Super'), ('moze_byc', 'Może być'), ('slabo', 'Słabo'))
+                              (1, 'Słabo'),
+                              (2, 'Może być'),
+                              (3, 'Super'),)
 
     PROWADZENIE_REJSU_CHOICES = (('', 'Wybierz odpowiedź...'),
-                                 ('super', 'Tak, spoko to ogarnę'), ('moze_byc', 'Popłynę, ale z duszą na ramieniu'),
-                                 ('slabo', 'Niespecjalnie'))
+                                 (1, 'Niespecjalnie'),
+                                 (2, 'Popłynę, ale z duszą na ramieniu'),
+                                 (3, 'Tak, spoko to ogarnę'),)
 
     data_wyslania = models.DateTimeField(auto_now_add=True)
 
-    plec = models.CharField(
-        max_length=50,
+    plec = models.SmallIntegerField(
         choices=PLEC_CHOICES,
         verbose_name="Czy możesz określić swoją płeć?",
+        validators=[MinValueValidator(0), MaxValueValidator(3)]
     )
 
-    wiek = models.CharField(
-        max_length=50,
+    wiek = models.SmallIntegerField(
         choices=WIEK_CHOICES,
-        verbose_name= "W jakim jesteś przedziale wiekowym?",)
+        verbose_name="W jakim jesteś przedziale wiekowym?",
+        validators=[MinValueValidator(0), MaxValueValidator(4)]
+    )
 
-    wybrani_instruktorzy = models.ManyToManyField(Instruktorostwo, verbose_name="Kto prowadził Twoje zajęcia na jachcie?",)
+    wybrani_instruktorzy = models.ManyToManyField(Instruktor, verbose_name="Kto prowadził Twoje zajęcia na jachcie?",)
 
-    czy_polecisz = models.CharField(max_length=50,
+
+    czy_polecisz = models.SmallIntegerField(
         choices=CZY_POLECISZ_CHOICES,
-        verbose_name="Czy polecisz nas znajomej osobie?",)
+        verbose_name="Czy polecisz nas znajomej osobie?",
+        validators=[MinValueValidator(-2), MaxValueValidator(2)]
+    )
 
-    startowa_wiedza = models.CharField(max_length=50,
-        choices=STARTOWA_WIEDZA_CHOICES,
-        verbose_name="Jaki był poziom Twoich umiejętności przed kursem?",)
+    startowa_wiedza = models.SmallIntegerField(
+        choices=STARTOWA_WIEDZA_CHOICES,  # Te same krotki, które masz (1-5)
+        verbose_name="Jaki był poziom Twoich umiejętności przed kursem?",
+        validators=[MinValueValidator(1), MaxValueValidator(5)]
+    )
 
-
-
-    nabycie_wiedzy = models.CharField(max_length=50,
+    nabycie_wiedzy = models.SmallIntegerField(
         choices=NABYCIE_WIEDZY_CHOICES,
-        verbose_name="Jak oceniasz przyrost swoich umiejętności w zakresie prowadzenia jachtu?",)
+        verbose_name="Jak oceniasz przyrost swoich umiejętności?",
+        validators=[MinValueValidator(1), MaxValueValidator(3)]
+    )
 
-
-    prowadzenie_rejsu = models.CharField(max_length=50,
+    prowadzenie_rejsu = models.SmallIntegerField(
         choices=PROWADZENIE_REJSU_CHOICES,
-        verbose_name="Czy czujesz się osobą gotową do samodzielnego poprowadzenia rejsu?",)
+        verbose_name="Czy czujesz się osobą gotową do samodzielnego poprowadzenia rejsu?",
+        validators=[MinValueValidator(1), MaxValueValidator(3)]
+    )
 
 
     uwagi = models.TextField(blank=True, max_length=5000, verbose_name="Dodatkowe uwagi",)
@@ -190,33 +242,53 @@ class WynikAnkiety(models.Model):
 
 class OcenaSzczegolowa(models.Model):
     ankieta = models.ForeignKey(WynikAnkiety, on_delete=models.CASCADE, related_name='oceny')
-    instruktor = models.ForeignKey(Instruktorostwo, on_delete=models.CASCADE)
-    ocena_punktualnosc = models.IntegerField()
-    ocena_wiedza = models.IntegerField()
-    ocena_nauczanie = models.IntegerField()
-    ocena_zachowanie = models.IntegerField()
+    instruktor = models.ForeignKey(Instruktor, on_delete=models.CASCADE)
+    ocena_punktualnosc = models.SmallIntegerField(
+        validators=[MinValueValidator(1), MaxValueValidator(5)]
+    )
+    ocena_wiedza = models.SmallIntegerField(
+        validators=[MinValueValidator(1), MaxValueValidator(5)]
+    )
+    ocena_nauczanie = models.SmallIntegerField(
+        validators=[MinValueValidator(1), MaxValueValidator(5)]
+    )
+    ocena_zachowanie = models.SmallIntegerField(
+        validators=[MinValueValidator(-2), MaxValueValidator(2)]
+    )
+
+
+
+    class Meta:
+        verbose_name = "Ocena instruktoro"
+        verbose_name_plural = "Oceny instruktorostwa"
 
 class OceniajStrone(models.Model):
     FAJNOSC_CHOICES = (('', 'Wybierz odpowiedź...'),
-                    ('-2', 'ale słaba!'), ('-1', 'ma istotne wady'), ('0', 'jest w porządku'),
-                    ('1', 'fajna'), ('2', 'kurde, ósmy cud świata!'))
+                       (-2, 'ale słaba!'),
+                       (-1, 'ma istotne wady'),
+                       (0, 'jest w porządku'),
+                       (1, 'fajna'),
+                       (2, 'kurde, ósmy cud świata!'),)
 
     CZYTELNOSC_CHOICES = (('', 'Wybierz odpowiedź...'),
-                          ('-2', 'nie mam pojęcia, jak poruszać się po stronie'), ('-1', 'w pewnych miejsca nie wiadomo gdzie kliknąć'),
-                          ('1', 'można zrozumieć, co robić na stronie'), ('2', 'bardzo łatwo wszystko znaleźć'))
+                          (-2, 'nie mam pojęcia, jak poruszać się po stronie'),
+                          (-1, 'w pewnych miejsca nie wiadomo gdzie kliknąć'),
+                          (1, 'można zrozumieć, co robić na stronie'),
+                          (2, 'bardzo łatwo wszystko znaleźć'),)
 
     data_wyslania = models.DateTimeField(auto_now_add=True)
 
-    fajnosc = models.CharField(
-        max_length=50,
+    fajnosc = models.SmallIntegerField(
         choices=FAJNOSC_CHOICES,
         verbose_name="Czy strona jest przyjemna w odbiorze?",
+        validators=[MinValueValidator(-2), MaxValueValidator(2)]
     )
 
-    czytelnosc = models.CharField(
-        max_length=50,
+    czytelnosc = models.SmallIntegerField(
         choices=CZYTELNOSC_CHOICES,
-        verbose_name= "Czy łatwo jest poruszać się po stronie?",)
+        verbose_name="Czy łatwo jest poruszać się po stronie?",
+        validators=[MinValueValidator(-2), MaxValueValidator(2)]
+    )
 
 
     co_zmienic = models.TextField(blank=True, max_length=5000, verbose_name="Napisz tutaj o ewentualnych błędach, jeśli są na stronie",)
@@ -228,3 +300,6 @@ class OceniajStrone(models.Model):
         verbose_name = "Wynik oceny"
         verbose_name_plural = "Wyniki ocen strony"
         ordering = ['-data_wyslania']
+
+    def __str__(self):
+        return f"Ocena z dnia {self.data_wyslania.strftime('%Y-%m-%d')}"
