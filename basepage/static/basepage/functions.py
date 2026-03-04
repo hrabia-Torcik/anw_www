@@ -1,5 +1,6 @@
 import pandas as pd
 import datetime
+import sqlite3
 from basepage.models import *
 
 categories = {'ŻJ':'patent żeglarski', 'JSM':'jachtowy sternik morski', 'PM':'patent motorowodny', 'LS':'licencja SRC','DŻ': 'doskonalenie żeglarskie','PNZ': 'podstawy nawigacji zliczeniowej','MJM': 'manewrowanie jachtem morskim','EŻ': 'egzamin żeglarski','EM': 'egzamin motorowodny'}
